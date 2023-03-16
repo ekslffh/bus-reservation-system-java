@@ -3,9 +3,9 @@ package dao;
 import java.util.List;
 
 public interface DaoIfs<T> {
-	List<T> findAll();
-	T findById(String id);
-	int save(T dto);
-	int update(T dto);
-	int delete(String id);
+	List<T> findAll(); // select * from bus_company
+	T findById(String id); // select * from bus_company where c_code=1
+	int insert(T dto); // insert into bus_company (c_code, c_name, c_address, c_telno) values ('1','홍길동','대전서구월평1234','01084819654')
+	int update(T dto); // update bus_company set c_name='전우치' where c_code = ?;
+	int deleteById(String id); // delete from bus_company where c_code = 1
 }
