@@ -110,4 +110,10 @@ public class BusCompanyDAO implements DaoIfs<BusCompanyDTO> {
 		return 0;
 	}
 
+	@Override
+	public BusCompanyDTO findByPw(String id) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }
