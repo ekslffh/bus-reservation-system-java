@@ -3,9 +3,10 @@ package controller;
 public class MainController {
 	
 	public static void main(String[] args) {
-		BusCompanyController busCompanyController = new BusCompanyController();
+//		BusCompanyController busCompanyController = new BusCompanyController();
+//		
+//		busCompanyController.findAll();
 		
-		busCompanyController.findAll();
 	}
 
 }
