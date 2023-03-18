@@ -18,7 +18,7 @@ public class MemberService {
 	private static ReservationController reservationController = new ReservationController();
 	private static String mtelno = null;
 
-	public void rogin() {
+	public void login() {
 		String mid = null;
 		String mpw = null;
 		
@@ -63,6 +63,7 @@ public class MemberService {
 		System.out.println(dto);
 	}
 
+	// 아이디 찾기
 	public void findByPw() {
 		TempController tc = new TempController();
 		Random random = new Random();
@@ -85,7 +86,7 @@ public class MemberService {
 				userCnum = sc.nextLine();
 				if (userCnum.equals(ranNum)) {
 					System.out.println("인증번호가 일치합니다.");
-					System.out.println("비밀번호 : " + dto.getM_id());
+					System.out.println("아이디 : " + dto.getM_id());
 					break;
 				} else {
 					System.out.println("전화번호가 일치하지 않습니다.");
@@ -96,6 +97,7 @@ public class MemberService {
 		memberView.printMenu();
 	}
 
+	// 비밀번호 찾기
 	public void findById() {
 		TempController tc = new TempController();
 		Random random = new Random();

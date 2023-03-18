@@ -3,7 +3,6 @@ package dao;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.sql.SQLIntegrityConstraintViolationException;
 import java.sql.Statement;
@@ -16,14 +15,22 @@ import view.MemberView;
 
 public class MemberDAO implements DaoIfs<MemberDTO>{
 	private JDBCTemplate util = JDBCTemplate.getInstance();
+	
 	private boolean check = true;
 	private static MemberView memberView = new MemberView();
 	private static MemberService memberService = new MemberService();
 	
+//	M_ID
+//	M_PW
+//	M_NAME
+//	M_TELNO
+//	M_ADD
+//	M_MILEAGE
 	public int insert(MemberDTO dto) {
 		Connection conn = util.getConnection();
 		PreparedStatement pstmt = null;
 		int res = 0;
+		
 		String sql = " insert into member values(?, ?, ?, ?, ?, 0) ";
 
 		try {
@@ -36,11 +43,10 @@ public class MemberDAO implements DaoIfs<MemberDTO>{
 			pstmt.setString(5, dto.getM_add());
 
 			res = pstmt.executeUpdate();
-		}catch(SQLIntegrityConstraintViolationException e) {
+		} catch(SQLIntegrityConstraintViolationException e) {
 			System.out.println("아이디가 중복되었습니다.");
 			memberView.printDefault();
-			memberService.insert();
-		}		catch (SQLException e) {
+		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
 			util.close(pstmt);

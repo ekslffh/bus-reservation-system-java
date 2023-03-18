@@ -8,7 +8,7 @@ import java.sql.Statement;
 import java.util.Scanner;
 import dao.ReservationDAO;
 import dto.ReservationDTO;
-import dto.ReservationInfoDTO;
+//import dto.ReservationInfoDTO;
 import service.ReservationService;
 import util.JDBCTemplate;
 
@@ -16,7 +16,7 @@ public class MemberView {
 	private JDBCTemplate util = JDBCTemplate.getInstance();
 	private static Scanner sc = new Scanner(System.in);
 	ReservationService rservice = new ReservationService();
-	ReservationInfoDTO reserveDTO = new ReservationInfoDTO();
+//	ReservationInfoDTO reserveDTO = new ReservationInfoDTO();
 	ReservationDTO redto = new ReservationDTO();
 
 	// 예매 시작화면 출력 메소드
@@ -35,7 +35,7 @@ public class MemberView {
 
 		System.out.println(sb);
 		System.out.println("루피버스 예매를 도와드릴게요.");
-		System.out.print("원하시는 번호를 선택해 주세요 'u' : ");
+		System.out.print("원하시는 번호를 선택해 주세요 : ");
 
 		select = sc.nextInt();
 
@@ -91,8 +91,8 @@ public class MemberView {
 		System.out.println("=====================================");
 		System.out.println("예약한 버스내역");
 		System.out.println("예약번호 "+ redto.getReservationNum());
-		System.out.println("출발지 : " + reserveDTO.getDepartTerminal());
-		System.out.println("도착지 : " + reserveDTO.getArriveTerminal());
+//		System.out.println("출발지 : " + reserveDTO.getDepartTerminal());
+//		System.out.println("도착지 : " + reserveDTO.getArriveTerminal());
 		System.out.println("날짜 : " + rservice.date);
 		System.out.println("좌석 : " + rservice.row + "행" + rservice.column + "열");
 		System.out.println("=====================================");
@@ -142,7 +142,7 @@ public class MemberView {
 		sb.append("-------------------------------------------------------------\n");
 		sb.append("루피버스에 오신걸 환영합니다 !\n");
 		System.out.print(sb);
-		System.out.print("원하시는 번호를 선택해 주세요 'u' : ");
+		System.out.print("원하시는 번호를 선택해 주세요 : ");
 	}
 	
 	public void printIDorPW() {
@@ -151,7 +151,7 @@ public class MemberView {
 		printDefault();
 		sb.append("1.ID찾기 | 2.PW찾기\n");
 		System.out.print(sb);
-		System.out.print("원하시는 번호를 선택해 주세요 'u' : ");
+		System.out.print("원하시는 번호를 선택해 주세요 : ");
 	}
 	
 }

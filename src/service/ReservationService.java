@@ -24,6 +24,10 @@ public class ReservationService {
 	public static String departTerminal;
 	public static String arriveTerminal;
 	
+	public void findDriveInfo() {
+		
+	}
+	
 	public static void reservateDepart() {
 		int num = 1;
 		List<ReservationDTO>List = dao.findAll();

@@ -23,7 +23,7 @@ public class MemberController {
 	}
 
 	public static void run() {
-		memberView.Default();
+//		memberView.Default();
 		memberView.printMenu();
 		int no = 0;
 
@@ -32,7 +32,7 @@ public class MemberController {
 			switch (no) {
 			case 1:
 				memberView.printDefault();
-				meberService.rogin();
+				meberService.login();
 				break;
 			case 2:
 				memberView.printDefault();
