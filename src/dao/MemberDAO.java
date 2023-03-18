@@ -44,7 +44,7 @@ public class MemberDAO implements DaoIfs<MemberDTO>{
 
 			res = pstmt.executeUpdate();
 		} catch(SQLIntegrityConstraintViolationException e) {
-			System.out.println("¾ÆÀÌµğ°¡ Áßº¹µÇ¾ú½À´Ï´Ù.");
+			System.out.println("ì•„ì´ë””ê°€ ì¤‘ë³µë˜ì—ˆìŠµë‹ˆë‹¤.");
 			memberView.printDefault();
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -72,7 +72,7 @@ public class MemberDAO implements DaoIfs<MemberDTO>{
 			}
 
 		} catch (SQLException e) {
-			System.out.println("Àß¸øµÈ ¾ÆÀÌµğ ÀÔ´Ï´Ù.");
+			System.out.println("ì˜ëª»ëœ ì•„ì´ë”” ì…ë‹ˆë‹¤.");
 		} finally {
 			util.close(pstmt);
 			util.close(conn);
@@ -102,7 +102,7 @@ public class MemberDAO implements DaoIfs<MemberDTO>{
 	        int rowcount = rs.getRow();
 	        rs.beforeFirst();
 			if(rowcount == 0) {
-				System.out.println("Àß¸øµÈ ¾ÆÀÌµğÀÔ´Ï´Ù.");
+				System.out.println("ì˜ëª»ëœ ì•„ì´ë””ì…ë‹ˆë‹¤.");
 				setCheck(false);
 			} else {
 				setCheck(true);
@@ -145,7 +145,7 @@ public class MemberDAO implements DaoIfs<MemberDTO>{
 	        int rowcount = rs.getRow();
 	        rs.beforeFirst();
 			if(rowcount == 0) {
-				System.out.println("Àß¸øµÈ ºñ¹Ğ¹øÈ£ÀÔ´Ï´Ù.");
+				System.out.println("ì˜ëª»ëœ ë¹„ë°€ë²ˆí˜¸ì…ë‹ˆë‹¤.");
 			}else {
 			rs.next();
 			}

@@ -35,28 +35,28 @@ public class ReservationService {
 			System.out.println(num + ") " + dto.getTName());
 			num++;
 		}
-		System.out.print("Ãâ¹ß¿ªÀ» ¼±ÅÃÇØ ÁÖ¼¼¿ä 'u' : ");
+		System.out.print("ì¶œë°œì—­ì„ ì„ íƒí•´ ì£¼ì„¸ìš” 'u' : ");
 		int departNum = sc.nextInt();
 		
 		switch (departNum) {
 		case 1:
-			System.out.println("¼­¿ï¿ª Ãâ¹ß");
-			departTerminal = "¼­¿ï¿ª";
+			System.out.println("ì„œìš¸ì—­ ì¶œë°œ");
+			departTerminal = "ì„œìš¸ì—­";
 			reserveDto.setDepartTerminal(departTerminal);
 			break;
 		case 2:
-			System.out.println("´ëÀü¿ª Ãâ¹ß");
-			departTerminal = "´ëÀü¿ª";
+			System.out.println("ëŒ€ì „ì—­ ì¶œë°œ");
+			departTerminal = "ëŒ€ì „ì—­";
 			reserveDto.setDepartTerminal(departTerminal);
 			break;
 		case 3:
-			System.out.println("´ë±¸¿ª Ãâ¹ß");
-			departTerminal = "´ë±¸¿ª";
+			System.out.println("ëŒ€êµ¬ì—­ ì¶œë°œ");
+			departTerminal = "ëŒ€êµ¬ì—­";
 			reserveDto.setDepartTerminal(departTerminal);
 			break;
 		case 4:
-			System.out.println("ºÎ»ê¿ª Ãâ¹ß");
-			departTerminal = "ºÎ»ê¿ª";
+			System.out.println("ë¶€ì‚°ì—­ ì¶œë°œ");
+			departTerminal = "ë¶€ì‚°ì—­";
 			reserveDto.setDepartTerminal(departTerminal);
 			break;
 		}
@@ -70,35 +70,35 @@ public class ReservationService {
 		List<ReservationDTO>List = dao.findAll();
 		for(ReservationDTO dto: List) {
 			if(departTerminal.equals(dto.getTName())) {
-				System.out.println(num + ") " + dto.getTName() + "(Ãâ¹ß¿ª)");
+				System.out.println(num + ") " + dto.getTName() + "(ì¶œë°œì—­)");
 				num++;
 			}else {
 			System.out.println(num + ") " + dto.getTName());
 			num++;
 			}
 		}
-		System.out.print("µµÂø¿ªÀ» ¼±ÅÃÇØ ÁÖ¼¼¿ä 'u' : ");
+		System.out.print("ë„ì°©ì—­ì„ ì„ íƒí•´ ì£¼ì„¸ìš” 'u' : ");
 		int departNum = sc.nextInt();
 		
 		switch (departNum) {
 		case 1:
-			System.out.println("¼­¿ï¿ª µµÂø");
-			arriveTerminal = "¼­¿ï¿ª";
+			System.out.println("ì„œìš¸ì—­ ë„ì°©");
+			arriveTerminal = "ì„œìš¸ì—­";
 			reserveDto.setArriveTerminal(arriveTerminal);
 			break;
 		case 2:
-			System.out.println("´ëÀü¿ª µµÂø");
-			arriveTerminal = "´ëÀü¿ª";
+			System.out.println("ëŒ€ì „ì—­ ë„ì°©");
+			arriveTerminal = "ëŒ€ì „ì—­";
 			reserveDto.setArriveTerminal(arriveTerminal);
 			break;
 		case 3:
-			System.out.println("´ë±¸¿ª µµÂø");
-			arriveTerminal = "´ë±¸¿ª";
+			System.out.println("ëŒ€êµ¬ì—­ ë„ì°©");
+			arriveTerminal = "ëŒ€êµ¬ì—­";
 			reserveDto.setArriveTerminal(arriveTerminal);
 			break;
 		case 4:
-			System.out.println("ºÎ»ê¿ª µµÂø");
-			arriveTerminal = "ºÎ»ê¿ª";
+			System.out.println("ë¶€ì‚°ì—­ ë„ì°©");
+			arriveTerminal = "ë¶€ì‚°ì—­";
 			reserveDto.setArriveTerminal(arriveTerminal);
 			break;
 		}
@@ -112,73 +112,75 @@ public class ReservationService {
 	
 	public static void reservate() {
 			
-		System.out.print("Ãâ¹ßÁö : ");
+		System.out.print("ì¶œë°œì§€ : ");
 		String depart = sc.nextLine();
 
-		System.out.print("µµÂøÁö : ");
+		System.out.print("ë„ì°©ì§€ : ");
 		String arrive = sc.nextLine();
 
-		System.out.print("³¯Â¥¼±ÅÃ(YYYY-MM-dd) : ");
+		System.out.print("ë‚ ì§œì„ íƒ(YYYY-MM-dd) : ");
 		String date = sc.nextLine();
 
-		// Å»¼öÀÖ´Â ¹ö½ºÁ¤º¸ ÀüºÎ Ãâ·ÂµÇ´Â ºä
+		// íƒˆìˆ˜ìˆëŠ” ë²„ìŠ¤ì •ë³´ ì „ë¶€ ì¶œë ¥ë˜ëŠ” ë·°
 		view.printBusInfo();
 
-		System.out.println("ÁÂ¼®¼±ÅÃÀ» ÇØÁÖ¼¼¿ä");
+		System.out.println("ì¢Œì„ì„ íƒì„ í•´ì£¼ì„¸ìš”");
 		System.out.println("  12");
-		System.out.println("1 ¡à¡á");
-		System.out.println("2 ¡à¡à");
-		System.out.println("3 ¡á¡à");
-		System.out.println("4 ¡à¡à");
-		System.out.println("5 ¡à¡à");
+		System.out.println("1 â–¡â– ");
+		System.out.println("2 â–¡â–¡");
+		System.out.println("3 â– â–¡");
+		System.out.println("4 â–¡â–¡");
+		System.out.println("5 â–¡â–¡");
 
-		System.out.print("ÇàÀ» ¼±ÅÃÇØÁÖ¼¼¿ä : ");
+		System.out.print("í–‰ì„ ì„ íƒí•´ì£¼ì„¸ìš” : ");
 		String row = sc.nextLine();
-		System.out.print("¿­À» ¼±ÅÃÇØÁÖ¼¼¿ä : ");
+		System.out.print("ì—´ì„ ì„ íƒí•´ì£¼ì„¸ìš” : ");
 		String column = sc.nextLine();
-		System.out.print("³ªÀÌ¸¦ ÀÔ·ÂÇØÁÖ¼¼¿ä : ");
+		System.out.print("ë‚˜ì´ë¥¼ ì…ë ¥í•´ì£¼ì„¸ìš” : ");
 		int age = Integer.parseInt(sc.nextLine());
 
-		// ¼±ÅÃÇÑ ÁÂ¼®Á¤º¸ º¸¿©ÁÖ´Â ºä
+		// ì„ íƒí•œ ì¢Œì„ì •ë³´ ë³´ì—¬ì£¼ëŠ” ë·°
 		view.printrecheck();
 
-		System.out.println("°áÁ¦¸¦ ÇÏ½Ã°Ú½À´Ï±î ? (Y/N)");
+		System.out.println("ê²°ì œë¥¼ í•˜ì‹œê² ìŠµë‹ˆê¹Œ ? (Y/N)");
 		
 		String answer = sc.nextLine(); 
 		
 		if (answer.equals("Y") || answer.equals("y")) {
-			System.out.println("°áÁ¦°¡ ¿Ï·áµÇ¾ú½À´Ï´Ù.");
-			// ¿¹¾à ¿Ï·á½Ã ¿¹¸Å¹øÈ£ »ı¼ºÇÊ¿ä , ÁÂ¼®¿¡ ¿¹¾àÇ¥½Ã
+			System.out.println("ê²°ì œê°€ ì™„ë£Œë˜ì—ˆìŠµë‹ˆë‹¤.");
+			// ì˜ˆì•½ ì™„ë£Œì‹œ ì˜ˆë§¤ë²ˆí˜¸ ìƒì„±í•„ìš” , ì¢Œì„ì— ì˜ˆì•½í‘œì‹œ
 
 			System.out.println();
-			System.out.println("¿¹¸Å ¿Ï·á!");
-			System.out.println("·çÇÇ±â»ç°¡ ¾ÈÀüÇÏ°Ô ¸ğ½Ã°Ú½À³");
+			System.out.println("ì˜ˆë§¤ ì™„ë£Œ!");
+			System.out.println("ë£¨í”¼ê¸°ì‚¬ê°€ ì•ˆì „í•˜ê²Œ ëª¨ì‹œê² ìŠµ");
 
 		} else {
-			System.out.println("°áÁ¦°¡ Ãë¼Ò µÇ¾ú½À´Ï´Ù.");
-			// °áÁ¦ ¾ÈÇßÀ» °æ¿ì´Â ¿¹¸Å¹øÈ£ »ı¼ºÇÏÁö ¾ÊÀ½
+			System.out.println("ê²°ì œê°€ ì·¨ì†Œ ë˜ì—ˆìŠµë‹ˆë‹¤.");
+			// ê²°ì œ ì•ˆí–ˆì„ ê²½ìš°ëŠ” ì˜ˆë§¤ë²ˆí˜¸ ìƒì„±í•˜ì§€ ì•ŠìŒ
 
 	
 			System.exit(1);
 		}
 	}
 
-	// ¿¹¾àÃë¼Ò ¸Ş¼Òµå
+	// ì˜ˆì•½ì·¨ì†Œ ë©”ì†Œë“œ
 	public static void recancle() {
 		view.printrecheck();
 
-		System.out.println("¿¹¾à¹øÈ£" + dto.getReservationNum() + " ¿¹¾àÁ¤º¸¸¦ Ãë¼ÒÇÏ½Ã°Ú½À´Ï±î?(Y/N)");
+		System.out.println("ì˜ˆì•½ë²ˆí˜¸" + dto.getReservationNum() + " ì˜ˆì•½ì •ë³´ë¥¼ ì·¨ì†Œí•˜ì‹œê² ìŠµë‹ˆê¹Œ?(Y/N)");
+//		System.out.println("ì˜ˆì•½ë²ˆí˜¸" + redto.getReservationNum() + " ì˜ˆì•½ì •ë³´ë¥¼ ì·¨ì†Œí•˜ì‹œê² ìŠµë‹ˆê¹Œ?(Y/N)");
 		
 		String cancle = s.nextLine();
 		
 		if (cancle.equals("Y") || cancle.equals("y")) {
-			System.out.println("¿¹¾àÀÌ Ãë¼ÒµÇ¾ú½À´Ï´Ù.");
+			System.out.println("ì˜ˆì•½ì´ ì·¨ì†Œë˜ì—ˆìŠµë‹ˆë‹¤.");
 
-			// ¿¹¾à³»¿ª µ¥ÀÌÅÍ¿¡¼­ »èÁ¦ÇÏ±â
+			// ì˜ˆì•½ë‚´ì—­ ë°ì´í„°ì—ì„œ ì‚­ì œí•˜ê¸°
 			dao.deleteById(dto.getReservationNum());
+//			redao.deleteById(redto.getReservationNum());
 
 		} else {
-			System.out.println("Á¾ ·á");			
+			System.out.println("ì¢… ë£Œ");			
 			System.exit(1);
 		}
 	}

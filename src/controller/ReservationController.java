@@ -15,22 +15,22 @@ public class ReservationController {
 			switch (no) {
 			case 1:
 				System.out.println();
-				System.out.println("¿¹¸ÅÇÏ±â ¸Þ´º¸¦ ¼±ÅÃÇÏ¼Ì½À´Ï´Ù. ¿¹¸Å¸¦ ÁøÇàÇØÁÖ¼¼¿ä.");
+				System.out.println("ï¿½ï¿½ï¿½ï¿½ï¿½Ï±ï¿½ ï¿½Þ´ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï¼Ì½ï¿½Ï´ï¿½. ï¿½ï¿½ï¿½Å¸ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ö¼ï¿½ï¿½ï¿½.");
 				reservationService.reservateDepart();
 				break;
 			case 2:
 				System.out.println();
-				System.out.println("¿¹¸ÅÈ®ÀÎ ¸Þ´º¸¦ ¼±ÅÃÇÏ¼Ì½À´Ï´Ù. ¾Æ·¡´Â ¿¹¾àÇÑ ³»¿ªÀÔ´Ï´Ù.");
+				System.out.println("ï¿½ï¿½ï¿½ï¿½È®ï¿½ï¿½ ï¿½Þ´ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï¼Ì½ï¿½Ï´ï¿½. ï¿½Æ·ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ô´Ï´ï¿½.");
 				mView.printrecheck();
 				break;
 			case 3:
 				System.out.println();
-				System.out.println("¿¹¸ÅÃë¼Ò ¸Þ´º¸¦ ¼±ÅÃÇÏ¼Ì½À´Ï´Ù. ¾Æ·¡ ¿¹¾àÇÑ ³»¿ªÀ» º¸°í Ãë¼Ò¸¦ ÁøÇàÇØÁÖ¼¼¿ä.");
+				System.out.println("ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Þ´ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï¼Ì½ï¿½Ï´ï¿½. ï¿½Æ·ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ò¸ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ö¼ï¿½ï¿½ï¿½.");
 				reservationService.recancle();
 				break;
 			case 4:
 				System.out.println();
-				System.out.println("Á¾ ·á");
+				System.out.println("ï¿½ ï¿½ï¿½");
 				
 				System.exit(1);
 			}

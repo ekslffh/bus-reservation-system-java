@@ -19,23 +19,23 @@ public class MemberView {
 //	ReservationInfoDTO reserveDTO = new ReservationInfoDTO();
 	ReservationDTO redto = new ReservationDTO();
 
-	// ¿¹¸Å ½ÃÀÛÈ­¸é Ãâ·Â ¸Ş¼Òµå
+	// ì˜ˆë§¤ ì‹œì‘í™”ë©´ ì¶œë ¥ ë©”ì†Œë“œ
 	public static int printReservation() {
 		StringBuffer sb = new StringBuffer();
 
 		int select = 0;
 
-		System.out.println("====================== ¿¹¸Å ±¸¿ª ======================");
+		System.out.println("====================== ì˜ˆë§¤ êµ¬ì—­ ======================");
 		System.out.println();
 		System.out.println();
 
 		sb.append("--------------------------------------------------\n");
-		sb.append("[1] ¿¹¸ÅÇÏ±â  | [2] ¿¹¸ÅÈ®ÀÎ  | [3] ¿¹¸ÅÃë¼Ò | [4] Á¾·á \n");
+		sb.append("[1] ì˜ˆë§¤í•˜ê¸°  | [2] ì˜ˆë§¤í™•ì¸  | [3] ì˜ˆë§¤ì·¨ì†Œ | [4] ì¢…ë£Œ \n");
 		sb.append("--------------------------------------------------\n");
 
 		System.out.println(sb);
-		System.out.println("·çÇÇ¹ö½º ¿¹¸Å¸¦ µµ¿Íµå¸±°Ô¿ä.");
-		System.out.print("¿øÇÏ½Ã´Â ¹øÈ£¸¦ ¼±ÅÃÇØ ÁÖ¼¼¿ä : ");
+		System.out.println("ë£¨í”¼ë²„ìŠ¤ ì˜ˆë§¤ë¥¼ ë„ì™€ë“œë¦´ê²Œìš”.");
+		System.out.print("ì›í•˜ì‹œëŠ” ë²ˆí˜¸ë¥¼ ì„ íƒí•´ ì£¼ì„¸ìš” : ");
 
 		select = sc.nextInt();
 
@@ -43,7 +43,7 @@ public class MemberView {
 
 	}
 
-	// Å»¼öÀÖ´Â ¹ö½ºÁ¤º¸ ÀüºÎ Ãâ·ÂµÇ´Â ºä Äõ¸®¹®
+	// íƒˆìˆ˜ìˆëŠ” ë²„ìŠ¤ì •ë³´ ì „ë¶€ ì¶œë ¥ë˜ëŠ” ë·° ì¿¼ë¦¬ë¬¸
 	public ReservationDTO selectbusinfo(String depart,String arrive,String date) {
 		ReservationDTO dto = new ReservationDTO();
 		 PreparedStatement pstmt = null;
@@ -52,7 +52,7 @@ public class MemberView {
 		Statement stmt = null;
 		ResultSet rs = null;
 
-		String sql = "SELECT S_DRPARTTIME,S_ARRIVETIME, FROM WHERE = ?,?,?"; // Äõ¸®¹®Àº Â¥ÁÖ¼¼¿äÁ¶°ÇÀº Ãâ¹ßÁö,µµÂøÁö,³¯Â¥ 3°³¹Ş±â
+		String sql = "SELECT S_DRPARTTIME,S_ARRIVETIME, FROM WHERE = ?,?,?"; // ì¿¼ë¦¬ë¬¸ì€ ì§œì£¼ì„¸ìš”ì¡°ê±´ì€ ì¶œë°œì§€,ë„ì°©ì§€,ë‚ ì§œ 3ê°œë°›ê¸°
 
 		try {
 			stmt = conn.createStatement();
@@ -77,24 +77,28 @@ public class MemberView {
 		return dto;
 	}
 	
-	// Å»¼öÀÖ´Â ¹ö½ºÁ¤º¸ ÀüºÎ Ãâ·Â¸Ş¼Òµå
+	// íƒˆìˆ˜ìˆëŠ” ë²„ìŠ¤ì •ë³´ ì „ë¶€ ì¶œë ¥ë©”ì†Œë“œ
 	public void printBusInfo() {
 		System.out.println("-------------------------------------------------------------");
-		//System.out.println("¹ö½º :" + dto.get ); Ãâ¹ß½Ã°£ + µµÂø½Ã°£ + ÀÜ¿©ÁÂ¼® + µî±Ş + °¡°İ dto¿¡ »ó¼Ó¹Ş¾Æ ºÒ·¯¿ÍÁÖ±â
+		//System.out.println("ë²„ìŠ¤ :" + dto.get ); ì¶œë°œì‹œê°„ + ë„ì°©ì‹œê°„ + ì”ì—¬ì¢Œì„ + ë“±ê¸‰ + ê°€ê²© dtoì— ìƒì†ë°›ì•„ ë¶ˆëŸ¬ì™€ì£¼ê¸°
 		System.out.println("-------------------------------------------------------------");
 	}
 		
 	
-	// ¿¹¾àÈ®ÀÎ Ãâ·Â¸Ş¼Òµå
+	// ì˜ˆì•½í™•ì¸ ì¶œë ¥ë©”ì†Œë“œ
 	public void printrecheck() {
 		System.out.println();
 		System.out.println("=====================================");
-		System.out.println("¿¹¾àÇÑ ¹ö½º³»¿ª");
-		System.out.println("¿¹¾à¹øÈ£ "+ redto.getReservationNum());
-//		System.out.println("Ãâ¹ßÁö : " + reserveDTO.getDepartTerminal());
-//		System.out.println("µµÂøÁö : " + reserveDTO.getArriveTerminal());
-		System.out.println("³¯Â¥ : " + rservice.date);
-		System.out.println("ÁÂ¼® : " + rservice.row + "Çà" + rservice.column + "¿­");
+		System.out.println("ì˜ˆì•½í•œ ë²„ìŠ¤ë‚´ì—­");
+		System.out.println("ì˜ˆì•½ë²ˆí˜¸ "+ redto.getReservationNum());
+//		System.out.println("ì¶œë°œì§€ : " + reserveDTO.getDepartTerminal());
+//		System.out.println("ë„ì°©ì§€ : " + reserveDTO.getArriveTerminal());
+=======
+//		System.out.println("ì˜ˆì•½ë²ˆí˜¸ "+ redto.getReservationNum());
+		System.out.println("ì¶œë°œì§€ : " + rservice.depart);
+		System.out.println("ë„ì°©ì§€ : " + rservice.arrive);
+		System.out.println("ë‚ ì§œ : " + rservice.date);
+		System.out.println("ì¢Œì„ : " + rservice.row + "í–‰" + rservice.column + "ì—´");
 		System.out.println("=====================================");
 		System.out.println();
 		
@@ -117,9 +121,9 @@ public class MemberView {
 		sb.append("\n");
 		sb.append("\n");
 		sb.append("\n");
-		sb.append("                  «Ï____«Ï        \n");
-		sb.append("                  (   ¢« ¥ø ¢« ) \n");
-		sb.append("                        |   ªÄ ~ ¢½ ¢½ ¢½  ±¦Âú°Ú¼­? ³­ ¸ØÃß´Â ¹ıÀ» ¸ğ¸£´Â ·çÇÇÀÎµ¥ \n");
+		sb.append("                  ãƒ____ãƒ        \n");
+		sb.append("                  (   Ë™ Ï‰ Ë™ ) \n");
+		sb.append("                        |   ã¤ ~ â™¡ â™¡ â™¡  ê´œì°®ê² ì„œ? ë‚œ ë©ˆì¶”ëŠ” ë²•ì„ ëª¨ë¥´ëŠ” ë£¨í”¼ì¸ë° \n");
 
 		System.out.print(sb);
 
@@ -138,20 +142,20 @@ public class MemberView {
 		StringBuffer sb = new StringBuffer();
 		
 		printDefault();
-		sb.append("1.·Î±×ÀÎ | 2.È¸¿ø°¡ÀÔ | 3.ID/PW Ã£±â | 4.PW º¯°æ | 5.È¸¿øÅ»Åğ | 6.Á¾·á\n");
+		sb.append("1.ë¡œê·¸ì¸ | 2.íšŒì›ê°€ì… | 3.ID/PW ì°¾ê¸° | 4.PW ë³€ê²½ | 5.íšŒì›íƒˆí‡´ | 6.ì¢…ë£Œ\n");
 		sb.append("-------------------------------------------------------------\n");
-		sb.append("·çÇÇ¹ö½º¿¡ ¿À½Å°É È¯¿µÇÕ´Ï´Ù !\n");
+		sb.append("ë£¨í”¼ë²„ìŠ¤ì— ì˜¤ì‹ ê±¸ í™˜ì˜í•©ë‹ˆë‹¤ !\n");
 		System.out.print(sb);
-		System.out.print("¿øÇÏ½Ã´Â ¹øÈ£¸¦ ¼±ÅÃÇØ ÁÖ¼¼¿ä : ");
+		System.out.print("ì›í•˜ì‹œëŠ” ë²ˆí˜¸ë¥¼ ì„ íƒí•´ ì£¼ì„¸ìš” : ");
 	}
 	
 	public void printIDorPW() {
 		StringBuffer sb = new StringBuffer();
 		
 		printDefault();
-		sb.append("1.IDÃ£±â | 2.PWÃ£±â\n");
+		sb.append("1.IDì°¾ê¸° | 2.PWì°¾ê¸°\n");
 		System.out.print(sb);
-		System.out.print("¿øÇÏ½Ã´Â ¹øÈ£¸¦ ¼±ÅÃÇØ ÁÖ¼¼¿ä : ");
+		System.out.print("ì›í•˜ì‹œëŠ” ë²ˆí˜¸ë¥¼ ì„ íƒí•´ ì£¼ì„¸ìš” : ");
 	}
 	
 }

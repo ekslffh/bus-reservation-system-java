@@ -27,9 +27,13 @@ public class ReservationDAO implements DaoIfs<ReservationDTO> {
 			rs = stmt.executeQuery(sql);
 
 			while (rs.next()) {
-				ReservationDTO dto = new ReservationDTO();
-				
+				ReservationDTO dto = new ReservationDTO();				
 				dto.setTName(rs.getString("t_name"));
+//				dto.setReservationNum(rs.getString("R_NUM"));
+//				dto.setMemId(rs.getString("M_ID"));
+//				dto.setDriveNum("D_NUM");
+//				dto.setScheduleCode("S_CODE");
+//				dto.setBusCode("B_CODE");
 				list.add(dto);
 			}
 		} catch (SQLException e) {
@@ -84,11 +88,11 @@ public class ReservationDAO implements DaoIfs<ReservationDTO> {
 			stmt = conn.createStatement();
 			rs = stmt.executeQuery(sql);
 			rs.next();
-			dto.setReservationNum(rs.getString("R_NUM"));
-			dto.setMemId(rs.getString("M_ID"));
-			dto.setDriveNum(rs.getString("D_NUM"));
-			dto.setScheduleCode(rs.getString("S_CODE"));
-			dto.setBusCode(rs.getString("B_CODE"));
+//			dto.setReservationNum(rs.getString("R_NUM"));
+//			dto.setMemId(rs.getString("M_ID"));
+//			dto.setDriveNum(rs.getString("D_NUM"));
+//			dto.setScheduleCode(rs.getString("S_CODE"));
+//			dto.setBusCode(rs.getString("B_CODE"));
 			
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -111,11 +115,11 @@ public class ReservationDAO implements DaoIfs<ReservationDTO> {
 
 		try {
 			pstmt = conn.prepareStatement(sql);
-			pstmt.setString(1, dto.getReservationNum());
-			pstmt.setString(2, dto.getMemId());
+//			pstmt.setString(1, dto.getReservationNum());
+//			pstmt.setString(2, dto.getMemId());
 			pstmt.setString(3, dto.getDriveNum());
-			pstmt.setString(4, dto.getScheduleCode());
-			pstmt.setString(5, dto.getBusCode());
+//			pstmt.setString(4, dto.getScheduleCode());
+//			pstmt.setString(5, dto.getBusCode());
 
 			res = pstmt.executeUpdate();
 		} catch (SQLException e) {
