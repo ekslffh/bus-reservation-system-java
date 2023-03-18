@@ -88,7 +88,7 @@ public class MemberView {
 		System.out.println();
 		System.out.println("=====================================");
 		System.out.println("예약한 버스내역");
-		System.out.println("예약번호 "+ redto.getReservationNum());
+//		System.out.println("예약번호 "+ redto.getReservationNum());
 		System.out.println("출발지 : " + rservice.depart);
 		System.out.println("도착지 : " + rservice.arrive);
 		System.out.println("날짜 : " + rservice.date);

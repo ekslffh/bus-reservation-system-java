@@ -13,7 +13,6 @@ import util.JDBCTemplate;
 
 public class BusDAO {
 	private JDBCTemplate util = JDBCTemplate.getInstance();
-	
 
 	public List<BusDTO> findAll() {
 		List<BusDTO> list = new ArrayList<>();

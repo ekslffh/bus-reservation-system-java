@@ -33,8 +33,8 @@ public class BusDTO {
 	}
 	@Override
 	public String toString() {
-		return "BusDTO [buscode=" + buscode + ", companycode=" + companycode + ", capacity=" + capacity + ", busclass="
-				+ busclass + "]";
+		return "버스번호: " + buscode + ", 회사코드: " + companycode + ", 수용인원" + capacity + ", 등급: "
+				+ busclass;
 	}
 	
 	

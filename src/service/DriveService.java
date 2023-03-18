@@ -3,101 +3,129 @@ package service;
 import java.util.List;
 import java.util.Scanner;
 
+import javax.swing.plaf.synth.SynthOptionPaneUI;
+
+import dao.BusDAO;
 import dao.DriveDAO;
+import dao.RouteDAO;
 import dto.BusDTO;
 import dto.DriveDTO;
+import dto.RouteDTO;
 import dto.ScheduleDTO;
 
 
 public class DriveService {
-	private static Scanner sc = new Scanner(System.in);
-	private static DriveDAO dao = new DriveDAO();
+	private Scanner sc = new Scanner(System.in);
+	private DriveDAO driveDao = new DriveDAO();
+	private RouteDAO routeDao = new RouteDAO();
+	private BusDAO busDao = new BusDAO();
 	
-	public int getMenu() {
-		int select = 0;
-		StringBuffer sb = new StringBuffer();
-		
-		List<DriveDTO> list = dao.findAll();
-		
-		sb.append("1. 생성");
-		sb.append("2. 수정");
-		sb.append("3. 삭제");
-		System.out.println(sb);
-		System.out.println("원하시는 기능을 선택해주세요");
-		System.out.println("1. 생성  2. 수정  3. 삭제 ");
-		select = Integer.parseInt(sc.nextLine());
-		
-		return select;
-		
-		
+	public List<DriveDTO> findAll() {
+		return driveDao.findAll();
 	}
 	
-
+	public List<RouteDTO> findRouteInfos() {
+		return routeDao.findAll();
+	}
+	
+	public List<BusDTO> findBusInfos() {
+		return busDao.findAll();
+	}
+	
 	public void insert() { 
-		//버스정보 가져오기
-		//일정정보 가져오기
-		//버스 일정 각각 DTO 필요 o
+		System.out.println("==============운행정보 추가==============");
+		System.out.println("==============노선 정보==============");
+		// 노선정보 조회
+		List<RouteDTO> routeDtos = findRouteInfos();
+		for (RouteDTO dto : routeDtos) {
+			System.out.println(dto);
+		}
+		System.out.println("==============버스 정보==============");
+		// 버스정보 조회
+		List<BusDTO> busDtos = findBusInfos();
+		for (BusDTO dto : busDtos) {
+			System.out.println(dto);
+		}
+		// 추가할 데이터 입력받기
+		DriveDTO driveDto = new DriveDTO();
+		System.out.print("운행번호: ");
+		driveDto.setDriveNumber(sc.nextLine());
+		System.out.print("출발시간: ");
+		driveDto.setDepartmentTime(sc.nextLine());
+		System.out.print("도착시간: ");
+		driveDto.setArriveTime(sc.nextLine());
+		System.out.print("노선번호: ");
+		driveDto.setRouteCode(sc.nextLine());
+		System.out.print("버스번호: ");
+		driveDto.setBusCode(sc.nextLine());
 		
-		
-		
-		DriveDTO dto = new DriveDTO();
-		
-		dto.setBusCode(dto.getBusCode());
-		dto.setScheduleCode(dto.getScheduleCode());
-		
-		if (dao.insert(dto)>0) {
+		if (driveDao.insert(driveDto) > 0) {
 			System.out.println("운행표 생성에 성공하였습니다.");
 		}else {
 			System.out.println("운행표 생성에 실패하였습니다.");
 		}
-		System.out.println(dto);
-		
+		System.out.println(driveDto);		
 	}
 	
-	
-	public void update() {
+	// 운행데이터 수정
+	// 운행데이터를 보여줘야 하고 그중에 특정 운행번호를 입력받아서
+	// 1.시간변경, 2.버스변경, 3.노선변경 4.수정취소, 5.저장
+	// 해당하는 특정 운행데이터를 보여줘야 한다.
+	public void update() {		
+		System.out.print("운행번호를 입력하세요 : ");
 		
-		DriveDTO dto = new DriveDTO();
-		
-		System.out.println("운행코드를 입력하세요");
-		String driverNumber = sc.nextLine();
-		
-		System.out.println("1. 버스교체  2. 일정변경  3. 모두변경");
-		int change = Integer.parseInt(sc.nextLine());
-		
-		if(change==1) {
-			System.out.println("교체할 버스코드를 입력하세요 :");
-			String busCode = sc.nextLine();
-			dao.updateBus(dto);	
-		}else if(change==2) {
-			System.out.println("교체할 일정을 입력하세요");
-			String scheduleCode = sc.nextLine();
-			dao.updateSchedule(dto);
-		}else if(change==3) {
-			System.out.println("교체할 버스코드를 입력하세요 :");
-			String busCode = sc.nextLine();
-			System.out.println("교체할 일정을 입력하세요");
-			String scheduleCode = sc.nextLine();
-			dao.update(dto);
+		DriveDTO dto = driveDao.findById(sc.nextLine());
+		while (true) {
+			System.out.println(dto);
+			StringBuffer sb = new StringBuffer();
+			sb.append("--------------------------------------------------\n");
+			sb.append("[1] 시간변경 | [2] 버스교체 | [3] 노선변경 | [4] 수정취소 | [5] 저장\n");
+			sb.append("--------------------------------------------------\n");
+			System.out.println(sb);
 			
+			String select = sc.nextLine();
+			if (select.equals("1")) {
+				// 시간변경
+				System.out.print("출발시간: ");
+				dto.setDepartmentTime(sc.nextLine());
+				System.out.print("도착시간: ");
+				dto.setArriveTime(sc.nextLine());
+			} else if (select.equals("2")) {
+				// 버스교체
+				System.out.print("버스번호: ");
+				dto.setBusCode(sc.nextLine());
+			} else if (select.equals("3")) {
+				// 노선변경
+				System.out.print("노선번호: ");
+				dto.setRouteCode(sc.nextLine());
+			} else if (select.equals("4")) {
+				System.out.println("수정 취소되었습니다.");
+				break;
+			} else if (select.equals("5")) {
+				int res = driveDao.update(dto);
+				if (res > 0) {
+					System.out.println("수정 완료되었습니다.");
+				} else {
+					System.out.println("수정 실패하였습니다.");
+				}
+				break;
+			} else {
+				System.out.println("잘못된 입력입니다.");
+			}
 		}
-		
-		System.out.println("교체가 완료되었습니다. 감사합니다.");
 	}
-    public void deleteById() {
-		  
-		  DriveDTO dto = new DriveDTO();
-		  
+	 public void deleteById() {
+		  		  
 		  System.out.println("삭제할 운행코드를 입력하세요");
 		  String driverNumber = sc.nextLine();
 		  
-		  dao.deleteById(driverNumber);
+		  int res = driveDao.deleteById(driverNumber);
 		  
-		  System.out.println("삭제가 완료되었습니다. 감사합니다.");
+		  if (res > 0) {
+			  System.out.println("삭제가 완료되었습니다. 감사합니다.");
+		  } else {
+			  System.out.println("삭제 실패하였습니다.");
+		  }
+	}		
 	
-		
-		}
-		
-		
-	}
-
+}

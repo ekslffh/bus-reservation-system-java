@@ -31,8 +31,10 @@ public class DriveDAO implements DaoIfs<DriveDTO> {
 			while (rs.next()) {
 				DriveDTO dto = new DriveDTO();
 				dto.setDriveNumber(rs.getString("D_NUM"));
+				dto.setDepartmentTime(rs.getString("D_DEPARTTIME"));
+				dto.setArriveTime(rs.getString("D_ARRIVETIME"));
 				dto.setBusCode(rs.getString("B_CODE"));
-				dto.setScheduleCode(rs.getString("S_CODE"));
+				dto.setRouteCode(rs.getString("R_CODE"));
 				list.add(dto);
 			}
 		}catch (SQLException e) {
@@ -42,9 +44,7 @@ public class DriveDAO implements DaoIfs<DriveDTO> {
 			util.close(stmt);
 			util.close(conn);
 		}
-	
 		return list;
-	
 	}
 
 	@Override 
@@ -63,8 +63,10 @@ public class DriveDAO implements DaoIfs<DriveDTO> {
 			
 			rs.next();
 			dto.setDriveNumber(rs.getString("D_NUM"));
-			dto.setBusCode(rs.getNString("B_CODE"));
-			dto.setScheduleCode(rs.getString("S_CODE"));
+			dto.setDepartmentTime(rs.getString("D_DEPARTTIME"));
+			dto.setArriveTime(rs.getString("D_ARRIVETIME"));
+			dto.setBusCode(rs.getString("B_CODE"));
+			dto.setRouteCode(rs.getString("R_CODE"));
 			
 		}catch (SQLException e) {
 			e.printStackTrace();
@@ -82,16 +84,17 @@ public class DriveDAO implements DaoIfs<DriveDTO> {
 	    PreparedStatement pstmt = null;
 	    int res = 0;
 	    
-	    String sql = "INSERT INTO DRIVE(D_NUM, B_CODE, S_CODE)"
-	    		     + "VALUES(?,?,?)";
+	    String sql = "INSERT INTO DRIVE(D_NUM, D_DEPARTTIME, D_ARRIVETIME, B_CODE, R_CODE) VALUES(?, ?, ?, ?, ?)";
 	    
 	    try {
 	        pstmt = conn.prepareStatement(sql);
 				
-			pstmt.setString(1,dto.getDriveNumber());
-			pstmt.setString(2,dto.getBusCode());
-			pstmt.setString(3,dto.getScheduleCode());
-				
+			pstmt.setString(1, dto.getDriveNumber());
+			pstmt.setString(2, dto.getDepartmentTime());
+			pstmt.setString(3, dto.getArriveTime());
+			pstmt.setString(4, dto.getBusCode());
+			pstmt.setString(5, dto.getRouteCode());
+			
 			res= pstmt.executeUpdate();
 	    }catch (SQLException e) {
 	    	e.printStackTrace();
@@ -107,17 +110,20 @@ public class DriveDAO implements DaoIfs<DriveDTO> {
 		Connection conn = util.getConnection();
 		PreparedStatement pstmt = null;
 		int res = 0;
-		
-		String sql = "UPDATE DRIVE"
-				+     "SET B_CODE = ?, "
-				+     "SET S_CODE = ?"
-				+     "WHERE D_NUM = ?";
+		System.out.println("ddd: " + dto);
+//		UPDATE DRIVE SET D_DEPARTTIME = '14:10', D_ARRIVETIME = '15:10', B_CODE = 'SH0039', R_CODE = '9' WHERE D_NUM = '100';
+		System.out.println("ddd: " + dto);
+		String sql = "UPDATE DRIVE SET D_DEPARTTIME = ?, D_ARRIVETIME = ?, B_CODE = ?, R_CODE = ? WHERE D_NUM = ?";
 		
 		try {
 			pstmt = conn.prepareStatement(sql);
-			pstmt.setString(1, dto.getBusCode());
-			pstmt.setString(2, dto.getScheduleCode());
-			pstmt.setString(3, dto.getDriveNumber());
+			pstmt.setString(1, dto.getDepartmentTime());
+			pstmt.setString(2, dto.getArriveTime());
+			pstmt.setString(3, dto.getBusCode());
+			pstmt.setString(4, dto.getRouteCode());
+			pstmt.setString(5, dto.getDriveNumber());
+			
+			res = pstmt.executeUpdate();
 		}catch(SQLException e) {
 			e.printStackTrace();
 		}finally {
@@ -126,52 +132,6 @@ public class DriveDAO implements DaoIfs<DriveDTO> {
 		}
 		return res;
 	}
-	
-	public int updateBus(DriveDTO dto) {
-		Connection conn = util.getConnection();
-		PreparedStatement pstmt = null;
-		int res = 0;
-		
-		String sql = "UPDATE DRIVE"
-				+     "SET B_CODE = ?, "
-				+     "WHERE D_NUM = ?";
-		
-		try {
-			pstmt = conn.prepareStatement(sql);
-			pstmt.setString(1, dto.getBusCode());
-			pstmt.setString(2, dto.getDriveNumber());
-		}catch(SQLException e) {
-			e.printStackTrace();
-		}finally {
-			util.close(pstmt);
-			util.close(conn);
-		}
-		return res;
-	}
-	
-	public int updateSchedule(DriveDTO dto) {
-		Connection conn = util.getConnection();
-		PreparedStatement pstmt = null;
-		int res = 0;
-		
-		String sql = "UPDATE DRIVE"
-				+     "SET S_CODE = ?, "
-				+     "WHERE B_CODE = ?";
-		
-		try {
-			pstmt = conn.prepareStatement(sql);
-			pstmt.setString(1, dto.getScheduleCode());
-			pstmt.setString(2, dto.getBusCode());
-		}catch(SQLException e) {
-			e.printStackTrace();
-		}finally {
-			util.close(pstmt);
-			util.close(conn);
-		}
-		return res;
-		
-	}
-	
 
 	@Override
 	public int deleteById(String id) {
@@ -179,7 +139,7 @@ public class DriveDAO implements DaoIfs<DriveDTO> {
 		PreparedStatement pstmt = null;
 		int res = 0;
 		
-		String sql = "DELETE FROM DIRVE WHERE D_CODE = ?";
+		String sql = "DELETE FROM DRIVE WHERE D_NUM = ?";
 	
 		try {
 			pstmt = conn.prepareStatement(sql);
@@ -196,9 +156,7 @@ public class DriveDAO implements DaoIfs<DriveDTO> {
 			util.close(pstmt);
 			util.close(conn);
 		}
-		
-				
 		return res;
 	}
-
+	
 }

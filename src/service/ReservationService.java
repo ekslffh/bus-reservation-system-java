@@ -108,7 +108,7 @@ public class ReservationService {
 	public static void recancle() {
 		mView.printrecheck();
 
-		System.out.println("예약번호" + redto.getReservationNum() + " 예약정보를 취소하시겠습니까?(Y/N)");
+//		System.out.println("예약번호" + redto.getReservationNum() + " 예약정보를 취소하시겠습니까?(Y/N)");
 		
 		String cancle = s.nextLine();
 		
@@ -116,7 +116,7 @@ public class ReservationService {
 			System.out.println("예약이 취소되었습니다.");
 
 			// 예약내역 데이터에서 삭제하기
-			redao.deleteById(redto.getReservationNum());
+//			redao.deleteById(redto.getReservationNum());
 
 		} else {
 			System.out.println("종 료");			

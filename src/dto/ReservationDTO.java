@@ -1,26 +1,31 @@
 package dto;
 
+import java.sql.Date;
+
 public class ReservationDTO {
 
-	private String reservationNum;
-	private String memId;
+	private String num;
+	private String memberId;
+	private String seatCode;
 	private String driveNum;
-	private String scheduleCode;
-	private String busCode;
-	//select문에 필요한 필드들 상속받아서 가지고오기 
-	
-	
-	public String getReservationNum() {
-		return reservationNum;
+	private Date reservationDate;
+	public String getNum() {
+		return num;
 	}
-	public void setReservationNum(String reservationNum) {
-		this.reservationNum = reservationNum;
+	public void setNum(String num) {
+		this.num = num;
 	}
-	public String getMemId() {
-		return memId;
+	public String getMemberId() {
+		return memberId;
 	}
-	public void setMemId(String memId) {
-		this.memId = memId;
+	public void setMemberId(String memberId) {
+		this.memberId = memberId;
+	}
+	public String getSeatCode() {
+		return seatCode;
+	}
+	public void setSeatCode(String seatCode) {
+		this.seatCode = seatCode;
 	}
 	public String getDriveNum() {
 		return driveNum;
@@ -28,32 +33,17 @@ public class ReservationDTO {
 	public void setDriveNum(String driveNum) {
 		this.driveNum = driveNum;
 	}
-	public String getScheduleCode() {
-		return scheduleCode;
+	public Date getReservationDate() {
+		return reservationDate;
 	}
-	public void setScheduleCode(String scheduleCode) {
-		this.scheduleCode = scheduleCode;
-	}
-	public String getBusCode() {
-		return busCode;
-	}
-	public void setBusCode(String busCode) {
-		this.busCode = busCode;
+	public void setReservationDate(Date reservationDate) {
+		this.reservationDate = reservationDate;
 	}
 	
 	@Override
 	public String toString() {
-		return "ReservationDTO [reservationNum=" + reservationNum + ", memId=" + memId + ", driveNum=" + driveNum
-				+ ", scheduleCode=" + scheduleCode + ", busCode=" + busCode + "]";
-	}
-	
-	
-	
-	
-	
-	
-	
-	
-	
+		return "ReservationDTO [num=" + num + ", memberId=" + memberId + ", seatCode=" + seatCode + ", driveNum="
+				+ driveNum + ", reservationDate=" + reservationDate + "]";
+	}	
 
 }

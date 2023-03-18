@@ -113,7 +113,6 @@ public class MemberDAO implements DaoIfs<MemberDTO>{
 		return dto;
 	}
 	
-	@Override
 	public  MemberDTO findByPw(String pw) {
 		MemberDTO dto = new MemberDTO();
 		Connection conn = util.getConnection();
