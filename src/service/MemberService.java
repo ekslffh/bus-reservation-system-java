@@ -4,6 +4,7 @@ import java.util.Random;
 import java.util.Scanner;
 
 import controller.MemberController;
+import controller.ReservationController;
 import controller.TempController;
 import dao.MemberDAO;
 import dto.MemberDTO;
@@ -14,6 +15,7 @@ public class MemberService {
 	private static MemberDAO dao = new MemberDAO();
 	private static MemberView memberView = new MemberView();
 	private static MemberController memberController = new MemberController();
+	private static ReservationController reservationController = new ReservationController();
 	private static String mtelno = null;
 
 	public void rogin() {
@@ -30,7 +32,7 @@ public class MemberService {
 			mpw = sc.nextLine();
 			if (mpw.equals(dto.getM_pw())) {
 				System.out.println("로그인 되었습니다.");
-				break;//로그인 되었을 경우에 다음 예약화면으로 이동
+				reservationController.reservationMenu();
 			} else {
 				System.out.println("비밀번호가 일치하지 않습니다.");
 			}
@@ -60,13 +62,13 @@ public class MemberService {
 		}
 		System.out.println(dto);
 	}
-	
+
 	public void findByPw() {
 		TempController tc = new TempController();
 		Random random = new Random();
 		String mpw = null;
 		String mtelno = null;
-		String ranNum =  Integer.toString(random.nextInt(10000));
+		String ranNum = Integer.toString(random.nextInt(10000));
 		String userCnum = null;
 
 		while (true) {
@@ -77,25 +79,22 @@ public class MemberService {
 			MemberDTO dto = dao.findByPw(mpw);
 			if (mtelno.equals(dto.getM_telno())) {
 				System.out.println("전화번호가 일치합니다.");
+				setTelno(mtelno);
 				tc.sendOne("루피의 버스\n비밀번호 찾기 인증번호 : " + ranNum);
 				System.out.print("인증번호 : ");
-				setTelno(mtelno);
-				System.out.print("인증번호 : ");
 				userCnum = sc.nextLine();
-				if(userCnum.equals(ranNum)) {
-				System.out.println("인증번호가 일치합니다.");
-				System.out.println("비밀번호 : " + dto.getM_id());
-				break;
-			} else {
-				System.out.println("전화번호가 일치하지 않습니다.");
-				continue;
+				if (userCnum.equals(ranNum)) {
+					System.out.println("인증번호가 일치합니다.");
+					System.out.println("비밀번호 : " + dto.getM_id());
+					break;
+				} else {
+					System.out.println("전화번호가 일치하지 않습니다.");
+					continue;
+				}
 			}
 		}
-		
 		memberView.printMenu();
-		}
 	}
-
 
 	public void findById() {
 		TempController tc = new TempController();
@@ -114,7 +113,7 @@ public class MemberService {
 			if (mtelno.equals(dto.getM_telno())) {
 				System.out.println("전화번호가 일치합니다.");
 				setTelno(mtelno);
-				tc.sendOne("루피의 버스\n비밀번호 찾기 인증번호 : " + ranNum);
+				tc.sendOne("[♡루피의 버스♡]\n비밀번호 찾기 인증번호 : " + ranNum + "를 입력해 주세뤂(˘ω˘)");
 				System.out.print("인증번호 : ");
 				userCnum = sc.nextLine();
 				if(userCnum.equals(ranNum)) {
@@ -145,11 +144,11 @@ public class MemberService {
 	public static void update() {
 		String mid = null;
 		String mpw = null;
-
 		System.out.print("아이디 : ");
 		mid = sc.nextLine();
 		MemberDTO dto = dao.findById(mid);
 		dto.setM_id(mid);
+		if(dao.getCheck() == true) {
 		while(true){
 			System.out.print("비밀번호 : ");
 			mpw = sc.nextLine();
@@ -160,6 +159,9 @@ public class MemberService {
 				System.out.println("비밀번호가 일치하지 않습니다.");
 			}
 		}	
+	}else {
+		update();
+	}
 		System.out.print("변경할 비밀번호 : ");
 		mpw = sc.nextLine();
 		dto.setM_pw(mpw);
@@ -175,7 +177,7 @@ public class MemberService {
 	public static void deleteById() {
 		String mid = null;
 		String mpw = null;
-		
+		System.out.println("회월탈퇴");
 		while(true){
 			System.out.print("아이디 : ");
 			mid = sc.nextLine();

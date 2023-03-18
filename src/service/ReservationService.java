@@ -1,58 +1,113 @@
 package service;
 
+import java.util.List;
 import java.util.Scanner;
 
 import dao.ReservationDAO;
 import dto.ReservationDTO;
+import dto.ReservationInfoDTO;
 import view.MemberView;
 
 public class ReservationService {
-	static MemberView mView = new MemberView();
-	static ReservationDTO redto = new ReservationDTO();
-	static ReservationDAO redao = new ReservationDAO();
+	static MemberView view = new MemberView();
+	static ReservationDTO dto = new ReservationDTO();
+	static ReservationDAO dao = new ReservationDAO();
+	static ReservationInfoDTO reserveDto = new ReservationInfoDTO();
 	static Scanner sc = new Scanner(System.in);
 	static Scanner s = new Scanner(System.in);
 	
-
 	public String depart;
 	public String arrive;
 	public String date;
 	public String row;
 	public String column;
-
-	public static void reservationMenu() {
-		int no = 0;
-
-		do {
-			no = mView.printReservation();
-			switch (no) {
-			case 1:
-				System.out.println();
-				System.out.println("예매하기 메뉴를 선택하셨습니다. 예매를 진행해주세요.");
-				reservate();
-				break;
-			case 2:
-				System.out.println();
-				System.out.println("예매확인 메뉴를 선택하셨습니다. 아래는 예약한 내역입니다.");
-				mView.printrecheck();
-				break;
-			case 3:
-				System.out.println();
-				System.out.println("예매취소 메뉴를 선택하셨습니다. 아래 예약한 내역을 보고 취소를 진행해주세요.");
-				recancle();
-				break;
-			case 4:
-				System.out.println();
-				System.out.println("종 료");
-				
-				System.exit(1);
-			}
-		} while (no != 4);
-	}
-
-	public static void reservate() {
-		
+	public static String departTerminal;
+	public static String arriveTerminal;
 	
+	public static void reservateDepart() {
+		int num = 1;
+		List<ReservationDTO>List = dao.findAll();
+		for(ReservationDTO dto: List) {
+			System.out.println(num + ") " + dto.getTName());
+			num++;
+		}
+		System.out.print("출발역을 선택해 주세요 'u' : ");
+		int departNum = sc.nextInt();
+		
+		switch (departNum) {
+		case 1:
+			System.out.println("서울역 출발");
+			departTerminal = "서울역";
+			reserveDto.setDepartTerminal(departTerminal);
+			break;
+		case 2:
+			System.out.println("대전역 출발");
+			departTerminal = "대전역";
+			reserveDto.setDepartTerminal(departTerminal);
+			break;
+		case 3:
+			System.out.println("대구역 출발");
+			departTerminal = "대구역";
+			reserveDto.setDepartTerminal(departTerminal);
+			break;
+		case 4:
+			System.out.println("부산역 출발");
+			departTerminal = "부산역";
+			reserveDto.setDepartTerminal(departTerminal);
+			break;
+		}
+		System.out.println("-------------------------------------------------------------");
+		reservateArrive();
+	}
+	
+	public static void reservateArrive() {
+		int num = 1;
+		System.out.println("-------------------------------------------------------------");
+		List<ReservationDTO>List = dao.findAll();
+		for(ReservationDTO dto: List) {
+			if(departTerminal.equals(dto.getTName())) {
+				System.out.println(num + ") " + dto.getTName() + "(출발역)");
+				num++;
+			}else {
+			System.out.println(num + ") " + dto.getTName());
+			num++;
+			}
+		}
+		System.out.print("도착역을 선택해 주세요 'u' : ");
+		int departNum = sc.nextInt();
+		
+		switch (departNum) {
+		case 1:
+			System.out.println("서울역 도착");
+			arriveTerminal = "서울역";
+			reserveDto.setArriveTerminal(arriveTerminal);
+			break;
+		case 2:
+			System.out.println("대전역 도착");
+			arriveTerminal = "대전역";
+			reserveDto.setArriveTerminal(arriveTerminal);
+			break;
+		case 3:
+			System.out.println("대구역 도착");
+			arriveTerminal = "대구역";
+			reserveDto.setArriveTerminal(arriveTerminal);
+			break;
+		case 4:
+			System.out.println("부산역 도착");
+			arriveTerminal = "부산역";
+			reserveDto.setArriveTerminal(arriveTerminal);
+			break;
+		}
+		System.out.println("-------------------------------------------------------------");
+		reservateTime();
+	}
+	
+	public static void reservateTime() {
+		
+	}
+	
+	public static void reservate() {
+			
 		System.out.print("출발지 : ");
 		String depart = sc.nextLine();
 
@@ -63,7 +118,7 @@ public class ReservationService {
 		String date = sc.nextLine();
 
 		// 탈수있는 버스정보 전부 출력되는 뷰
-		mView.printBusInfo();
+		view.printBusInfo();
 
 		System.out.println("좌석선택을 해주세요");
 		System.out.println("  12");
@@ -81,7 +136,7 @@ public class ReservationService {
 		int age = Integer.parseInt(sc.nextLine());
 
 		// 선택한 좌석정보 보여주는 뷰
-		mView.printrecheck();
+		view.printrecheck();
 
 		System.out.println("결제를 하시겠습니까 ? (Y/N)");
 		
@@ -106,9 +161,9 @@ public class ReservationService {
 
 	// 예약취소 메소드
 	public static void recancle() {
-		mView.printrecheck();
+		view.printrecheck();
 
-		System.out.println("예약번호" + redto.getReservationNum() + " 예약정보를 취소하시겠습니까?(Y/N)");
+		System.out.println("예약번호" + dto.getReservationNum() + " 예약정보를 취소하시겠습니까?(Y/N)");
 		
 		String cancle = s.nextLine();
 		
@@ -116,13 +171,11 @@ public class ReservationService {
 			System.out.println("예약이 취소되었습니다.");
 
 			// 예약내역 데이터에서 삭제하기
-			redao.deleteById(redto.getReservationNum());
+			dao.deleteById(dto.getReservationNum());
 
 		} else {
 			System.out.println("종 료");			
 			System.exit(1);
 		}
 	}
-
-
 }

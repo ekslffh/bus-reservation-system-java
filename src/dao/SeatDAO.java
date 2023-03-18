@@ -123,5 +123,4 @@ public class SeatDAO implements DaoIfs<SeatDTO> {
 		}
 		return res;
 	}
-
 }

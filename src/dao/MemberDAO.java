@@ -16,6 +16,7 @@ import view.MemberView;
 
 public class MemberDAO implements DaoIfs<MemberDTO>{
 	private JDBCTemplate util = JDBCTemplate.getInstance();
+	private boolean check = true;
 	private static MemberView memberView = new MemberView();
 	private static MemberService memberService = new MemberService();
 	
@@ -96,8 +97,10 @@ public class MemberDAO implements DaoIfs<MemberDTO>{
 	        rs.beforeFirst();
 			if(rowcount == 0) {
 				System.out.println("잘못된 아이디입니다.");
-			}else {
-			rs.next();
+				setCheck(false);
+			} else {
+				setCheck(true);
+				rs.next();
 			}
 			
 			dto.setM_pw(rs.getString("M_PW"));
@@ -113,7 +116,14 @@ public class MemberDAO implements DaoIfs<MemberDTO>{
 		return dto;
 	}
 	
-	@Override
+	public void setCheck(boolean check) {
+		this.check = check;
+	}
+	
+	public boolean getCheck() {
+		return check;
+	}
+	
 	public  MemberDTO findByPw(String pw) {
 		MemberDTO dto = new MemberDTO();
 		Connection conn = util.getConnection();

@@ -23,6 +23,7 @@ public class MemberController {
 	}
 
 	public static void run() {
+		memberView.Default();
 		memberView.printMenu();
 		int no = 0;
 

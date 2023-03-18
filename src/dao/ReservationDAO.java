@@ -20,7 +20,7 @@ public class ReservationDAO implements DaoIfs<ReservationDTO> {
 		Connection conn = util.getConnection();
 		Statement stmt = null;
 		ResultSet rs = null;
-		String sql = "SELECT * FROM RESERVATION";
+		String sql = "select t_name from bus_terminal ";
 
 		try {
 			stmt = conn.createStatement();
@@ -28,11 +28,8 @@ public class ReservationDAO implements DaoIfs<ReservationDTO> {
 
 			while (rs.next()) {
 				ReservationDTO dto = new ReservationDTO();
-				dto.setReservationNum(rs.getString("R_NUM"));
-				dto.setMemId(rs.getString("M_ID"));
-				dto.setDriveNum("D_NUM");
-				dto.setScheduleCode("S_CODE");
-				dto.setBusCode("B_CODE");
+				
+				dto.setTName(rs.getString("t_name"));
 				list.add(dto);
 			}
 		} catch (SQLException e) {
@@ -45,6 +42,33 @@ public class ReservationDAO implements DaoIfs<ReservationDTO> {
 
 		return list;
 
+	}
+	
+	public List<ReservationDTO> findTime(){
+		List<ReservationDTO> list = new ArrayList<>();
+		Connection conn = util.getConnection();
+		Statement stmt = null;
+		ResultSet rs = null;
+		String sql = "select t_name from bus_terminal ";
+
+		try {
+			stmt = conn.createStatement();
+			rs = stmt.executeQuery(sql);
+
+			while (rs.next()) {
+				ReservationDTO dto = new ReservationDTO();
+				
+				dto.setTName(rs.getString("t_name"));
+				list.add(dto);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			util.close(rs);
+			util.close(stmt);
+			util.close(conn);
+		}
+		return list;
 	}
 
 	@Override

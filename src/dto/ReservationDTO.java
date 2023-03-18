@@ -2,6 +2,7 @@ package dto;
 
 public class ReservationDTO {
 
+	private String tName;
 	private String reservationNum;
 	private String memId;
 	private String driveNum;
@@ -9,6 +10,12 @@ public class ReservationDTO {
 	private String busCode;
 	//select문에 필요한 필드들 상속받아서 가지고오기 
 	
+	public String getTName() {
+		return tName;
+	}
+	public void setTName(String tName) {
+		this.tName = tName;
+	}
 	
 	public String getReservationNum() {
 		return reservationNum;

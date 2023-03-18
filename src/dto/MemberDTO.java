@@ -1,6 +1,7 @@
 package dto;
 
 public class MemberDTO {
+	public static boolean check = false;
 	private String m_id;
 	private String m_pw;
 	private String m_name;
@@ -15,6 +16,14 @@ public class MemberDTO {
 		this.m_name = m_name;
 		this.m_telno = m_telno;
 		this.m_add = m_add;
+	}
+	
+	public void setCheck(boolean check) {
+		this.check = check;
+	}
+	
+	public boolean getCheck(boolean check) {
+		return check;
 	}
 	
 	public void setM_id(String m_id) {

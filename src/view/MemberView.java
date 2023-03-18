@@ -8,6 +8,7 @@ import java.sql.Statement;
 import java.util.Scanner;
 import dao.ReservationDAO;
 import dto.ReservationDTO;
+import dto.ReservationInfoDTO;
 import service.ReservationService;
 import util.JDBCTemplate;
 
@@ -15,6 +16,7 @@ public class MemberView {
 	private JDBCTemplate util = JDBCTemplate.getInstance();
 	private static Scanner sc = new Scanner(System.in);
 	ReservationService rservice = new ReservationService();
+	ReservationInfoDTO reserveDTO = new ReservationInfoDTO();
 	ReservationDTO redto = new ReservationDTO();
 
 	// 예매 시작화면 출력 메소드
@@ -33,7 +35,7 @@ public class MemberView {
 
 		System.out.println(sb);
 		System.out.println("루피버스 예매를 도와드릴게요.");
-		System.out.println("원하시는 번호를 선택해 주세요 'u'");
+		System.out.print("원하시는 번호를 선택해 주세요 'u' : ");
 
 		select = sc.nextInt();
 
@@ -89,20 +91,44 @@ public class MemberView {
 		System.out.println("=====================================");
 		System.out.println("예약한 버스내역");
 		System.out.println("예약번호 "+ redto.getReservationNum());
-		System.out.println("출발지 : " + rservice.depart);
-		System.out.println("도착지 : " + rservice.arrive);
+		System.out.println("출발지 : " + reserveDTO.getDepartTerminal());
+		System.out.println("도착지 : " + reserveDTO.getArriveTerminal());
 		System.out.println("날짜 : " + rservice.date);
-		System.out.println("좌석 : " + rservice.row + "행" + "rservice.column" + "열");
+		System.out.println("좌석 : " + rservice.row + "행" + rservice.column + "열");
 		System.out.println("=====================================");
 		System.out.println();
 		
 	}
 	
-	
+	public void Default() {
+		StringBuffer sb = new StringBuffer();
+		sb.append("\n");
+		sb.append("\n");
+		sb.append("\n");
+		sb.append("                  _       ___     ___      ___  __   __            ___    _   _    ___   \n");
+		sb.append("              | |     / _ \\   / _ \\    | _ \\ \\ \\ / /    o O O  | _ )  | | | |  / __| \n");
+		sb.append("               | |__  | (_) | | (_) |   |  _/  \\ V /    o       | _ \\  | |_| |  \\__ \\  \n");
+		sb.append("                  |____|  \\___/   \\___/   _|_|_   _|_|_   TS__[O]  |___/   \\___/   |___/  \n");
+		sb.append(
+				"            _|\"\"\"\"\"|_|\"\"\"\"\"|_|\"\"\"\"\"|_| \"\"\" |_| \"\"\" | {======|_|\"\"\"\"\"|_|\"\"\"\"\"|_|\"\"\"\"\"| \n");
+		sb.append("         "
+				+ "   \"`-0-0-'\"`-0-0-'\"`-0-0-'\"`-0-0-'\"`-0-0-'./o--000'\"`-0-0-'\"`-0-0-'\"`-0-0-' \n");
+		sb.append("\n");
+		sb.append("\n");
+		sb.append("\n");
+		sb.append("\n");
+		sb.append("                  ハ____ハ        \n");
+		sb.append("                  (   ˙ ω ˙ ) \n");
+		sb.append("                        |   つ ~ ♡ ♡ ♡  괜찮겠서? 난 멈추는 법을 모르는 루피인데 \n");
+
+		System.out.print(sb);
+
+	}
+
 	public void printDefault() {
 		StringBuffer sb = new StringBuffer();
 
-		sb.append("------------------------- 루피의 버스 --------------------------\n");
+		sb.append("------------------------------------------------------------\n");
 		sb.append("\n");
 		sb.append("-------------------------------------------------------------\n");
 		System.out.print(sb);

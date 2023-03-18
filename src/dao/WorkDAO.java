@@ -135,6 +135,6 @@ public class WorkDAO implements DaoIfs<WorkDTO> {
 		// TODO Auto-generated method stub
 		return 0;
 	}
-	
+
 
 }
