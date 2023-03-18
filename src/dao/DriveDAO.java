@@ -7,8 +7,6 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
-
-import dto.BusDTO;
 import dto.DriveDTO;
 import util.JDBCTemplate;
 
