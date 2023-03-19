@@ -1,21 +1,36 @@
 package service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
-
+import java.util.UUID;
+import controller.MemberController;
+import dao.DriveDAO;
 import dao.ReservationDAO;
+import dao.SeatDAO;
+import dao.TerminalDAO;
+import dto.DriveInfoDTO;
+import dto.MemberReservationDTO;
 import dto.ReservationDTO;
-import dto.ReservationInfoDTO;
+import dto.SeatDTO;
+import dto.TerminalDTO;
+import util.TablePrinter;
 import view.MemberView;
 
 public class ReservationService {
-	static MemberView view = new MemberView();
-	static ReservationDTO dto = new ReservationDTO();
-	static ReservationDAO dao = new ReservationDAO();
-	static ReservationInfoDTO reserveDto = new ReservationInfoDTO();
-	static Scanner sc = new Scanner(System.in);
-	static Scanner s = new Scanner(System.in);
-	
+	// view
+	private static MemberView view = new MemberView();
+	// dto
+	private static ReservationDTO reservationDto = new ReservationDTO();
+	// dao
+	private static ReservationDAO reservationDao = new ReservationDAO();
+	private static TerminalDAO terminalDAO = new TerminalDAO();
+	private static DriveDAO driveDao = new DriveDAO();
+	private static SeatDAO seatDao = new SeatDAO();
+
+	private static Scanner sc = new Scanner(System.in);
+	private static Scanner s = new Scanner(System.in);
+
 	public String depart;
 	public String arrive;
 	public String date;
@@ -23,165 +38,201 @@ public class ReservationService {
 	public String column;
 	public static String departTerminal;
 	public static String arriveTerminal;
-	
-	public void findDriveInfo() {
-		
-	}
-	
-	public static void reservateDepart() {
-		int num = 1;
-		List<ReservationDTO>List = dao.findAll();
-		for(ReservationDTO dto: List) {
-			System.out.println(num + ") " + dto.getTName());
-			num++;
-		}
-		System.out.print("ì¶œë°œì—­ì„ ì„ íƒí•´ ì£¼ì„¸ìš” 'u' : ");
-		int departNum = sc.nextInt();
-		
-		switch (departNum) {
-		case 1:
-			System.out.println("ì„œìš¸ì—­ ì¶œë°œ");
-			departTerminal = "ì„œìš¸ì—­";
-			reserveDto.setDepartTerminal(departTerminal);
-			break;
-		case 2:
-			System.out.println("ëŒ€ì „ì—­ ì¶œë°œ");
-			departTerminal = "ëŒ€ì „ì—­";
-			reserveDto.setDepartTerminal(departTerminal);
-			break;
-		case 3:
-			System.out.println("ëŒ€êµ¬ì—­ ì¶œë°œ");
-			departTerminal = "ëŒ€êµ¬ì—­";
-			reserveDto.setDepartTerminal(departTerminal);
-			break;
-		case 4:
-			System.out.println("ë¶€ì‚°ì—­ ì¶œë°œ");
-			departTerminal = "ë¶€ì‚°ì—­";
-			reserveDto.setDepartTerminal(departTerminal);
-			break;
-		}
-		System.out.println("-------------------------------------------------------------");
-		reservateArrive();
-	}
-	
-	public static void reservateArrive() {
-		int num = 1;
-		System.out.println("-------------------------------------------------------------");
-		List<ReservationDTO>List = dao.findAll();
-		for(ReservationDTO dto: List) {
-			if(departTerminal.equals(dto.getTName())) {
-				System.out.println(num + ") " + dto.getTName() + "(ì¶œë°œì—­)");
+
+	// ¿¹¾à ·ÎÁ÷
+	public void reservate() {
+		boolean isPayment = false;
+		while (true) {
+			// °áÁ¦¿Ï·áÇßÀ¸¸é ¸ŞÀÎÈ­¸éÀ¸·Î ÀÌµ¿
+			if (isPayment)
+				break;
+			// ÅÍ¹Ì³Î Á¤º¸ º¸¿©ÁÖ±â
+			int num = 1;
+			List<TerminalDTO> terminalDtos = terminalDAO.findAll();
+			for (TerminalDTO dto : terminalDtos) {
+				System.out.println(num + ") " + dto.getName());
 				num++;
-			}else {
-			System.out.println(num + ") " + dto.getTName());
-			num++;
+			}
+//			TablePrinter<TerminalDTO> terminalTable = new TablePrinter<>(terminalDtos);
+//			terminalTable.printTable();
+			// Ãâ¹ßÁö, ¸ñÀûÁö, °¡´Â³¯ ¼±ÅÃ + ¸î½ÃÀÌÈÄ
+			System.out.print("Ãâ¹ß¿ª: ");
+			String department = sc.nextLine();
+			System.out.print("µµÂø¿ª: ");
+			String arrive = sc.nextLine();
+			System.out.print("°¡´Â³¯(YYYY-MM-dd): ");
+			String date = sc.nextLine();
+
+			// ¿îÇàÇ¥ Á¶È¸
+			List<DriveInfoDTO> driveInfoDtos = driveDao.getDriveInfos(department, arrive, date);
+//			for (DriveInfoDTO dto : driveInfoDtos) {
+//				System.out.println(dto);
+//			}
+			TablePrinter<DriveInfoDTO> driveInfos = new TablePrinter<>(driveInfoDtos);
+			driveInfos.printTable();
+			System.out.print("¿îÇà¹øÈ£: ");
+			String driveNum = sc.nextLine();
+
+			// ÁÂ¼®¼±ÅÃ
+			// ¿îÇà¹øÈ£¿Í ³¯Â¥¸¦ °¡Áö°í ÁÂ¼®¿¹¾àÅ×ÀÌºí¿¡¼­ ÁÂ¼®Á¤º¸¸¦ °¡Á®¿Í¾ß ÇÑ´Ù.
+			// ÁÂ¼®Á¤º¸¸¦ °¡Áö°í ¿¹¾àÀÌ µÇ¾îÀÖ´Â ÁÂ¼®°ú µÇ¾îÀÖÁö ¾ÊÀº ÁÂ¼®À» ±¸ºĞÇØ¼­ Ç¥½ÃÇØ¾ß ÇÑ´Ù.
+			List<String> seatInfos = seatDao.findAllByDriveAndDate(date, driveNum);
+			for (String seatNum : seatInfos) {
+				System.out.println(seatNum);
+			}
+			// ÀÌÂÊ¿¡ °¡Á®¿Â ÁÂ¼®Á¤º¸·Î ºóÁÂ¼®°ú ¾Æ´Ñ ÁÂ¼®À» ±¸ºĞÇØ¼­ Ãâ·ÂÇØ¾ßÇÔ
+			List<String> selectSeatNum = new ArrayList<>();
+			boolean completeSelct = false;
+			while (true) {
+				System.out.print("¿¹¾àÁÂ¼®: ");
+				for (String seatNum : selectSeatNum) {
+					System.out.print(seatNum + " ");
+				}
+				System.out.println();
+				System.out.print("ÁÂ¼®¹øÈ£: ");
+				selectSeatNum.add(sc.nextLine());
+				System.out.print("1.Ãß°¡¼±ÅÃ, 2.¼±ÅÃ¿Ï·á, 3.ÁÂ¼®Ãë¼Ò 4.¿¹¾àÃë¼Ò: ");
+				String input = sc.nextLine();
+				if (input.equals("1")) { // ÁÂ¼®Ãß°¡¼±ÅÃ
+					continue;
+				} else if (input.equals("2")) { // ¼±ÅÃ¿Ï·á
+					System.out.println("ÁÂ¼®¼±ÅÃ¿Ï·á");
+					completeSelct = true;
+					break;
+				} else if (input.equals("3")) { // ÁÂ¼®ÇÏ³ªÃë¼Ò
+					// °¡Àå ÃÖ±Ù¿¡ Ãß°¡ÇÑ ³»¿ë »èÁ¦
+					selectSeatNum.remove(terminalDtos.size() - 1);
+				} else if (input.equals("4")) { // ¿¹¾àÃë¼Ò
+					// ´Ù½Ã ÅÍ¹Ì³Î °í¸£´Â È­¸éÀ¸·Î ÀÌµ¿
+					break;
+				} else {
+					System.out.println("Àß¸øµÈ ÀÔ·ÂÀÔ´Ï´Ù.");
+				}
+			}
+			// ÁÂ¼®¼±ÅÃ ¿Ï·áÀÎ°æ¿ì
+			if (completeSelct) {
+				// ##°áÁ¦·ÎÁ÷##
+
+				// ¸¶ÀÏ¸®Áö ÀÜ¾× º¸¿©ÁÖ°í ¸¶ÀÏ¸®Áö »ç¿ëÇÒÁö ¹°¾îº¸°í
+				// °áÁ¦ÁøÇà -> °áÁ¦¿Ï·á (ÁÂ¼®¿¹¾àÅ×ÀÌºí¿¡ ÇØ´ç ³»¿ë ÀúÀåÇØ¾ß ÇÔ!)
+				// °í°´ ½ÃÀÛÈ­¸éÀ¸·Î µ¹¾Æ°¡±â
+
+				// ½ÂÂ÷±Ç Çü½ÄÀ¸·Î Ãâ¹ß¿ª, µµÂø¿ª, ÁÂ¼®, °¡°İ µîÀÇ Á¤º¸ Ãâ·Â
+				int price = driveInfoDtos.stream().filter(d -> d.getDriveNum().equals(driveNum)).findAny().get()
+						.getPrice();
+				// Ãâ¹ß½Ã°£, µµÂø½Ã°£ Ãß°¡
+				String payInfo = department + " ==> " + arrive + ", ÁÂ¼®: " + selectSeatNum.toString()
+						+ ", ÃÑ°áÁ¦±İ¾×: " + (price * selectSeatNum.size());
+				while (true) {
+					System.out.println(payInfo);
+					// °áÁ¦ÇÏ±â ´©¸£°í
+					System.out.println("1.°áÁ¦ÇÏ±â 2.°áÁ¦Ãë¼Ò");
+					System.out.print("ÀÔ·Â: ");
+					String input = sc.nextLine();
+					// °áÁ¦
+					if (input.equals("1")) {
+						// ¸¶ÀÏ¸®Áö ·ÎÁ÷ Ãß°¡
+
+						// ÁÂ¼®Å×ÀÌºíµµ Ãß°¡
+						List<SeatDTO> seatDtos = new ArrayList<>();
+						for (String seatNum : selectSeatNum) {
+							SeatDTO dto = new SeatDTO();
+							dto.setSeatCode(seatNum);
+							dto.setDriveNumber(driveNum);
+							dto.setReservationDate(date);
+							seatDtos.add(dto);
+						}
+						TablePrinter<SeatDTO> seatTable = new TablePrinter<>(seatDtos);
+						seatTable.printTable();
+						if (seatDao.insertAll(seatDtos) < 0) {
+							System.out.println("ÁÂ¼®¿¹¾à»ı¼º ½ÇÆĞÇÏ¿´½À´Ï´Ù °Ë»öÈ­¸éÀ¸·Î ÀÌµ¿ÇÕ´Ï´Ù.");
+							break;
+						}
+
+						// ¿¹¾àÅ×ÀÌºí¿¡ ÀúÀå
+						List<ReservationDTO> reservationDtos = new ArrayList<>();
+						for (String seatNum : selectSeatNum) {
+							ReservationDTO reservationDto = new ReservationDTO();
+							String rNum = date + "/" + MemberController.member.getM_id()
+									+ UUID.randomUUID().toString().substring(0, 4);
+							reservationDto.setNum(rNum);
+							reservationDto.setMemberId(MemberController.member.getM_id());
+							reservationDto.setSeatCode(seatNum);
+							reservationDto.setDriveNum(driveNum);
+							reservationDto.setReservationDate(date);
+							reservationDtos.add(reservationDto);
+						}
+						if (reservationDao.insertAll(reservationDtos) < 0) {
+							System.out.println("¿¹¸Å»ı¼º ½ÇÆĞÇÏ¿´½À´Ï´Ù °Ë»öÈ­¸éÀ¸·Î ÀÌµ¿ÇÕ´Ï´Ù.");
+							break;
+						}
+
+						System.out.println("°áÁ¦°¡ Á¤»óÀûÀ¸·Î ¿Ï·áµÇ¾ú½À´Ï´Ù. ¸ŞÀÎÈ­¸éÀ¸·Î ÀÌµ¿ÇÕ´Ï´Ù.");
+						isPayment = true;
+					} else if (input.equals("2")) {
+						System.out.println("°áÁ¦°¡ Ãë¼ÒµÇ¾ú½À´Ï´Ù. °Ë»öÈ­¸éÀ¸·Î ÀÌµ¿ÇÕ´Ï´Ù.");
+					} else {
+						System.out.println("Àß¸ø ÀÔ·ÂÇÏ¼Ì½À´Ï´Ù.");
+						continue;
+					}
+					break;
+				}
 			}
 		}
-		System.out.print("ë„ì°©ì—­ì„ ì„ íƒí•´ ì£¼ì„¸ìš” 'u' : ");
-		int departNum = sc.nextInt();
-		
-		switch (departNum) {
-		case 1:
-			System.out.println("ì„œìš¸ì—­ ë„ì°©");
-			arriveTerminal = "ì„œìš¸ì—­";
-			reserveDto.setArriveTerminal(arriveTerminal);
-			break;
-		case 2:
-			System.out.println("ëŒ€ì „ì—­ ë„ì°©");
-			arriveTerminal = "ëŒ€ì „ì—­";
-			reserveDto.setArriveTerminal(arriveTerminal);
-			break;
-		case 3:
-			System.out.println("ëŒ€êµ¬ì—­ ë„ì°©");
-			arriveTerminal = "ëŒ€êµ¬ì—­";
-			reserveDto.setArriveTerminal(arriveTerminal);
-			break;
-		case 4:
-			System.out.println("ë¶€ì‚°ì—­ ë„ì°©");
-			arriveTerminal = "ë¶€ì‚°ì—­";
-			reserveDto.setArriveTerminal(arriveTerminal);
-			break;
-		}
-		System.out.println("-------------------------------------------------------------");
-		reservateTime();
 	}
-	
-	public static void reservateTime() {
-		
-	}
-	
-	public static void reservate() {
-			
-		System.out.print("ì¶œë°œì§€ : ");
-		String depart = sc.nextLine();
 
-		System.out.print("ë„ì°©ì§€ : ");
-		String arrive = sc.nextLine();
-
-		System.out.print("ë‚ ì§œì„ íƒ(YYYY-MM-dd) : ");
-		String date = sc.nextLine();
-
-		// íƒˆìˆ˜ìˆëŠ” ë²„ìŠ¤ì •ë³´ ì „ë¶€ ì¶œë ¥ë˜ëŠ” ë·°
-		view.printBusInfo();
-
-		System.out.println("ì¢Œì„ì„ íƒì„ í•´ì£¼ì„¸ìš”");
-		System.out.println("  12");
-		System.out.println("1 â–¡â– ");
-		System.out.println("2 â–¡â–¡");
-		System.out.println("3 â– â–¡");
-		System.out.println("4 â–¡â–¡");
-		System.out.println("5 â–¡â–¡");
-
-		System.out.print("í–‰ì„ ì„ íƒí•´ì£¼ì„¸ìš” : ");
-		String row = sc.nextLine();
-		System.out.print("ì—´ì„ ì„ íƒí•´ì£¼ì„¸ìš” : ");
-		String column = sc.nextLine();
-		System.out.print("ë‚˜ì´ë¥¼ ì…ë ¥í•´ì£¼ì„¸ìš” : ");
-		int age = Integer.parseInt(sc.nextLine());
-
-		// ì„ íƒí•œ ì¢Œì„ì •ë³´ ë³´ì—¬ì£¼ëŠ” ë·°
-		view.printrecheck();
-
-		System.out.println("ê²°ì œë¥¼ í•˜ì‹œê² ìŠµë‹ˆê¹Œ ? (Y/N)");
-		
-		String answer = sc.nextLine(); 
-		
-		if (answer.equals("Y") || answer.equals("y")) {
-			System.out.println("ê²°ì œê°€ ì™„ë£Œë˜ì—ˆìŠµë‹ˆë‹¤.");
-			// ì˜ˆì•½ ì™„ë£Œì‹œ ì˜ˆë§¤ë²ˆí˜¸ ìƒì„±í•„ìš” , ì¢Œì„ì— ì˜ˆì•½í‘œì‹œ
-
-			System.out.println();
-			System.out.println("ì˜ˆë§¤ ì™„ë£Œ!");
-			System.out.println("ë£¨í”¼ê¸°ì‚¬ê°€ ì•ˆì „í•˜ê²Œ ëª¨ì‹œê² ìŠµ");
-
-		} else {
-			System.out.println("ê²°ì œê°€ ì·¨ì†Œ ë˜ì—ˆìŠµë‹ˆë‹¤.");
-			// ê²°ì œ ì•ˆí–ˆì„ ê²½ìš°ëŠ” ì˜ˆë§¤ë²ˆí˜¸ ìƒì„±í•˜ì§€ ì•ŠìŒ
-
-	
-			System.exit(1);
+	public void checkMyReservation(String id) {
+		while (true) {
+			List<MemberReservationDTO> reservationDtos = reservationDao.findByMemberId(id);
+			System.out.println(reservationDtos);
+//			for (ReservationDTO dto : reservationDtos) {
+//				System.out.println(dto);
+//			}
+			TablePrinter<MemberReservationDTO> tablePrinter = new TablePrinter<>(reservationDtos);
+			tablePrinter.printTable();
+			System.out.println("1.¿¹¸Å Ãë¼ÒÇÏ±â, 2.¸ŞÀÎ¸Ş´º·Î µ¹¾Æ°¡±â");
+			String select = sc.nextLine();
+			// Ãë¼ÒÇÏ±â
+			if (select.equals("1")) {
+				// ¿¹¸ÅÇ¥ Ãë¼ÒÇÏ±â
+				System.out.print("¿¹¸Å¹øÈ£ ÀÔ·Â: ");
+				String number = sc.nextLine();
+				if (reservationDao.deleteById(number) > 0) {
+					System.out.println("¿¹¸ÅÃë¼ÒµÇ¾ú½À´Ï´Ù.");
+				}
+			} else if (select.equals("2")) { // ¸ŞÀÎ¸Ş´º·Î µ¹¾Æ°¡±â
+				System.out.println("¸ŞÀÎ¸Ş´º·Î µ¹¾Æ°©´Ï´Ù.");
+				break;
+			} else {
+				System.out.println("Àß¸øµÈ ÀÔ·ÂÀÔ´Ï´Ù.");
+			}
 		}
 	}
 
-	// ì˜ˆì•½ì·¨ì†Œ ë©”ì†Œë“œ
-	public static void recancle() {
-		view.printrecheck();
-
-		System.out.println("ì˜ˆì•½ë²ˆí˜¸" + dto.getReservationNum() + " ì˜ˆì•½ì •ë³´ë¥¼ ì·¨ì†Œí•˜ì‹œê² ìŠµë‹ˆê¹Œ?(Y/N)");
-//		System.out.println("ì˜ˆì•½ë²ˆí˜¸" + redto.getReservationNum() + " ì˜ˆì•½ì •ë³´ë¥¼ ì·¨ì†Œí•˜ì‹œê² ìŠµë‹ˆê¹Œ?(Y/N)");
-		
-		String cancle = s.nextLine();
-		
-		if (cancle.equals("Y") || cancle.equals("y")) {
-			System.out.println("ì˜ˆì•½ì´ ì·¨ì†Œë˜ì—ˆìŠµë‹ˆë‹¤.");
-
-			// ì˜ˆì•½ë‚´ì—­ ë°ì´í„°ì—ì„œ ì‚­ì œí•˜ê¸°
-			dao.deleteById(dto.getReservationNum());
-//			redao.deleteById(redto.getReservationNum());
-
-		} else {
-			System.out.println("ì¢… ë£Œ");			
-			System.exit(1);
+	public void checkAllReservation() {
+		while (true) {
+			List<ReservationDTO> reservationDtos = reservationDao.findAll();
+//			for (ReservationDTO dto : reservationDtos) {
+//				System.out.println(dto);
+//			}
+			TablePrinter<ReservationDTO> tablePrinter = new TablePrinter<>(reservationDtos);
+			tablePrinter.printTable();
+			System.out.println("1.¿¹¸Å »èÁ¦ÇÏ±â, 2.¸ŞÀÎ¸Ş´º·Î µ¹¾Æ°¡±â");
+			String select = sc.nextLine();
+			// Ãë¼ÒÇÏ±â
+			if (select.equals("1")) {
+				// ¿¹¸ÅÇ¥ »èÁ¦
+				System.out.print("¿¹¸Å¹øÈ£ ÀÔ·Â: ");
+				String number = sc.nextLine();
+				if (reservationDao.deleteById(number) > 0) {
+					System.out.println("¿¹¸ÅÃë¼ÒµÇ¾ú½À´Ï´Ù.");
+				}
+			} else if (select.equals("2")) { // ¸ŞÀÎ¸Ş´º·Î µ¹¾Æ°¡±â
+				System.out.println("¸ŞÀÎ¸Ş´º·Î µ¹¾Æ°©´Ï´Ù.");
+				break;
+			} else {
+				System.out.println("Àß¸øµÈ ÀÔ·ÂÀÔ´Ï´Ù.");
+			}
 		}
 	}
 }

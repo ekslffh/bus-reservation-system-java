@@ -1,7 +1,6 @@
 package dto;
 
 public class BusDTO {
-	
 	private String buscode;
 	private String companycode;
 	private int capacity;
@@ -36,7 +35,4 @@ public class BusDTO {
 		return "버스번호: " + buscode + ", 회사코드: " + companycode + ", 수용인원" + capacity + ", 등급: "
 				+ busclass;
 	}
-	
-	
-
 }

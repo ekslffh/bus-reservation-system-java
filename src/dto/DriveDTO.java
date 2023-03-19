@@ -1,7 +1,6 @@
 package dto;
 
 public class DriveDTO {
-	
 	private String driveNumber;
 	private String departmentTime;
 	private String arriveTime;
@@ -42,6 +41,5 @@ public class DriveDTO {
 	public String toString() {
 		return "운행번호: " + driveNumber + ", 출발시간: " + departmentTime + ", 도착시간: "
 				+ arriveTime + ", 버스번호: " + busCode + ", 노선번호: " + routeCode;
-	}
-	
+	}	
 }

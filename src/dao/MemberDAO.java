@@ -13,24 +13,16 @@ import service.MemberService;
 import util.JDBCTemplate;
 import view.MemberView;
 
-public class MemberDAO implements DaoIfs<MemberDTO>{
+public class MemberDAO implements DaoIfs<MemberDTO> {
 	private JDBCTemplate util = JDBCTemplate.getInstance();
-	
 	private boolean check = true;
 	private static MemberView memberView = new MemberView();
-	private static MemberService memberService = new MemberService();
-	
-//	M_ID
-//	M_PW
-//	M_NAME
-//	M_TELNO
-//	M_ADD
-//	M_MILEAGE
+
 	public int insert(MemberDTO dto) {
 		Connection conn = util.getConnection();
 		PreparedStatement pstmt = null;
 		int res = 0;
-		
+
 		String sql = " insert into member values(?, ?, ?, ?, ?, 0) ";
 
 		try {
@@ -43,18 +35,20 @@ public class MemberDAO implements DaoIfs<MemberDTO>{
 			pstmt.setString(5, dto.getM_add());
 
 			res = pstmt.executeUpdate();
-		} catch(SQLIntegrityConstraintViolationException e) {
-			System.out.println("ì•„ì´ë””ê°€ ì¤‘ë³µë˜ì—ˆìŠµë‹ˆë‹¤.");
+			conn.commit();
+		} catch (SQLIntegrityConstraintViolationException e) {
+			System.out.println("¾ÆÀÌµğ°¡ Áßº¹µÇ¾ú½À´Ï´Ù.");
 			memberView.printDefault();
 		} catch (SQLException e) {
 			e.printStackTrace();
+			util.rollback(conn);
 		} finally {
 			util.close(pstmt);
 			util.close(conn);
 		}
 		return res;
 	}
-	
+
 	public int deleteById(String mid) {
 		Connection conn = util.getConnection();
 		PreparedStatement pstmt = null;
@@ -72,7 +66,9 @@ public class MemberDAO implements DaoIfs<MemberDTO>{
 			}
 
 		} catch (SQLException e) {
-			System.out.println("ì˜ëª»ëœ ì•„ì´ë”” ì…ë‹ˆë‹¤.");
+			e.printStackTrace();
+			System.out.println("Àß¸øµÈ ¾ÆÀÌµğ ÀÔ´Ï´Ù.");
+			util.rollback(conn);
 		} finally {
 			util.close(pstmt);
 			util.close(conn);
@@ -87,79 +83,78 @@ public class MemberDAO implements DaoIfs<MemberDTO>{
 	}
 
 	@Override
-	public  MemberDTO findById(String id) {
+	public MemberDTO findById(String id) {
 		MemberDTO dto = new MemberDTO();
 		Connection conn = util.getConnection();
 		Statement stmt = null;
 		ResultSet rs = null;
-		String sql = "select m_pw, m_telno from member where m_id = \'" + id + "\'";
-		
+		String sql = "select * from member where m_id = \'" + id + "\'";
+
 		try {
 			stmt = conn.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);
 			rs = stmt.executeQuery(sql);
-			rs.last();      
+			rs.last();
 
-	        int rowcount = rs.getRow();
-	        rs.beforeFirst();
-			if(rowcount == 0) {
-				System.out.println("ì˜ëª»ëœ ì•„ì´ë””ì…ë‹ˆë‹¤.");
+			int rowcount = rs.getRow();
+			rs.beforeFirst();
+			if (rowcount == 0) {
+				System.out.println("Àß¸øµÈ ¾ÆÀÌµğÀÔ´Ï´Ù.");
 				setCheck(false);
 			} else {
 				setCheck(true);
 				rs.next();
 			}
-			
+			dto.setM_id(rs.getString("M_ID"));
 			dto.setM_pw(rs.getString("M_PW"));
 			dto.setM_telno(rs.getString("M_TELNO"));
 		} catch (SQLException e) {
-
+			e.printStackTrace();
 		} finally {
 			util.close(rs);
 			util.close(stmt);
 			util.close(conn);
 		}
-		
 		return dto;
 	}
-	
+
 	public void setCheck(boolean check) {
 		this.check = check;
 	}
-	
+
 	public boolean getCheck() {
 		return check;
 	}
-	
-	public  MemberDTO findByPw(String pw) {
+
+	public MemberDTO findByPw(String pw) {
 		MemberDTO dto = new MemberDTO();
 		Connection conn = util.getConnection();
 		Statement stmt = null;
 		ResultSet rs = null;
 		String sql = "select m_id, m_telno from member where m_pw = \'" + pw + "\'";
-		
+
 		try {
 			stmt = conn.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);
 			rs = stmt.executeQuery(sql);
-			rs.last();      
+			rs.last();
 
-	        int rowcount = rs.getRow();
-	        rs.beforeFirst();
-			if(rowcount == 0) {
-				System.out.println("ì˜ëª»ëœ ë¹„ë°€ë²ˆí˜¸ì…ë‹ˆë‹¤.");
-			}else {
-			rs.next();
+			int rowcount = rs.getRow();
+			rs.beforeFirst();
+			if (rowcount == 0) {
+				System.out.println("Àß¸øµÈ ºñ¹Ğ¹øÈ£ÀÔ´Ï´Ù.");
+			} else {
+				rs.next();
 			}
-			
+
 			dto.setM_id(rs.getString("M_ID"));
 			dto.setM_telno(rs.getString("M_TELNO"));
 		} catch (SQLException e) {
-			
+			e.printStackTrace();
 		} finally {
 			util.close(rs);
 			util.close(stmt);
 			util.close(conn);
 		}
-		
+
 		return dto;
 	}
 
@@ -167,20 +162,22 @@ public class MemberDAO implements DaoIfs<MemberDTO>{
 		Connection conn = util.getConnection();
 		PreparedStatement pstmt = null;
 		int res = 0;
-		
+
 		String sql = "update member set m_pw = ? ";
 		sql = sql + " where m_id = ?";
-		
+
 		try {
-			pstmt=conn.prepareStatement(sql);
-			
+			pstmt = conn.prepareStatement(sql);
+
 			pstmt.setString(1, dto.getM_pw());
 			pstmt.setString(2, dto.getM_id());
-			
-			res=pstmt.executeUpdate();
-		}catch(SQLException e) {
+
+			res = pstmt.executeUpdate();
+			conn.commit();
+		} catch (SQLException e) {
 			e.printStackTrace();
-		}finally {
+			util.rollback(conn);
+		} finally {
 			util.close(pstmt);
 			util.close(conn);
 		}

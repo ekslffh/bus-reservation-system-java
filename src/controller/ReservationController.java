@@ -4,36 +4,40 @@ import service.ReservationService;
 import view.MemberView;
 
 public class ReservationController {
-	private static MemberView mView = new MemberView();
-	private static ReservationService reservationService = new ReservationService(); 
-	
-	public static void reservationMenu() {
-		int no = 0;
+	private static MemberView memberView = new MemberView();
+	private static ReservationService reservationService = new ReservationService();
 
-		do {
-			no = mView.printReservation();
-			switch (no) {
-			case 1:
-				System.out.println();
-				System.out.println("ï¿½ï¿½ï¿½ï¿½ï¿½Ï±ï¿½ ï¿½Þ´ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï¼Ì½ï¿½Ï´ï¿½. ï¿½ï¿½ï¿½Å¸ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ö¼ï¿½ï¿½ï¿½.");
-				reservationService.reservateDepart();
+	public void memberReservation() {
+		boolean isBack = false;
+		while (true) {
+			if (isBack)
 				break;
-			case 2:
-				System.out.println();
-				System.out.println("ï¿½ï¿½ï¿½ï¿½È®ï¿½ï¿½ ï¿½Þ´ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï¼Ì½ï¿½Ï´ï¿½. ï¿½Æ·ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ô´Ï´ï¿½.");
-				mView.printrecheck();
+			String select = memberView.reservationMenu();
+			// 1.¿¹¸ÅÇÏ±â | 2.¿¹¸Å È®ÀÎ ¹× Ãë¼Ò | 3.¸ÞÀÎÆäÀÌÁö | 4.Á¾·á
+			switch (select) {
+			// ¿¹¸ÅÇÏ±â
+			case "1":
+				reservationService.reservate();
 				break;
-			case 3:
-				System.out.println();
-				System.out.println("ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Þ´ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï¼Ì½ï¿½Ï´ï¿½. ï¿½Æ·ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ò¸ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ö¼ï¿½ï¿½ï¿½.");
-				reservationService.recancle();
+			// ¿¹¸ÅÈ®ÀÎ + Ãë¼Ò
+			case "2":
+				reservationService.checkMyReservation(MemberController.member.getM_id());
 				break;
-			case 4:
-				System.out.println();
-				System.out.println("ï¿½ ï¿½ï¿½");
-				
+			// Á¾·á
+			case "3":
+				System.out.println("¸ÞÀÎÆäÀÌÁö·Î ÀÌµ¿ÇÕ´Ï´Ù.");
+				isBack = true;
+				break;
+			case "4":
+				System.out.println("Á¾·áÇÕ´Ï´Ù.");
 				System.exit(1);
+			default:
+				System.out.println("Àß¸øµÈ ÀÔ·ÂÀÔ´Ï´Ù.");
 			}
-		} while (no != 4);
+		}
+	}
+
+	public void adminReservation() {
+		reservationService.checkAllReservation();
 	}
 }

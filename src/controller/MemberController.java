@@ -1,77 +1,86 @@
 package controller;
 
 import java.util.Scanner;
-
-import dao.MemberDAO;
 import dto.MemberDTO;
 import service.MemberService;
 import view.MemberView;
 
 public class MemberController {
-	private static final String y = null;
+	public static MemberDTO member = null;
 	private static Scanner sc = new Scanner(System.in);
-	private static MemberDAO dao = new MemberDAO();
-	private static MemberService meberService = new MemberService();
+	private static MemberService memberService = new MemberService();
 	private static MemberView memberView = new MemberView();
-	private static String mId;
 
-	public static int getMenu() {
-		int select = 0;
-		select = Integer.parseInt(sc.nextLine());
-
-		return select;
+	public void manageMyPage() {
+		while (true) {
+			// 1.비밀번호변경 | 2.회원탈퇴 | 3.메인페이지 | 4.종료\n
+			String select = memberView.myPageMenu();
+			if (select.equals("1")) {
+				// 비밀번호 변경
+				memberService.update();
+			} else if (select.equals("2")) {
+				// 회원탈퇴
+				memberService.deleteById();
+			} else if (select.equals("3")) {
+				// 메인페이지
+				System.out.println("메인페이지로 이동합니다.");
+				break;
+			} else if (select.equals("4")) {
+				System.out.println("프로그램을 종료합니다.");
+				System.exit(0);
+			} else {
+				System.out.println("잘못된 입력입니다.");
+			}
+		}
 	}
-
-	public static void run() {
-//		memberView.Default();
-		memberView.printMenu();
-		int no = 0;
-
+	public void run() {
+		memberView.authMenu();
 		do {
-			no = getMenu();
-			switch (no) {
-			case 1:
+			switch (sc.nextLine()) {
+			case "1":
 				memberView.printDefault();
-				meberService.login();
+				memberService.login();
 				break;
-			case 2:
+			case "2":
 				memberView.printDefault();
-				meberService.insert();
+				memberService.insert();
 				break;
-			case 3:
-				//int selectiIDPW = Integer.parseInt(sc.nextLine());
-				memberView.printIDorPW();
-				IDorPW();
+			case "3":
+				memberView.findIdOrPw();
+				findIdOrPw();
 				break;
-			case 4:
+			case "4":
 				memberView.printDefault();
-				MemberService.update();
+				memberService.update();
 				break;
-			case 5:
+			case "5":
 				memberView.printDefault();
-				meberService.deleteById();
+				memberService.deleteById();
 				break;
-			case 6:
+			case "6":
 				System.out.println("종료");
 				sc.close();
 				break;
 			default:
 				System.out.println("잘못 입력하셨습니다.");
-				memberView.printMenu();
+				memberView.authMenu();
 			}
 
-		} while (no != 6);
+		} while (true);
 	}
-	
-	private static void IDorPW() {
-		int selectIDPW = Integer.parseInt(sc.nextLine());
-		
-		if(selectIDPW == 1) {
+
+	public void findIdOrPw() {
+		String selectIDPW = memberView.findIdOrPw();
+		if (selectIDPW.equals("1")) {
 			System.out.println("아이디 찾기");
-			meberService.findByPw();
-		}else if(selectIDPW == 2) {
+			memberService.findByPw();
+		} else if (selectIDPW.equals("2")) {
 			System.out.println("비밀번호 찾기");
-			meberService.findById();
+			memberService.findById();
+		} else if (selectIDPW.equals("3")) {
+			System.out.println("이전화면으로 돌아갑니다.");
+		} else {
+			System.out.println("잘못된 입력입니다.");
 		}
 	}
 }

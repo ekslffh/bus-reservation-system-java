@@ -1,12 +1,10 @@
 package dto;
 
 public class WorkDTO {
-	
 	private String workCode;
 	private String workDate;
 	private String id;
 	private String busCode;
-	
 	
 	public String getWorkCode() {
 		return workCode;
@@ -32,15 +30,8 @@ public class WorkDTO {
 	public void setBusCode(String busCode) {
 		this.busCode = busCode;
 	}
-	
-	
 	@Override
 	public String toString() {
 		return "WorkDTO [workCode=" + workCode + ", workDate=" + workDate + ", id=" + id + ", busCode=" + busCode + "]";
 	}
-	
-	
-	
-	
-	
 }

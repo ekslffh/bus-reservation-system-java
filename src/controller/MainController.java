@@ -1,52 +1,109 @@
 package controller;
 
-import java.util.List;
-import dao.DriveDAO;
-import dto.DriveDTO;
+import service.MemberService;
+import util.Screen;
 import view.AdminView;
 import view.CommonView;
 import view.MemberView;
 
+//1.¿¹¸ÅÇÏ±â | 2.¿¹¸Å È®ÀÎ ¹× Ãë¼Ò | 3.¸¶ÀÌÆäÀÌÁö | 4.Á¾·á\n
+//// PW º¯°æ
+//case "4":
+//	memberView.printDefault();
+//	memberService.update();
+//	break;
+//// È¸¿øÅ»Åğ
+//case "5":
+//	memberView.printDefault();
+//	memberService.deleteById();
+//	break;
 public class MainController {
 
 	public static void main(String[] args) {
-
 		// view
 		CommonView commonView = new CommonView();
 		AdminView adminView = new AdminView();
 		MemberView memberView = new MemberView();
 		// controller
 		DriveController driveController = new DriveController();
-		
+		MemberController memberController = new MemberController();
+		ReservationController reservationController = new ReservationController();
+		// service
+		MemberService memberService = new MemberService();
+
+		// [1] »ç¿ëÀÚ | [2] °ü¸®ÀÚ | [3] Á¾·á
 		String select = commonView.startMenu();
+		// »ç¿ëÀÚ ÆäÀÌÁö
 		if (select.equals("1")) {
-			// ì‚¬ìš©ì í˜ì´ì§€
-			memberView.printMenu();
+			while (true) {
+				System.out.print("\033[H\033[2J");
+				// 1.·Î±×ÀÎ | 2.È¸¿ø°¡ÀÔ | 3.ID/PW Ã£±â | 4.Á¾·á
+				select = memberView.authMenu();
+				switch (select) {
+				// ·Î±×ÀÎ
+				case "1":
+					memberView.printDefault();
+					// ·Î±×ÀÎ ¼º°ø½Ã ¿¹¸Å°ü·Ã ÆäÀÌÁö·Î ÀÌµ¿
+					if (memberService.login()) {
+						while(true) {
+							// 1.¿¹¸Å | ¸¶ÀÌÆäÀÌÁö | 3.·Î±×¾Æ¿ô | 4.Á¾·á
+							select = memberView.mainMenu();
+							if (select.equals("1")) { // ¿¹¸Å
+								reservationController.memberReservation();
+							} else if (select.equals("2")) { // ¸¶ÀÌÆäÀÌÁö
+								memberController.manageMyPage();
+							} else if (select.equals("3")) { // ·Î±×¾Æ¿ô
+								System.out.println("·Î±×¾Æ¿ô ÇÕ´Ï´Ù.");
+								break;
+							} else if (select.equals("4")){ // Á¾·á
+								System.out.println("ÇÁ·Î±×·¥À» Á¾·áÇÕ´Ï´Ù.");
+								System.exit(0);
+							} else { 
+								System.out.println("Àß¸øµÈ ÀÔ·ÂÀÔ´Ï´Ù.");
+							}
+						}
+					}
+					break;
+				// È¸¿ø°¡ÀÔ
+				case "2":
+					memberService.insert();
+					break;
+				// ID/PW Ã£±â
+				case "3":
+					memberController.findIdOrPw();
+					break;
+				// Á¾·á
+				case "4":
+					System.out.println("ÇÁ·Î±×·¥À» Á¾·áÇÕ´Ï´Ù.");
+					System.exit(0);
+				default:
+					System.out.println("Àß¸øµÈ ÀÔ·ÂÀÔ´Ï´Ù.");
+				}
+			}
+			// °ü¸®ÀÚ ÆäÀÌÁö
 		} else if (select.equals("2")) {
-			// ê´€ë¦¬ì í˜ì´ì§€
 			while (true) {
 				select = adminView.mainMenu();
 				if (select.equals("1")) {
-					// ìš´í–‰ê´€ë¦¬
+					// ¿îÇà°ü¸®
 					driveController.manageDrive();
 				} else if (select.equals("2")) {
-					// ì˜ˆì•½ê´€ë¦¬
-					adminView.reservationMenu();
-					
+					// ¿¹¾à°ü¸®
+					reservationController.adminReservation();
 				} else if (select.equals("3")) {
-					// ì¢…ë£Œ
-					System.out.println("í”„ë¡œê·¸ë¨ì„ ì¢…ë£Œí•©ë‹ˆë‹¤.");
+					// Á¾·á
+					System.out.println("ÇÁ·Î±×·¥À» Á¾·áÇÕ´Ï´Ù.");
 					System.exit(0);
 				} else {
-					System.out.println("ì˜ëª»ëœ ì…ë ¥ì…ë‹ˆë‹¤.");
+					System.out.println("Àß¸øµÈ ÀÔ·ÂÀÔ´Ï´Ù.");
 				}
 			}
 		} else if (select.equals("3")) {
-			// ì¢…ë£Œ
-			System.out.println("í”„ë¡œê·¸ë¨ì„ ì¢…ë£Œí•©ë‹ˆë‹¤.");
+			// Á¾·á
+			System.out.println("ÇÁ·Î±×·¥À» Á¾·áÇÕ´Ï´Ù.");
 			System.exit(0);
 		} else {
-			System.out.println("ì˜ëª»ëœ ì…ë ¥ì…ë‹ˆë‹¤.");
+			System.out.println("Àß¸øµÈ ÀÔ·ÂÀÔ´Ï´Ù.");
 		}
 	}
 }
