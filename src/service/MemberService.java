@@ -185,7 +185,6 @@ public class MemberService {
 
 		if (dao.update(dto) > 0) {
 			System.out.println("비밀번호가 변경되었습니다.");
-			memberView.authMenu();
 		} else {
 			System.out.println("비밀번호 변경 실패하였습니다.");
 		}
@@ -215,14 +214,11 @@ public class MemberService {
 		if (yn == 'y') {
 			if (dao.deleteById(mid) > 0) {
 				System.out.println("탈퇴성공");
-				memberView.authMenu();
 			} else {
 				System.out.println("탈퇴실패");
-				memberView.authMenu();
 			}
 		} else {
 			System.out.println("탈퇴를 취소하였습니다.");
-			memberView.authMenu();
 		}
 	}
 }

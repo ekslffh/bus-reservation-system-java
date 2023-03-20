@@ -32,18 +32,22 @@ public class DriveService {
 
 	public void insert() {
 		System.out.println("==============운행정보 추가==============");
-		System.out.println("==============노선 정보==============");
+		System.out.println("==============노선 정보=================");
 		// 노선정보 조회
 		List<RouteDTO> routeDtos = findRouteInfos();
-		for (RouteDTO dto : routeDtos) {
-			System.out.println(dto);
-		}
+//		for (RouteDTO dto : routeDtos) {
+//			System.out.println(dto);
+//		}
+		TablePrinter<RouteDTO> routeTable = new TablePrinter<RouteDTO>(routeDtos);
+		routeTable.printTable();
 		System.out.println("==============버스 정보==============");
 		// 버스정보 조회
 		List<BusDTO> busDtos = findBusInfos();
-		for (BusDTO dto : busDtos) {
-			System.out.println(dto);
-		}
+//		for (BusDTO dto : busDtos) {
+//			System.out.println(dto);
+//		}
+		TablePrinter<BusDTO> driveTable = new TablePrinter<BusDTO>(busDtos);
+		driveTable.printTable();
 		// 추가할 데이터 입력받기
 		DriveDTO driveDto = new DriveDTO();
 		System.out.print("운행번호: ");

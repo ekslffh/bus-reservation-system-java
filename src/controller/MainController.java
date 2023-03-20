@@ -1,25 +1,19 @@
 package controller;
 
+import java.util.Scanner;
+
 import service.MemberService;
 import util.Screen;
 import view.AdminView;
 import view.CommonView;
 import view.MemberView;
 
-//1.예매하기 | 2.예매 확인 및 취소 | 3.마이페이지 | 4.종료\n
-//// PW 변경
-//case "4":
-//	memberView.printDefault();
-//	memberService.update();
-//	break;
-//// 회원탈퇴
-//case "5":
-//	memberView.printDefault();
-//	memberService.deleteById();
-//	break;
 public class MainController {
 
+	
+	
 	public static void main(String[] args) {
+		Scanner sc = new Scanner(System.in);
 		// view
 		CommonView commonView = new CommonView();
 		AdminView adminView = new AdminView();
@@ -81,6 +75,12 @@ public class MainController {
 			}
 			// 관리자 페이지
 		} else if (select.equals("2")) {
+			System.out.print("관리자비밀번호: ");
+			String pw = sc.nextLine();
+			if (!pw.equals("javajavajava")) {
+				System.out.println("관리자 권한이 없습니다.");
+				System.exit(0);
+			}
 			while (true) {
 				select = adminView.mainMenu();
 				if (select.equals("1")) {
