@@ -95,7 +95,7 @@ public class SeatDAO implements DaoIfs<SeatDTO> {
 			util.close(pstmt);
 			util.close(conn);
 		}
-
+		
 		return list;
 	}
 

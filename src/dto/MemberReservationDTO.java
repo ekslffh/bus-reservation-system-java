@@ -1,11 +1,34 @@
 package dto;
 
 public class MemberReservationDTO {
+	private String reservationDate;
 	private String dateTime;
 	private String department;
 	private String arrive;
 	private String seatCode;
 	private int driveTime;
+	private String busGrade;
+	private String reservationNum;
+	
+	
+	public String getBusGrade() {
+		return busGrade;
+	}
+	public void setBusGrade(String busGrade) {
+		this.busGrade = busGrade;
+	}
+	public String getReservationNum() {
+		return reservationNum;
+	}
+	public void setReservationNum(String reservationNum) {
+		this.reservationNum = reservationNum;
+	}
+	public String getrDate() {
+		return reservationDate;
+	}
+	public void setrDate(String rDate) {
+		this.reservationDate = rDate;
+	}
 	public String getDepartment() {
 		return department;
 	}
@@ -38,7 +61,8 @@ public class MemberReservationDTO {
 	}
 	@Override
 	public String toString() {
-		return "MemberReservationDTO [department=" + department + ", arrive=" + arrive + ", dateTime=" + dateTime
-				+ ", seatCode=" + seatCode + ", driveTime=" + driveTime + "]";
+		return "MemberReservationDTO [rDate=" + reservationDate + ", dateTime=" + dateTime + ", department=" + department
+				+ ", arrive=" + arrive + ", seatCode=" + seatCode + ", driveTime=" + driveTime + "]";
 	}
+	
 }

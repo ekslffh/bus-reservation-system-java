@@ -98,12 +98,9 @@ public class MemberDAO implements DaoIfs<MemberDTO> {
 			int rowcount = rs.getRow();
 			rs.beforeFirst();
 			if (rowcount == 0) {
-				System.out.println("잘못된 아이디입니다.");
-				setCheck(false);
-			} else {
-				setCheck(true);
-				rs.next();
-			}
+				return null;
+			} 
+			rs.next();
 			dto.setM_id(rs.getString("M_ID"));
 			dto.setM_pw(rs.getString("M_PW"));
 			dto.setM_telno(rs.getString("M_TELNO"));

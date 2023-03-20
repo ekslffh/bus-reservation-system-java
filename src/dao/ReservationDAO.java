@@ -81,17 +81,14 @@ public class ReservationDAO implements DaoIfs<ReservationDTO> {
 		Connection conn = util.getConnection();
 		Statement stmt = null;
 		ResultSet rs = null;
-		String sql = "SELECT R_DEPART AS 출발역, R_ARRIVE AS 도착역, S_RDATE AS 출발일, D_DEPARTTIME AS 출발시간, S_CODE AS 좌석번호, RO.R_DRIVETIME AS 운행시간 "
-		+ " FROM RESERVATION RE, DRIVE D, ROUTE RO, MEMBER M "
-		+ " WHERE M.M_ID = \'" + id  
-		+ "\' AND RE.D_NUM = D.D_NUM "
-		+ " AND D.R_CODE = RO.R_CODE ";
-//		String sql = "SELECT * FROM RESERVATION WHERE M_ID = \'" + id + "\'";
-//		SELECT R_DEPART AS 출발역, R_ARRIVE AS 도착역, S_RDATE AS 출발일, D_DEPARTTIME AS 출발시간, S_CODE AS 좌석번호, RO.R_DRIVETIME AS 운행시간  
-//		FROM RESERVATION RE, DRIVE D, ROUTE RO, MEMBER M 
-//		WHERE M.M_ID = 'ekslffh'  
-//		AND RE.D_NUM = D.D_NUM 
-//		AND D.R_CODE = RO.R_CODE; 
+		String sql = "SELECT RE.R_NUM AS 예매번호, RE.S_CODE AS 좌석, RO.R_DEPART AS 출발지, RO.R_ARRIVE AS 목적지, D.D_DEPARTTIME AS 출발시간, B.G_CLASS AS 등급, RO.R_DRIVETIME AS 운행시간, S.S_RDATE AS 운행날짜\r\n"
+				+ "		FROM RESERVATION RE, ROUTE RO, DRIVE D, BUS B, SEAT S\r\n"
+				+ "		WHERE M_ID = \'" + id
+				+ "\'		AND D.D_NUM = RE.D_NUM\r\n"
+				+ "		AND D.R_CODE = RO.R_CODE\r\n"
+				+ "		AND B.B_CODE = D.B_CODE "
+				+ "		AND S.S_CODE = RE.S_CODE";
+//		System.out.println(sql);
 		try {
 			stmt = conn.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);
 			rs = stmt.executeQuery(sql);
@@ -103,13 +100,28 @@ public class ReservationDAO implements DaoIfs<ReservationDTO> {
 			if (rowCount == 0) {
 				return null;
 			} else {
+//				SELECT RE.R_NUM AS 예매번호, RE.S_CODE AS 좌석, RO.R_DEPART AS "출발지", RO.R_ARRIVE AS "목적지", D.D_DEPARTTIME AS 출발시간, B.G_CLASS AS 등급, RO.R_DRIVETIME AS 운행시간
+//				FROM RESERVATION RE, ROUTE RO, DRIVE D, BUS B
+//				WHERE M_ID = 'ekslffh'
+//				AND D.D_NUM = RE.D_NUM
+//				AND D.R_CODE = RO.R_CODE
+//				AND B.B_CODE = D.B_CODE;
+//				SELECT RE.R_NUM AS 예매번호, RE.S_CODE AS 좌석, RO.R_DEPART AS 출발지, RO.R_ARRIVE AS 목적지, D.D_DEPARTTIME AS 출발시간, B.G_CLASS AS 등급\r\n"
+//						+ "		FROM RESERVATION RE, ROUTE RO, DRIVE D, BUS B\r\n"
+//						+ "		WHERE M_ID = \'" + id
+//						+ "\'		AND D.D_NUM = RE.D_NUM\r\n"
+//						+ "		AND D.R_CODE = RO.R_CODE\r\n"
+//						+ "		AND B.B_CODE = D.B_CODE";
 				while (rs.next()) {
 					MemberReservationDTO dto = new MemberReservationDTO();
-					dto.setDateTime(rs.getString("출발일").substring(0, 12) + rs.getString("출발시간"));
-					dto.setDepartment(rs.getString("출발역"));
-					dto.setArrive(rs.getString("도착역"));
-					dto.setSeatCode(rs.getString("좌석번호"));
+					dto.setrDate(rs.getString("운행날짜"));
+					dto.setDateTime(rs.getString("출발시간"));
+					dto.setDepartment(rs.getString("출발지"));
+					dto.setArrive(rs.getString("목적지"));
+					dto.setSeatCode(rs.getString("좌석"));
 					dto.setDriveTime(rs.getInt("운행시간"));
+					dto.setBusGrade(rs.getString("등급"));
+					dto.setReservationNum(rs.getString("예매번호"));
 //					ReservationDTO dto = new ReservationDTO();
 //					dto.setNum(rs.getString(rs.getString("R_NUM")));
 //					dto.setMemberId(rs.getString("M_ID"));

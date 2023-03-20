@@ -16,10 +16,12 @@ import dto.SeatDTO;
 import dto.TerminalDTO;
 import util.TablePrinter;
 import view.MemberView;
+import view.SeatView;
 
 public class ReservationService {
 	// view
-	private static MemberView view = new MemberView();
+	private static MemberView memberView = new MemberView();
+	private static SeatView seatView = new SeatView();
 	// dto
 	private static ReservationDTO reservationDto = new ReservationDTO();
 	// dao
@@ -47,21 +49,52 @@ public class ReservationService {
 			if (isPayment)
 				break;
 			// 터미널 정보 보여주기
-			int num = 1;
+			
 			List<TerminalDTO> terminalDtos = terminalDAO.findAll();
-			for (TerminalDTO dto : terminalDtos) {
-				System.out.println(num + ") " + dto.getName());
-				num++;
+			String department = null;
+			String arrive = null;
+			String date = null;
+			while (true) {
+				int num = 1;
+				for (TerminalDTO dto : terminalDtos) {
+					System.out.println(num + ") " + dto.getName());
+					num++;
+				}
+//				TablePrinter<TerminalDTO> terminalTable = new TablePrinter<>(terminalDtos);
+//				terminalTable.printTable();
+				// 출발지, 목적지, 가는날 선택 + 몇시이후
+				System.out.print("출발역: ");
+				department = sc.nextLine();
+				boolean existsTermainal = false;
+				for (TerminalDTO dto : terminalDtos) {
+					if (dto.getName().equals(department)) {
+						existsTermainal = true;
+						break;
+					}
+				}
+				// 해당 값이 존재하지 않는 경우
+				if (!existsTermainal) {
+					System.out.println("해당 역이 존재하지 않습니다.");
+					continue;
+				}
+				System.out.print("도착역: ");
+				arrive = sc.nextLine();
+				existsTermainal = false;
+				for (TerminalDTO dto : terminalDtos) {
+					if (dto.getName().equals(arrive)) {
+						existsTermainal = true;
+						break;
+					}
+				}
+				// 해당 값이 존재하지 않는 경우
+				if (!existsTermainal) {
+					System.out.println("해당 역이 존재하지 않습니다.");
+					continue;
+				}
+				System.out.print("가는날(YYYY-MM-dd): ");
+				date = sc.nextLine();
+				break;
 			}
-//			TablePrinter<TerminalDTO> terminalTable = new TablePrinter<>(terminalDtos);
-//			terminalTable.printTable();
-			// 출발지, 목적지, 가는날 선택 + 몇시이후
-			System.out.print("출발역: ");
-			String department = sc.nextLine();
-			System.out.print("도착역: ");
-			String arrive = sc.nextLine();
-			System.out.print("가는날(YYYY-MM-dd): ");
-			String date = sc.nextLine();
 
 			// 운행표 조회
 			List<DriveInfoDTO> driveInfoDtos = driveDao.getDriveInfos(department, arrive, date);
@@ -72,25 +105,32 @@ public class ReservationService {
 			driveInfos.printTable();
 			System.out.print("운행번호: ");
 			String driveNum = sc.nextLine();
+	        String grade = driveInfoDtos.stream().filter(d -> d.getDriveNum().equals(driveNum)).findAny().get().getBusGrade();	         System.out.println(grade + "버스");
 
 			// 좌석선택
 			// 운행번호와 날짜를 가지고 좌석예약테이블에서 좌석정보를 가져와야 한다.
 			// 좌석정보를 가지고 예약이 되어있는 좌석과 되어있지 않은 좌석을 구분해서 표시해야 한다.
 			List<String> seatInfos = seatDao.findAllByDriveAndDate(date, driveNum);
-			for (String seatNum : seatInfos) {
-				System.out.println(seatNum);
-			}
+			//seatInfos.add("0");
 			// 이쪽에 가져온 좌석정보로 빈좌석과 아닌 좌석을 구분해서 출력해야함
 			List<String> selectSeatNum = new ArrayList<>();
 			boolean completeSelct = false;
 			while (true) {
+			    if(grade.equals("일반")) {
+		            seatView.printCommon(seatInfos);
+		            }else {
+		               seatView.printPremium(seatInfos);
+		            }
+
 				System.out.print("예약좌석: ");
 				for (String seatNum : selectSeatNum) {
 					System.out.print(seatNum + " ");
 				}
 				System.out.println();
 				System.out.print("좌석번호: ");
-				selectSeatNum.add(sc.nextLine());
+				String data = sc.nextLine();
+				selectSeatNum.add(data);
+				seatInfos.add(data);
 				System.out.print("1.추가선택, 2.선택완료, 3.좌석취소 4.예약취소: ");
 				String input = sc.nextLine();
 				if (input.equals("1")) { // 좌석추가선택
@@ -154,7 +194,7 @@ public class ReservationService {
 						for (String seatNum : selectSeatNum) {
 							ReservationDTO reservationDto = new ReservationDTO();
 							String rNum = date + "/" + MemberController.member.getM_id()
-									+ UUID.randomUUID().toString().substring(0, 4);
+									+ driveNum + seatNum;
 							reservationDto.setNum(rNum);
 							reservationDto.setMemberId(MemberController.member.getM_id());
 							reservationDto.setSeatCode(seatNum);
@@ -182,12 +222,13 @@ public class ReservationService {
 	}
 
 	public void checkMyReservation(String id) {
+//		System.out.println("id: " + id);
 		while (true) {
 			List<MemberReservationDTO> reservationDtos = reservationDao.findByMemberId(id);
-			System.out.println(reservationDtos);
-//			for (ReservationDTO dto : reservationDtos) {
-//				System.out.println(dto);
-//			}
+			if (reservationDtos == null) {
+				System.out.println("예매내역이 없습니다.");
+				return;
+			}
 			TablePrinter<MemberReservationDTO> tablePrinter = new TablePrinter<>(reservationDtos);
 			tablePrinter.printTable();
 			System.out.println("1.예매 취소하기, 2.메인메뉴로 돌아가기");

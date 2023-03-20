@@ -23,46 +23,60 @@ public class MemberService {
 		String mpw = null;
 
 		System.out.println("로그인을 시작합니다.");
-		System.out.print("아이디: ");
-		mid = sc.nextLine();
-		MemberDTO dto = dao.findById(mid);
 		while (true) {
-			System.out.print("비밀번호: ");
-			mpw = sc.nextLine();
-			if (mpw.equals(dto.getM_pw())) {
-				System.out.println("로그인 되었습니다.");
-				// 현재 로그인 고객저장
-				MemberController.member = dto;
-				return true;
-			} else {
-				System.out.println("비밀번호가 일치하지 않습니다.");
-				return false;
+			System.out.print("아이디: ");
+			mid = sc.nextLine();
+			MemberDTO dto = dao.findById(mid);
+			if (dto == null) {
+				System.out.println("해당 계정이 존재하지 않습니다");
+				continue;
+			}
+			while (true) {
+				System.out.print("비밀번호: ");
+				mpw = sc.nextLine();
+				if (mpw.equals(dto.getM_pw())) {
+					System.out.println("로그인 되었습니다.");
+					// 현재 로그인 고객저장
+					MemberController.member = dto;
+					return true;
+				} else {
+					System.out.println("비밀번호가 일치하지 않습니다.");
+					return false;
+				}
 			}
 		}
 	}
 
 	public void insert() {
 		System.out.println("회원가입을 시작합니다.");
-		System.out.print("아이디: ");
-		String mId = sc.nextLine();
-		System.out.print("비밀번호: ");
-		String mPw = sc.nextLine();
-		System.out.print("이름: ");
-		String mName = sc.nextLine();
-		System.out.print("전화번호:");
-		String mTelno = sc.nextLine();
-		System.out.print("주소: ");
-		String mAdd = sc.nextLine();
+		while (true) {
+			System.out.print("아이디: ");
+			String mId = sc.nextLine();
+			// 아이디 중복확인
+			MemberDTO idCheckDto = dao.findById(mId);
+			if (idCheckDto != null) {
+				System.out.println("아이디가 중복되었습니다.");
+				continue;
+			}
+			System.out.print("비밀번호: ");
+			String mPw = sc.nextLine();
+			System.out.print("이름: ");
+			String mName = sc.nextLine();
+			System.out.print("전화번호:");
+			String mTelno = sc.nextLine();
+			System.out.print("주소: ");
+			String mAdd = sc.nextLine();
 
-		MemberDTO dto = new MemberDTO(mId, mPw, mName, mTelno, mAdd);
+			MemberDTO dto = new MemberDTO(mId, mPw, mName, mTelno, mAdd);
 
-		if (dao.insert(dto) > 0) {
-			System.out.println("회원가입에 성공하였습니다.");
-			memberController.run();
-		} else {
-			System.out.println("회원가입에 실패하였습니다.");
+			if (dao.insert(dto) > 0) {
+				System.out.println("회원가입에 성공하였습니다.");
+				System.out.println(dto);
+			} else {
+				System.out.println("회원가입에 실패하였습니다.");
+			}
+			break;
 		}
-		System.out.println(dto);
 	}
 
 	// 아이디 찾기

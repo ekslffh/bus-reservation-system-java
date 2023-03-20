@@ -67,7 +67,7 @@ public class MemberDTO {
 
 	@Override
 	public String toString() {
-		return "MemberDTO [m_id=" + m_id + ", m_pw=" + m_pw + ", m_name=" + m_name + ", m_telno=" + m_telno + ", m_add="
+		return "회원등록정보 [아이디: " + m_id + ", 이름: " + m_name + ", 전화번호: " + m_telno + ", 주소: "
 				+ m_add + "]";
 	}
 }

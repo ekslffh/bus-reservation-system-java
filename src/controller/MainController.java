@@ -36,7 +36,6 @@ public class MainController {
 		// 사용자 페이지
 		if (select.equals("1")) {
 			while (true) {
-				System.out.print("\033[H\033[2J");
 				// 1.로그인 | 2.회원가입 | 3.ID/PW 찾기 | 4.종료
 				select = memberView.authMenu();
 				switch (select) {
