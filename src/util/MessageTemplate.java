@@ -28,7 +28,8 @@ public class MessageTemplate {
 	       message.setText(content);
 	       
 	       SingleMessageSentResponse response = this.messageService.sendOne(new SingleMessageSendingRequest(message));
-	       System.out.println(response);
+//	       System.out.println(response);
+	       System.out.println("메시지 전송완료");
 
 	       return response;
 	   }

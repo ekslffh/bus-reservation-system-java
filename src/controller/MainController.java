@@ -8,9 +8,7 @@ import view.AdminView;
 import view.CommonView;
 import view.MemberView;
 
-public class MainController {
-
-   
+public class MainController {   
    
    public static void main(String[] args) {
       Scanner sc = new Scanner(System.in);
@@ -106,3 +104,4 @@ public class MainController {
       }
    }
 }
+

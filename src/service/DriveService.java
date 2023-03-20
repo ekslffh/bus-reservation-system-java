@@ -74,7 +74,7 @@ public class DriveService {
 		for (BusDTO dto : busDtos) {
 			System.out.println(dto);
 		}
-		// 추가할 데이터 입력받기
+
 		DriveDTO driveDto = new DriveDTO();
 		System.out.println();
 
