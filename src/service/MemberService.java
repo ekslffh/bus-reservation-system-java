@@ -18,68 +18,92 @@ public class MemberService {
 	private ReservationController reservationController = new ReservationController();
 	private String mtelno = null;
 
-	public boolean login() {
-		String mid = null;
-		String mpw = null;
+	   // íŒŒíŠ¸ë³„ ì‹œìž‘ì„ 
+	   public static void bar() {
+	      System.out.print("â–ƒâ–ƒâ–ƒâ–ƒâ–ƒâ–ƒâ–ƒâ–ƒâ–ƒâ–ƒâ–ƒâ–ƒâ–ƒâ–ƒâ–ƒâ–ƒâ–ƒâ–ƒâ–ƒ");
+	   }
 
-		System.out.println("·Î±×ÀÎÀ» ½ÃÀÛÇÕ´Ï´Ù.");
-		while (true) {
-			System.out.print("¾ÆÀÌµð: ");
-			mid = sc.nextLine();
-			MemberDTO dto = dao.findById(mid);
-			if (dto == null) {
-				System.out.println("ÇØ´ç °èÁ¤ÀÌ Á¸ÀçÇÏÁö ¾Ê½À´Ï´Ù");
-				continue;
-			}
-			while (true) {
-				System.out.print("ºñ¹Ð¹øÈ£: ");
-				mpw = sc.nextLine();
-				if (mpw.equals(dto.getM_pw())) {
-					System.out.println("·Î±×ÀÎ µÇ¾ú½À´Ï´Ù.");
-					// ÇöÀç ·Î±×ÀÎ °í°´ÀúÀå
-					MemberController.member = dto;
-					return true;
-				} else {
-					System.out.println("ºñ¹Ð¹øÈ£°¡ ÀÏÄ¡ÇÏÁö ¾Ê½À´Ï´Ù.");
-					return false;
-				}
-			}
-		}
-	}
+	   // ì‹œìž‘ì„  ë°‘ì— ì—¬ë°±
+	   public static void barMiddle() {
+	      System.out.println();
+	      System.out.println();
+	      System.out.println();
+	   }
+
+	   // íŒŒíŠ¸ë³„ ëì„ 
+	   public static void barEnd() {
+	      System.out.println();
+	      System.out.println();
+	      System.out.print("â–ƒâ–ƒâ–ƒâ–ƒâ–ƒâ–ƒâ–ƒâ–ƒâ–ƒâ–ƒâ–ƒâ–ƒâ–ƒâ–ƒâ–ƒâ–ƒâ–ƒâ–ƒâ–ƒâ–ƒâ–ƒâ–ƒâ–ƒâ–ƒâ–ƒâ–ƒâ–ƒâ–ƒâ–ƒâ–ƒâ–ƒâ–ƒâ–ƒâ–ƒâ–ƒâ–ƒâ–ƒâ–ƒâ–ƒâ–ƒâ–ƒâ–ƒâ–ƒâ–ƒâ–ƒâ–ƒâ–ƒ");
+	      System.out.println();
+	      System.out.println();
+	   }
+
+	
+	   public boolean login() {
+		      String mid = null;
+		      String mpw = null;
+		      barMiddle();
+		      bar();
+		      System.out.print(" Login ");
+		      bar();
+		      barMiddle();
+
+		      System.out.println("ë¡œê·¸ì¸ì„ ì‹œìž‘í•©ë‹ˆë‹¤");
+		      System.out.print("ì•„ì´ë””: ");
+		      mid = sc.nextLine();
+		      MemberDTO dto = dao.findById(mid);
+		      while (true) {
+		         System.out.print("ë¹„ë°€ë²ˆí˜¸: ");
+		         mpw = sc.nextLine();
+		         if (mpw.equals(dto.getM_pw())) {
+		            System.out.println();
+		            System.out.println("ë¡œê·¸ì¸ ë˜ì—ˆìŠµë‹ˆë‹¤.");
+		            // í˜„ìž¬ ë¡œê·¸ì¸ ê³ ê°ì €ìž¥
+		            MemberController.member = dto;
+		            return true;
+		         } else {
+		            System.out.println("ë¹„ë°€ë²ˆí˜¸ê°€ ì¼ì¹˜í•˜ì§€ ì•ŠìŠµë‹ˆë‹¤.");
+		            return false;
+		         }
+		      }
+		   }
+
 
 	public void insert() {
-		System.out.println("È¸¿ø°¡ÀÔÀ» ½ÃÀÛÇÕ´Ï´Ù.");
+		System.out.println();
+		System.out.println("íšŒì›ê°€ìž…ì„ ì‹œìž‘í•©ë‹ˆë‹¤");
 		while (true) {
-			System.out.print("¾ÆÀÌµð: ");
+			System.out.print("ì•„ì´ë””: ");
 			String mId = sc.nextLine();
-			// ¾ÆÀÌµð Áßº¹È®ÀÎ
+			// ì•„ì´ë”” ì¤‘ë³µí™•ì¸
 			MemberDTO idCheckDto = dao.findById(mId);
 			if (idCheckDto != null) {
-				System.out.println("¾ÆÀÌµð°¡ Áßº¹µÇ¾ú½À´Ï´Ù.");
+				System.out.println("ì•„ì´ë””ê°€ ì¤‘ë³µë˜ì—ˆìŠµë‹ˆë‹¤.");
 				continue;
 			}
-			System.out.print("ºñ¹Ð¹øÈ£: ");
+			System.out.print("ë¹„ë°€ë²ˆí˜¸: ");
 			String mPw = sc.nextLine();
-			System.out.print("ÀÌ¸§: ");
+			System.out.print("ì´ë¦„: ");
 			String mName = sc.nextLine();
-			System.out.print("ÀüÈ­¹øÈ£:");
+			System.out.print("ì „í™”ë²ˆí˜¸:");
 			String mTelno = sc.nextLine();
-			System.out.print("ÁÖ¼Ò: ");
+			System.out.print("ì£¼ì†Œ: ");
 			String mAdd = sc.nextLine();
 
 			MemberDTO dto = new MemberDTO(mId, mPw, mName, mTelno, mAdd);
 
 			if (dao.insert(dto) > 0) {
-				System.out.println("È¸¿ø°¡ÀÔ¿¡ ¼º°øÇÏ¿´½À´Ï´Ù.");
+				System.out.println("íšŒì›ê°€ìž…ì— ì„±ê³µí•˜ì˜€ìŠµë‹ˆë‹¤.");
 				System.out.println(dto);
 			} else {
-				System.out.println("È¸¿ø°¡ÀÔ¿¡ ½ÇÆÐÇÏ¿´½À´Ï´Ù.");
+				System.out.println("íšŒì›ê°€ìž…ì— ì‹¤íŒ¨í•˜ì˜€ìŠµë‹ˆë‹¤.");
 			}
 			break;
 		}
 	}
 
-	// ¾ÆÀÌµð Ã£±â
+	// ì•„ì´ë”” ì°¾ê¸°
 	public void findByPw() {
 		MessageTemplate tc = new MessageTemplate();
 		Random random = new Random();
@@ -89,23 +113,24 @@ public class MemberService {
 		String userCnum = null;
 
 		while (true) {
-			System.out.print("ºñ¹Ð¹øÈ£: ");
+			System.out.print("ë¹„ë°€ë²ˆí˜¸: ");
 			mpw = sc.nextLine();
-			System.out.print("ÀüÈ­¹øÈ£: ");
+			System.out.print("ì „í™”ë²ˆí˜¸: ");
 			mtelno = sc.nextLine();
 			MemberDTO dto = dao.findByPw(mpw);
 			if (mtelno.equals(dto.getM_telno())) {
-				System.out.println("ÀüÈ­¹øÈ£°¡ ÀÏÄ¡ÇÕ´Ï´Ù.");
+				System.out.println("âœ”ì „í™”ë²ˆí˜¸ê°€ ì¼ì¹˜í•©ë‹ˆë‹¤.");
+				System.out.println();
 				tc.setPhoneNumber(mtelno);
-				tc.sendOne("·çÇÇÀÇ ¹ö½º\nºñ¹Ð¹øÈ£ Ã£±â ÀÎÁõ¹øÈ£: " + ranNum);
-				System.out.print("ÀÎÁõ¹øÈ£: ");
+				tc.sendOne("ë£¨í”¼ì˜ ë²„ìŠ¤\në¹„ë°€ë²ˆí˜¸ ì°¾ê¸° ì¸ì¦ë²ˆí˜¸: " + ranNum);
+				System.out.print("ì¸ì¦ë²ˆí˜¸: ");
 				userCnum = sc.nextLine();
 				if (userCnum.equals(ranNum)) {
-					System.out.println("ÀÎÁõ¹øÈ£°¡ ÀÏÄ¡ÇÕ´Ï´Ù.");
-					System.out.println("¾ÆÀÌµð: " + dto.getM_id());
+					System.out.println("âœ”ì¸ì¦ë²ˆí˜¸ê°€ ì¼ì¹˜í•©ë‹ˆë‹¤.");
+					System.out.println("ì•„ì´ë””: " + dto.getM_id());
 					break;
 				} else {
-					System.out.println("ÀüÈ­¹øÈ£ ÀÎÁõ¿¡ ½ÇÆÐÇÏ¿´½À´Ï´Ù.");
+					System.out.println("ì „í™”ë²ˆí˜¸ ì¸ì¦ì— ì‹¤íŒ¨í•˜ì˜€ìŠµë‹ˆë‹¤.");
 					break;
 				}
 			}
@@ -113,7 +138,7 @@ public class MemberService {
 		memberView.authMenu();
 	}
 
-	// ºñ¹Ð¹øÈ£ Ã£±â
+	// ë¹„ë°€ë²ˆí˜¸ ì°¾ê¸°
 	public void findById() {
 		MessageTemplate tc = new MessageTemplate();
 		Random random = new Random();
@@ -123,27 +148,28 @@ public class MemberService {
 		String userCnum = null;
 
 		while (true) {
-			System.out.print("¾ÆÀÌµð: ");
+			System.out.print("ì•„ì´ë””: ");
 			mid = sc.nextLine();
-			System.out.print("ÀüÈ­¹øÈ£: ");
+			System.out.print("ì „í™”ë²ˆí˜¸: ");
 			mtelno = sc.nextLine();
 			MemberDTO dto = dao.findById(mid);
 			if (mtelno.equals(dto.getM_telno())) {
-				System.out.println("ÀüÈ­¹øÈ£°¡ ÀÏÄ¡ÇÕ´Ï´Ù.");
+				System.out.println("âœ”ì „í™”ë²ˆí˜¸ê°€  ì¼ì¹˜í•©ë‹ˆë‹¤.");
+				System.out.println();
 				tc.setPhoneNumber(mtelno);
-				tc.sendOne("[·çÇÇÀÇ ¹ö½º]\n ºñ¹Ð¹øÈ£ Ã£±â ÀÎÁõ¹øÈ£ : " + ranNum + "¸¦ ÀÔ·ÂÇØÁÖ¼¼¿ä.");
-				System.out.print("ÀÎÁõ¹øÈ£: ");
+				tc.sendOne("[ë£¨í”¼ì˜ ë²„ìŠ¤]\n ë¹„ë°€ë²ˆí˜¸ ì°¾ê¸° ì¸ì¦ë²ˆí˜¸ : " + ranNum + "ë¥¼ ìž…ë ¥í•´ì£¼ì„¸ìš”.");
+				System.out.print("ì¸ì¦ë²ˆí˜¸: ");
 				userCnum = sc.nextLine();
 				if (userCnum.equals(ranNum)) {
-					System.out.println("ÀÎÁõ¹øÈ£°¡ ÀÏÄ¡ÇÕ´Ï´Ù.");
-					System.out.println("ºñ¹Ð¹øÈ£: " + dto.getM_pw());
+					System.out.println("âœ”ì¸ì¦ë²ˆí˜¸ê°€ ì¼ì¹˜í•©ë‹ˆë‹¤.");
+					System.out.println("ë¹„ë°€ë²ˆí˜¸: " + dto.getM_pw());
 					break;
 				} else {
-					System.out.println("ÀÎÁõ¿¡ ½ÇÆÐÇÏ¿´½À´Ï´Ù.");
+					System.out.println("ì¸ì¦ì— ì‹¤íŒ¨í•˜ì˜€ìŠµë‹ˆë‹¤.");
 					break;
 				}
 			} else {
-				System.out.println("ÀüÈ­¹øÈ£°¡ ÀÏÄ¡ÇÏÁö ¾Ê½À´Ï´Ù.");
+				System.out.println("ì „í™”ë²ˆí˜¸ê°€ ì¼ì¹˜í•˜ì§€ ì•ŠìŠµë‹ˆë‹¤.");
 				break;
 			}
 		}
@@ -161,67 +187,67 @@ public class MemberService {
 	public void update() {
 		String mid = null;
 		String mpw = null;
-		System.out.print("¾ÆÀÌµð: ");
+		System.out.print("ì•„ì´ë””: ");
 		mid = sc.nextLine();
 		MemberDTO dto = dao.findById(mid);
 		dto.setM_id(mid);
 		if (dao.getCheck() == true) {
 			while (true) {
-				System.out.print("ºñ¹Ð¹øÈ£: ");
+				System.out.print("ë¹„ë°€ë²ˆí˜¸: ");
 				mpw = sc.nextLine();
 				if (mpw.equals(dto.getM_pw())) {
-					System.out.println("ºñ¹Ð¹øÈ£°¡ ÀÏÄ¡ÇÕ´Ï´Ù.");
+					System.out.println("ë¹„ë°€ë²ˆí˜¸ê°€ ì¼ì¹˜í•©ë‹ˆë‹¤.");
 					break;
 				} else {
-					System.out.println("ºñ¹Ð¹øÈ£°¡ ÀÏÄ¡ÇÏÁö ¾Ê½À´Ï´Ù.");
+					System.out.println("ë¹„ë°€ë²ˆí˜¸ê°€ ì¼ì¹˜í•˜ì§€ ì•ŠìŠµë‹ˆë‹¤.");
 				}
 			}
 		} else {
 			update();
 		}
-		System.out.print("º¯°æÇÒ ºñ¹Ð¹øÈ£: ");
+		System.out.print("ë³€ê²½í•  ë¹„ë°€ë²ˆí˜¸: ");
 		mpw = sc.nextLine();
 		dto.setM_pw(mpw);
 
 		if (dao.update(dto) > 0) {
-			System.out.println("ºñ¹Ð¹øÈ£°¡ º¯°æµÇ¾ú½À´Ï´Ù.");
+			System.out.println("ë¹„ë°€ë²ˆí˜¸ê°€ ë³€ê²½ë˜ì—ˆìŠµë‹ˆë‹¤.");
 			memberView.authMenu();
 		} else {
-			System.out.println("ºñ¹Ð¹øÈ£ º¯°æ ½ÇÆÐÇÏ¿´½À´Ï´Ù.");
+			System.out.println("ë¹„ë°€ë²ˆí˜¸ ë³€ê²½ ì‹¤íŒ¨í•˜ì˜€ìŠµë‹ˆë‹¤.");
 		}
 	}
 
 	public void deleteById() {
 		String mid = null;
 		String mpw = null;
-		System.out.println("È¸¿øÅ»Åð");
+		System.out.println("íšŒì›íƒˆí‡´");
 		while (true) {
-			System.out.print("¾ÆÀÌµð: ");
+			System.out.print("ì•„ì´ë””: ");
 			mid = sc.nextLine();
-			System.out.print("ºñ¹Ð¹øÈ£: ");
+			System.out.print("ë¹„ë°€ë²ˆí˜¸: ");
 			mpw = sc.nextLine();
 			MemberDTO dto = dao.findById(mid);
 			if (mpw.equals(dto.getM_pw())) {
-				System.out.println("ºñ¹Ð¹øÈ£°¡ ÀÏÄ¡ÇÕ´Ï´Ù.");
+				System.out.println("ë¹„ë°€ë²ˆí˜¸ê°€ ì¼ì¹˜í•©ë‹ˆë‹¤.");
 				break;
 			} else {
-				System.out.println("ºñ¹Ð¹øÈ£°¡ ÀÏÄ¡ÇÏÁö ¾Ê½À´Ï´Ù.");
+				System.out.println("ë¹„ë°€ë²ˆí˜¸ê°€ ì¼ì¹˜í•˜ì§€ ì•ŠìŠµë‹ˆë‹¤.");
 			}
 		}
 
-		System.out.print("Á¤¸» »èÁ¦ÇÏ½Ã°Ú½À´Ï±î? (Y / N): ");
+		System.out.print("ì •ë§ ì‚­ì œí•˜ì‹œê² ìŠµë‹ˆê¹Œ? (Y / N): ");
 		char yn = sc.nextLine().charAt(0);
 
 		if (yn == 'y') {
 			if (dao.deleteById(mid) > 0) {
-				System.out.println("Å»Åð¼º°ø");
+				System.out.println("íƒˆí‡´ì„±ê³µ");
 				memberView.authMenu();
 			} else {
-				System.out.println("Å»Åð½ÇÆÐ");
+				System.out.println("íƒˆí‡´ì‹¤íŒ¨");
 				memberView.authMenu();
 			}
 		} else {
-			System.out.println("Å»Åð¸¦ Ãë¼ÒÇÏ¿´½À´Ï´Ù.");
+			System.out.println("íƒˆí‡´ë¥¼ ì·¨ì†Œí•˜ì˜€ìŠµë‹ˆë‹¤.");
 			memberView.authMenu();
 		}
 	}

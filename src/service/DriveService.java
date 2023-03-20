@@ -17,6 +17,27 @@ public class DriveService {
 	private DriveDAO driveDao = new DriveDAO();
 	private RouteDAO routeDao = new RouteDAO();
 	private BusDAO busDao = new BusDAO();
+	
+    // íŒŒíŠ¸ë³„ ì‹œì‘ì„ 
+    public static void bar() {
+       System.out.print("â–ƒâ–ƒâ–ƒâ–ƒâ–ƒâ–ƒâ–ƒâ–ƒâ–ƒâ–ƒâ–ƒâ–ƒâ–ƒâ–ƒâ–ƒâ–ƒâ–ƒâ–ƒâ–ƒ");
+    }
+
+    // ì‹œì‘ì„  ë°‘ì— ì—¬ë°±
+    public static void barMiddle() {
+       System.out.println();
+       System.out.println();
+       System.out.println();
+    }
+
+    // íŒŒíŠ¸ë³„ ëì„ 
+    public static void barEnd() {
+       System.out.println();
+       System.out.println();
+       System.out.print("â–ƒâ–ƒâ–ƒâ–ƒâ–ƒâ–ƒâ–ƒâ–ƒâ–ƒâ–ƒâ–ƒâ–ƒâ–ƒâ–ƒâ–ƒâ–ƒâ–ƒâ–ƒâ–ƒâ–ƒâ–ƒâ–ƒâ–ƒâ–ƒâ–ƒâ–ƒâ–ƒâ–ƒâ–ƒâ–ƒâ–ƒâ–ƒâ–ƒâ–ƒâ–ƒâ–ƒâ–ƒâ–ƒâ–ƒâ–ƒâ–ƒâ–ƒâ–ƒâ–ƒâ–ƒâ–ƒâ–ƒ");
+       System.out.println();
+       System.out.println();
+    }
 
 	public List<DriveDTO> findAll() {
 		return driveDao.findAll();
@@ -31,46 +52,57 @@ public class DriveService {
 	}
 
 	public void insert() {
-		System.out.println("==============¿îÇàÁ¤º¸ Ãß°¡==============");
-		System.out.println("==============³ë¼± Á¤º¸==============");
-		// ³ë¼±Á¤º¸ Á¶È¸
+		barMiddle();
+		bar();
+		System.out.print(" ìš´í–‰ì •ë³´ ì¶”ê°€ ");
+		bar();
+		barMiddle();
+
+		System.out.println("â€•â€•â€•â€•â€•â€•â€•â€•â€•â€•â€•â€•â€•â€•â€•â€•â€•â€•â€•â€•â€•â€•â€•â€•â€• ë…¸ì„  ì •ë³´ â€•â€•â€•â€•â€•â€•â€•â€•â€•â€•â€•â€•â€•â€•â€•â€•â€•â€•â€•â€•â€•â€•â€•â€•â€•");
+		System.out.println();
+		// ë…¸ì„ ì •ë³´ ì¡°íšŒ
 		List<RouteDTO> routeDtos = findRouteInfos();
 		for (RouteDTO dto : routeDtos) {
 			System.out.println(dto);
 		}
-		System.out.println("==============¹ö½º Á¤º¸==============");
-		// ¹ö½ºÁ¤º¸ Á¶È¸
+		System.out.println();
+		System.out.println("â€•â€•â€•â€•â€•â€•â€•â€•â€•â€•â€•â€•â€•â€•â€•â€•â€•â€•â€•â€•â€•â€•â€•â€•â€• ë²„ìŠ¤ ì •ë³´ â€•â€•â€•â€•â€•â€•â€•â€•â€•â€•â€•â€•â€•â€•â€•â€•â€•â€•â€•â€•â€•â€•â€•â€•â€•");
+		System.out.println();
+
+		// ë²„ìŠ¤ì •ë³´ ì¡°íšŒ
 		List<BusDTO> busDtos = findBusInfos();
 		for (BusDTO dto : busDtos) {
 			System.out.println(dto);
 		}
-		// Ãß°¡ÇÒ µ¥ÀÌÅÍ ÀÔ·Â¹Ş±â
+		// ì¶”ê°€í•  ë°ì´í„° ì…ë ¥ë°›ê¸°
 		DriveDTO driveDto = new DriveDTO();
-		System.out.print("¿îÇà¹øÈ£: ");
+		System.out.println();
+
+		System.out.print("ìš´í–‰ë²ˆí˜¸: ");
 		driveDto.setDriveNumber(sc.nextLine());
-		System.out.print("Ãâ¹ß½Ã°£: ");
+		System.out.print("ì¶œë°œì‹œê°„: ");
 		driveDto.setDepartmentTime(sc.nextLine());
-		System.out.print("µµÂø½Ã°£: ");
+		System.out.print("ë„ì°©ì‹œê°„: ");
 		driveDto.setArriveTime(sc.nextLine());
-		System.out.print("³ë¼±¹øÈ£: ");
+		System.out.print("ë…¸ì„ ë²ˆí˜¸: ");
 		driveDto.setRouteCode(sc.nextLine());
-		System.out.print("¹ö½º¹øÈ£: ");
+		System.out.print("ë²„ìŠ¤ë²ˆí˜¸: ");
 		driveDto.setBusCode(sc.nextLine());
 
 		if (driveDao.insert(driveDto) > 0) {
-			System.out.println("¿îÇàÇ¥ »ı¼º¿¡ ¼º°øÇÏ¿´½À´Ï´Ù.");
+			System.out.println("ìš´í–‰í‘œ ìƒì„±ì— ì„±ê³µí•˜ì˜€ìŠµë‹ˆë‹¤.");
 		} else {
-			System.out.println("¿îÇàÇ¥ »ı¼º¿¡ ½ÇÆĞÇÏ¿´½À´Ï´Ù.");
+			System.out.println("ìš´í–‰í‘œ ìƒì„±ì— ì‹¤íŒ¨í•˜ì˜€ìŠµë‹ˆë‹¤.");
 		}
 		System.out.println(driveDto);
 	}
 
-	// ¿îÇàµ¥ÀÌÅÍ ¼öÁ¤
-	// ¿îÇàµ¥ÀÌÅÍ¸¦ º¸¿©Áà¾ß ÇÏ°í ±×Áß¿¡ Æ¯Á¤ ¹øÈ£¸¦ ÀÔ·Â¹Ş¾Æ¼­
-	// 1.½Ã°£º¯°æ, 2.¹ö½ºº¯°æ, 3.³ë¼±º¯°æ, 4.¼öÁ¤Ãë¼Ò, 5.ÀúÀå
-	// ÇØ´çÇÏ´Â Æ¯Á¤ ¿îÇàµ¥ÀÌÅÍ¸¦ º¸¿©Áà¾ß ÇÑ´Ù.
+	// ìš´í–‰ë°ì´í„° ìˆ˜ì •
+	// ìš´í–‰ë°ì´í„°ë¥¼ ë³´ì—¬ì¤˜ì•¼ í•˜ê³  ê·¸ì¤‘ì— íŠ¹ì • ë²ˆí˜¸ë¥¼ ì…ë ¥ë°›ì•„ì„œ
+	// 1.ì‹œê°„ë³€ê²½, 2.ë²„ìŠ¤ë³€ê²½, 3.ë…¸ì„ ë³€ê²½, 4.ìˆ˜ì •ì·¨ì†Œ, 5.ì €ì¥
+	// í•´ë‹¹í•˜ëŠ” íŠ¹ì • ìš´í–‰ë°ì´í„°ë¥¼ ë³´ì—¬ì¤˜ì•¼ í•œë‹¤.
 	public void update() {
-		System.out.print("¿îÇà¹øÈ£¸¦ ÀÔ·ÂÇÏ¼¼¿ä: ");
+		System.out.print("ìš´í–‰ë²ˆí˜¸ë¥¼ ì…ë ¥í•˜ì„¸ìš”: ");
 
 		DriveDTO dto = driveDao.findById(sc.nextLine());
 		List<DriveDTO> dtos = new ArrayList<>();
@@ -80,54 +112,55 @@ public class DriveService {
 			TablePrinter<DriveDTO> tablePrinter = new TablePrinter<>(dtos);
 			tablePrinter.printTable();
 			StringBuffer sb = new StringBuffer();
-			sb.append("--------------------------------------------------\n");
-			sb.append("[1] ½Ã°£º¯°æ | [2] ¹ö½º±³Ã¼ | [3] ³ë¼±º¯°æ | [4] ¼öÁ¤Ãë¼Ò | [5] ÀúÀå\n");
-			sb.append("--------------------------------------------------\n");
+			sb.append("-----------------------------------------------------------\n");
+	         sb.append(" 1. ì‹œê°„ë³€ê²½ğŸšŒ | 2. ë²„ìŠ¤êµì²´ğŸšŒ | 3. ë…¸ì„ ë³€ê²½ğŸšŒ | 4. ìˆ˜ì •ì·¨ì†ŒğŸšŒ | 5. ì €ì¥ğŸšŒ\n");
+	         sb.append("-----------------------------------------------------------\n");
+
 			System.out.println(sb);
 
 			String select = sc.nextLine();
 			if (select.equals("1")) {
-				// ½Ã°£º¯°æ
-				System.out.print("Ãâ¹ß½Ã°£: ");
+				// ì‹œê°„ë³€ê²½
+				System.out.print("ì¶œë°œì‹œê°„: ");
 				dto.setDepartmentTime(sc.nextLine());
-				System.out.print("µµÂø½Ã°£: ");
+				System.out.print("ë„ì°©ì‹œê°„: ");
 				dto.setArriveTime(sc.nextLine());
 			} else if (select.equals("2")) {
-				// ¹ö½º±³Ã¼
-				System.out.print("¹ö½º¹øÈ£: ");
+				// ë²„ìŠ¤êµì²´
+				System.out.print("ë²„ìŠ¤ë²ˆí˜¸: ");
 				dto.setBusCode(sc.nextLine());
 			} else if (select.equals("3")) {
-				// ³ë¼±º¯°æ
-				System.out.print("³ë¼±¹øÈ£: ");
+				// ë…¸ì„ ë³€ê²½
+				System.out.print("ë…¸ì„ ë²ˆí˜¸: ");
 				dto.setRouteCode(sc.nextLine());
 			} else if (select.equals("4")) {
-				System.out.println("¼öÁ¤ÀÌ Ãë¼ÒµÇ¾ú½À´Ï´Ù.");
+				System.out.println("ìˆ˜ì •ì´ ì·¨ì†Œë˜ì—ˆìŠµë‹ˆë‹¤.");
 				break;
 			} else if (select.equals("5")) {
 				int res = driveDao.update(dto);
 				if (res > 0) {
-					System.out.println("¼öÁ¤ ¿Ï·áµÇ¾ú½À´Ï´Ù.");
+					System.out.println("ìˆ˜ì • ì™„ë£Œë˜ì—ˆìŠµë‹ˆë‹¤.");
 				} else {
-					System.out.println("¼öÁ¤ ½ÇÆĞÇÏ¿´½À´Ï´Ù.");
+					System.out.println("ìˆ˜ì • ì‹¤íŒ¨í•˜ì˜€ìŠµë‹ˆë‹¤.");
 				}
 				break;
 			} else {
-				System.out.println("Àß¸øµÈ ÀÔ·ÂÀÔ´Ï´Ù.");
+				System.out.println("ì˜ëª»ëœ ì…ë ¥ì…ë‹ˆë‹¤.");
 			}
 		}
 	}
 
 	public void deleteById() {
 
-		System.out.print("»èÁ¦ÇÒ ¿îÇàÄÚµå¸¦ ÀÔ·ÂÇÏ¼¼¿ä: ");
+		System.out.print("ì‚­ì œí•  ìš´í–‰ì½”ë“œë¥¼ ì…ë ¥í•˜ì„¸ìš”: ");
 		String driverNumber = sc.nextLine();
 
 		int res = driveDao.deleteById(driverNumber);
 
 		if (res > 0) {
-			System.out.println("»èÁ¦°¡ ¿Ï·áµÇ¾ú½À´Ï´Ù. °¨»çÇÕ´Ï´Ù.");
+			System.out.println("ì‚­ì œê°€ ì™„ë£Œë˜ì—ˆìŠµë‹ˆë‹¤. ê°ì‚¬í•©ë‹ˆë‹¤.");
 		} else {
-			System.out.println("»èÁ¦ ½ÇÆĞÇÏ¿´½À´Ï´Ù.");
+			System.out.println("ì‚­ì œ ì‹¤íŒ¨í•˜ì˜€ìŠµë‹ˆë‹¤.");
 		}
 	}
 }

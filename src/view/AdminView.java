@@ -8,56 +8,94 @@ import util.TablePrinter;
 
 public class AdminView {
 	Scanner sc = new Scanner(System.in);
+	   // íŒŒíŠ¸ë³„ ì‹œì‘ì„ 
+	   public static void bar() {
+	      System.out.print("â–ƒâ–ƒâ–ƒâ–ƒâ–ƒâ–ƒâ–ƒâ–ƒâ–ƒâ–ƒâ–ƒâ–ƒâ–ƒâ–ƒâ–ƒâ–ƒâ–ƒâ–ƒâ–ƒ");
+	   }
 
+	   // ì‹œì‘ì„  ë°‘ì— ì—¬ë°±
+	   public static void barMiddle() {
+	      System.out.println();
+	      System.out.println();
+	      System.out.println();
+	   }
+
+	   // íŒŒíŠ¸ë³„ ëì„ 
+	   public static void barEnd() {
+	      System.out.println();
+	      System.out.println();
+	      System.out.print("â–ƒâ–ƒâ–ƒâ–ƒâ–ƒâ–ƒâ–ƒâ–ƒâ–ƒâ–ƒâ–ƒâ–ƒâ–ƒâ–ƒâ–ƒâ–ƒâ–ƒâ–ƒâ–ƒâ–ƒâ–ƒâ–ƒâ–ƒâ–ƒâ–ƒâ–ƒâ–ƒâ–ƒâ–ƒâ–ƒâ–ƒâ–ƒâ–ƒâ–ƒâ–ƒâ–ƒâ–ƒâ–ƒâ–ƒâ–ƒâ–ƒâ–ƒâ–ƒâ–ƒâ–ƒâ–ƒâ–ƒ");
+	      System.out.println();
+	      System.out.println();
+	   }
+
+	
 	public String mainMenu() {
 		StringBuffer sb = new StringBuffer();
+		
+	      barMiddle();
+	      bar();
+	      System.out.print(" Administrator ");
+	      bar();
+	      barMiddle();
+	      sb.append("----------------------------------------\n");
+	      sb.append(" 1. ìš´í–‰ê´€ë¦¬ğŸšŒ  | 2. ì˜ˆì•½ê´€ë¦¬ğŸšŒ | 3. ì¢…ë£ŒğŸšŒ\n");
+	      sb.append("----------------------------------------\n");
 
-		sb.append("====================== °ü¸®ÀÚ ÆäÀÌÁö ======================\n");
-		sb.append("--------------------------------------------------\n");
-		sb.append("[1] ¿îÇà°ü¸®  | [2] ¿¹¾à°ü¸® | [3] Á¾·á\n");
-		sb.append("--------------------------------------------------\n");
+	      System.out.println(sb);
+	      System.out.print("ì›í•˜ì‹œëŠ” ë²ˆí˜¸ë¥¼ ì„ íƒí•´ì£¼ì„¸ìš” â‚á¢..á¢â‚ : ");
 
-		System.out.println(sb);
-		System.out.print("¿øÇÏ½Ã´Â ¹øÈ£¸¦ ¼±ÅÃÇØÁÖ¼¼¿ä: ");
-
-		return sc.nextLine();
+	      return sc.nextLine();
+	      //barEnd();
 	}
 
 	public String driveMenu(List<DriveDTO> driveDtos) {
 		StringBuffer sb = new StringBuffer();
 
-		System.out.println("====================== ¿îÇà°ü¸® ======================\n");
-		// ¿îÇàÅ×ÀÌºí Á¶È¸
-//		for (DriveDTO dto : driveDtos) {
-//			System.out.println(dto);
-//		}
-		TablePrinter<DriveDTO> tablePrinter = new TablePrinter<>(driveDtos);
-		tablePrinter.printTable();
-		sb.append("--------------------------------------------------\n");
-		sb.append("[1] Ãß°¡ | [2] ¼öÁ¤ | [3] »èÁ¦ | [4] µ¹¾Æ°¡±â | [5] Á¾·á\n");
-		sb.append("--------------------------------------------------\n");
+	      barMiddle();
+	      bar();
+	      System.out.print(" ìš´í–‰ê´€ë¦¬ ");
+	      bar();
+	      barMiddle();
 
-		System.out.println(sb);
-		System.out.print("¿øÇÏ½Ã´Â ¹øÈ£¸¦ ¼±ÅÃÇØÁÖ¼¼¿ä: ");
+	      // ìš´í–‰í…Œì´ë¸” ì¡°íšŒ
+//	      for (DriveDTO dto : driveDtos) {
+//	         System.out.println(dto);
+//	      }
 
-		return sc.nextLine();
+	      TablePrinter<DriveDTO> tablePrinter = new TablePrinter<>(driveDtos);
+	      tablePrinter.printTable();
+
+	      sb.append("-------------------------------------------------------\n");
+	      sb.append(" 1. ì¶”ê°€ğŸšŒ | 2. ìˆ˜ì •ğŸšŒ | 3. ì‚­ì œğŸšŒ | 4. ëŒì•„ê°€ê¸°ğŸšŒ | 5. ì¢…ë£ŒğŸšŒ\n");
+	      sb.append("-------------------------------------------------------\n");
+
+	      System.out.println(sb);
+	      System.out.print("ì›í•˜ì‹œëŠ” ë²ˆí˜¸ë¥¼ ì„ íƒí•´ì£¼ì„¸ìš” â‚á¢..á¢â‚ : ");
+
+	      return sc.nextLine();
+
 	}
 
 	public String reservationMenu(List<ReservationDTO> reservationDtos) {
 		StringBuffer sb = new StringBuffer();
 
-		System.out.println("====================== ¿¹¾à°ü¸® ======================\n");
-		// ¿¹¾àÅ×ÀÌºí Á¶È¸
-		for (ReservationDTO dto : reservationDtos) {
-			System.out.println(dto);
-		}
-		sb.append("--------------------------------------------------\n");
-		sb.append("[1] »èÁ¦ | [2] µ¹¾Æ°¡±â | [3] Á¾·á\n");
-		sb.append("--------------------------------------------------\n");
+		 bar();
+	      System.out.print(" ì˜ˆì•½ê´€ë¦¬ ");
+	      bar();
+	      barMiddle();
+	      // ì˜ˆì•½í…Œì´ë¸” ì¡°íšŒ
+	      for (ReservationDTO dto : reservationDtos) {
+	         System.out.println(dto);
+	      }
+	      sb.append("------------------------------------\n");
+	      sb.append(" 1. ì‚­ì œğŸšŒ | 2. ëŒì•„ê°€ê¸°ğŸšŒ | 3. ì¢…ë£ŒğŸšŒ\n");
+	      sb.append("------------------------------------\n");
 
-		System.out.println(sb);
-		System.out.print("¿øÇÏ½Ã´Â ¹øÈ£¸¦ ¼±ÅÃÇØÁÖ¼¼¿ä: ");
+	      System.out.println(sb);
+	      System.out.print("ì›í•˜ì‹œëŠ” ë²ˆí˜¸ë¥¼ ì„ íƒí•´ì£¼ì„¸ìš” â‚á¢..á¢â‚ : ");
 
-		return sc.nextLine();
-	}
+	      return sc.nextLine();
+	   }
+
 }

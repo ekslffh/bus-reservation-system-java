@@ -1,2 +1,8 @@
 eclipse.preferences.version=1
-encoding/<project>=MS949
+encoding//src/controller/MainController.java=UTF-8
+encoding//src/controller/MemberController.java=UTF-8
+encoding//src/service/DriveService.java=UTF-8
+encoding//src/service/MemberService.java=UTF-8
+encoding//src/view/AdminView.java=UTF-8
+encoding//src/view/CommonView.java=UTF-8
+encoding//src/view/MemberView.java=UTF-8

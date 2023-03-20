@@ -13,23 +13,23 @@ public class MemberController {
 
 	public void manageMyPage() {
 		while (true) {
-			// 1.ºñ¹Ğ¹øÈ£º¯°æ | 2.È¸¿øÅ»Åğ | 3.¸ŞÀÎÆäÀÌÁö | 4.Á¾·á\n
+			// 1.ë¹„ë°€ë²ˆí˜¸ë³€ê²½ | 2.íšŒì›íƒˆí‡´ | 3.ë©”ì¸í˜ì´ì§€ | 4.ì¢…ë£Œ\n
 			String select = memberView.myPageMenu();
 			if (select.equals("1")) {
-				// ºñ¹Ğ¹øÈ£ º¯°æ
+				// ë¹„ë°€ë²ˆí˜¸ ë³€ê²½
 				memberService.update();
 			} else if (select.equals("2")) {
-				// È¸¿øÅ»Åğ
+				// íšŒì›íƒˆí‡´
 				memberService.deleteById();
 			} else if (select.equals("3")) {
-				// ¸ŞÀÎÆäÀÌÁö
-				System.out.println("¸ŞÀÎÆäÀÌÁö·Î ÀÌµ¿ÇÕ´Ï´Ù.");
+				// ë©”ì¸í˜ì´ì§€
+				System.out.println("ë©”ì¸í˜ì´ì§€ë¡œ ì´ë™í•©ë‹ˆë‹¤.");
 				break;
 			} else if (select.equals("4")) {
-				System.out.println("ÇÁ·Î±×·¥À» Á¾·áÇÕ´Ï´Ù.");
+				System.out.println("í”„ë¡œê·¸ë¨ì„ ì¢…ë£Œí•©ë‹ˆë‹¤.");
 				System.exit(0);
 			} else {
-				System.out.println("Àß¸øµÈ ÀÔ·ÂÀÔ´Ï´Ù.");
+				System.out.println("ì˜ëª»ëœ ì…ë ¥ì…ë‹ˆë‹¤.");
 			}
 		}
 	}
@@ -58,11 +58,11 @@ public class MemberController {
 				memberService.deleteById();
 				break;
 			case "6":
-				System.out.println("Á¾·á");
+				System.out.println("ì¢…ë£Œ");
 				sc.close();
 				break;
 			default:
-				System.out.println("Àß¸ø ÀÔ·ÂÇÏ¼Ì½À´Ï´Ù.");
+				System.out.println("ì˜ëª» ì…ë ¥í•˜ì…¨ìŠµë‹ˆë‹¤.");
 				memberView.authMenu();
 			}
 
@@ -72,15 +72,19 @@ public class MemberController {
 	public void findIdOrPw() {
 		String selectIDPW = memberView.findIdOrPw();
 		if (selectIDPW.equals("1")) {
-			System.out.println("¾ÆÀÌµğ Ã£±â");
+			System.out.println();
+			System.out.println("ğŸ”ì•„ì´ë”” ì°¾ê¸°ğŸ”");
+
 			memberService.findByPw();
 		} else if (selectIDPW.equals("2")) {
-			System.out.println("ºñ¹Ğ¹øÈ£ Ã£±â");
+			System.out.println();
+			System.out.println("ğŸ”ë¹„ë°€ë²ˆí˜¸ ì°¾ê¸°ğŸ”");
+
 			memberService.findById();
 		} else if (selectIDPW.equals("3")) {
-			System.out.println("ÀÌÀüÈ­¸éÀ¸·Î µ¹¾Æ°©´Ï´Ù.");
+			System.out.println("ì´ì „í™”ë©´ìœ¼ë¡œ ëŒì•„ê°‘ë‹ˆë‹¤.");
 		} else {
-			System.out.println("Àß¸øµÈ ÀÔ·ÂÀÔ´Ï´Ù.");
+			System.out.println("ì˜ëª»ëœ ì…ë ¥ì…ë‹ˆë‹¤.");
 		}
 	}
 }
