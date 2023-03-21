@@ -10,7 +10,12 @@ public class MemberReservationDTO {
 	private String busGrade;
 	private String reservationNum;
 	
-	
+	public String getReservationDate() {
+		return reservationDate;
+	}
+	public void setReservationDate(String reservationDate) {
+		this.reservationDate = reservationDate;
+	}
 	public String getBusGrade() {
 		return busGrade;
 	}

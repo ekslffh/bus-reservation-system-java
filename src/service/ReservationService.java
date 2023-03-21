@@ -41,14 +41,14 @@ public class ReservationService {
 	public static String departTerminal;
 	public static String arriveTerminal;
 
-	// ¿¹¾à ·ÎÁ÷
+	// ì˜ˆì•½ ë¡œì§
 	public void reservate() {
 		boolean isPayment = false;
 		while (true) {
-			// °áÁ¦¿Ï·áÇßÀ¸¸é ¸ŞÀÎÈ­¸éÀ¸·Î ÀÌµ¿
+			// ê²°ì œì™„ë£Œí–ˆìœ¼ë©´ ë©”ì¸í™”ë©´ìœ¼ë¡œ ì´ë™
 			if (isPayment)
 				break;
-			// ÅÍ¹Ì³Î Á¤º¸ º¸¿©ÁÖ±â
+			// í„°ë¯¸ë„ ì •ë³´ ë³´ì—¬ì£¼ê¸°
 			
 			List<TerminalDTO> terminalDtos = terminalDAO.findAll();
 			String department = null;
@@ -62,8 +62,8 @@ public class ReservationService {
 				}
 //				TablePrinter<TerminalDTO> terminalTable = new TablePrinter<>(terminalDtos);
 //				terminalTable.printTable();
-				// Ãâ¹ßÁö, ¸ñÀûÁö, °¡´Â³¯ ¼±ÅÃ + ¸î½ÃÀÌÈÄ
-				System.out.print("Ãâ¹ß¿ª: ");
+				// ì¶œë°œì§€, ëª©ì ì§€, ê°€ëŠ”ë‚  ì„ íƒ + ëª‡ì‹œì´í›„
+				System.out.print("ì¶œë°œì—­: ");
 				department = sc.nextLine();
 				boolean existsTermainal = false;
 				for (TerminalDTO dto : terminalDtos) {
@@ -72,12 +72,12 @@ public class ReservationService {
 						break;
 					}
 				}
-				// ÇØ´ç °ªÀÌ Á¸ÀçÇÏÁö ¾Ê´Â °æ¿ì
+				// í•´ë‹¹ ê°’ì´ ì¡´ì¬í•˜ì§€ ì•ŠëŠ” ê²½ìš°
 				if (!existsTermainal) {
-					System.out.println("ÇØ´ç ¿ªÀÌ Á¸ÀçÇÏÁö ¾Ê½À´Ï´Ù.");
+					System.out.println("í•´ë‹¹ ì—­ì´ ì¡´ì¬í•˜ì§€ ì•ŠìŠµë‹ˆë‹¤.");
 					continue;
 				}
-				System.out.print("µµÂø¿ª: ");
+				System.out.print("ë„ì°©ì—­: ");
 				arrive = sc.nextLine();
 				existsTermainal = false;
 				for (TerminalDTO dto : terminalDtos) {
@@ -86,94 +86,95 @@ public class ReservationService {
 						break;
 					}
 				}
-				// ÇØ´ç °ªÀÌ Á¸ÀçÇÏÁö ¾Ê´Â °æ¿ì
+				// í•´ë‹¹ ê°’ì´ ì¡´ì¬í•˜ì§€ ì•ŠëŠ” ê²½ìš°
 				if (!existsTermainal) {
-					System.out.println("ÇØ´ç ¿ªÀÌ Á¸ÀçÇÏÁö ¾Ê½À´Ï´Ù.");
+					System.out.println("í•´ë‹¹ ì—­ì´ ì¡´ì¬í•˜ì§€ ì•ŠìŠµë‹ˆë‹¤.");
 					continue;
 				}
-				System.out.print("°¡´Â³¯(YYYY-MM-dd): ");
+				System.out.print("ê°€ëŠ”ë‚ (YYYY-MM-dd): ");
 				date = sc.nextLine();
 				break;
 			}
 
-			// ¿îÇàÇ¥ Á¶È¸
+			// ìš´í–‰í‘œ ì¡°íšŒ
 			List<DriveInfoDTO> driveInfoDtos = driveDao.getDriveInfos(department, arrive, date);
 //			for (DriveInfoDTO dto : driveInfoDtos) {
-//				System.out.println(dto);
+//				memberView.printBusInfo(dto);
 //			}
-			TablePrinter<DriveInfoDTO> driveInfos = new TablePrinter<>(driveInfoDtos);
-			driveInfos.printTable();
-			System.out.print("¿îÇà¹øÈ£: ");
+			memberView.printBusInfo(driveInfoDtos);
+//			TablePrinter<DriveInfoDTO> dri/veInfos = new TablePrinter<>(driveInfoDtos);
+//			driveInfos.printTable();
+			System.out.print("ìš´í–‰ë²ˆí˜¸: ");
 			String driveNum = sc.nextLine();
-	        String grade = driveInfoDtos.stream().filter(d -> d.getDriveNum().equals(driveNum)).findAny().get().getBusGrade();	         System.out.println(grade + "¹ö½º");
+	        String grade = driveInfoDtos.stream().filter(d -> d.getDriveNum().equals(driveNum)).findAny().get().getBusGrade();	         System.out.println(grade + "ë²„ìŠ¤");
 
-			// ÁÂ¼®¼±ÅÃ
-			// ¿îÇà¹øÈ£¿Í ³¯Â¥¸¦ °¡Áö°í ÁÂ¼®¿¹¾àÅ×ÀÌºí¿¡¼­ ÁÂ¼®Á¤º¸¸¦ °¡Á®¿Í¾ß ÇÑ´Ù.
-			// ÁÂ¼®Á¤º¸¸¦ °¡Áö°í ¿¹¾àÀÌ µÇ¾îÀÖ´Â ÁÂ¼®°ú µÇ¾îÀÖÁö ¾ÊÀº ÁÂ¼®À» ±¸ºĞÇØ¼­ Ç¥½ÃÇØ¾ß ÇÑ´Ù.
+			// ì¢Œì„ì„ íƒ
+			// ìš´í–‰ë²ˆí˜¸ì™€ ë‚ ì§œë¥¼ ê°€ì§€ê³  ì¢Œì„ì˜ˆì•½í…Œì´ë¸”ì—ì„œ ì¢Œì„ì •ë³´ë¥¼ ê°€ì ¸ì™€ì•¼ í•œë‹¤.
+			// ì¢Œì„ì •ë³´ë¥¼ ê°€ì§€ê³  ì˜ˆì•½ì´ ë˜ì–´ìˆëŠ” ì¢Œì„ê³¼ ë˜ì–´ìˆì§€ ì•Šì€ ì¢Œì„ì„ êµ¬ë¶„í•´ì„œ í‘œì‹œí•´ì•¼ í•œë‹¤.
 			List<String> seatInfos = seatDao.findAllByDriveAndDate(date, driveNum);
 			//seatInfos.add("0");
-			// ÀÌÂÊ¿¡ °¡Á®¿Â ÁÂ¼®Á¤º¸·Î ºóÁÂ¼®°ú ¾Æ´Ñ ÁÂ¼®À» ±¸ºĞÇØ¼­ Ãâ·ÂÇØ¾ßÇÔ
+			// ì´ìª½ì— ê°€ì ¸ì˜¨ ì¢Œì„ì •ë³´ë¡œ ë¹ˆì¢Œì„ê³¼ ì•„ë‹Œ ì¢Œì„ì„ êµ¬ë¶„í•´ì„œ ì¶œë ¥í•´ì•¼í•¨
 			List<String> selectSeatNum = new ArrayList<>();
 			boolean completeSelct = false;
 			while (true) {
-			    if(grade.equals("ÀÏ¹İ")) {
+			    if(grade.equals("ì¼ë°˜")) {
 		            seatView.printCommon(seatInfos);
 		            }else {
 		               seatView.printPremium(seatInfos);
 		            }
 
-				System.out.print("¿¹¾àÁÂ¼®: ");
+				System.out.print("ì˜ˆì•½ì¢Œì„: ");
 				for (String seatNum : selectSeatNum) {
 					System.out.print(seatNum + " ");
 				}
 				System.out.println();
-				System.out.print("ÁÂ¼®¹øÈ£: ");
+				System.out.print("ì¢Œì„ë²ˆí˜¸: ");
 				String data = sc.nextLine();
 				selectSeatNum.add(data);
 				seatInfos.add(data);
-				System.out.print("1.Ãß°¡¼±ÅÃ, 2.¼±ÅÃ¿Ï·á, 3.ÁÂ¼®Ãë¼Ò 4.¿¹¾àÃë¼Ò: ");
+				System.out.print("1.ì¶”ê°€ì„ íƒ, 2.ì„ íƒì™„ë£Œ, 3.ì¢Œì„ì·¨ì†Œ 4.ì˜ˆì•½ì·¨ì†Œ: ");
 				String input = sc.nextLine();
-				if (input.equals("1")) { // ÁÂ¼®Ãß°¡¼±ÅÃ
+				if (input.equals("1")) { // ì¢Œì„ì¶”ê°€ì„ íƒ
 					continue;
-				} else if (input.equals("2")) { // ¼±ÅÃ¿Ï·á
-					System.out.println("ÁÂ¼®¼±ÅÃ¿Ï·á");
+				} else if (input.equals("2")) { // ì„ íƒì™„ë£Œ
+					System.out.println("ì¢Œì„ì„ íƒì™„ë£Œ");
 					completeSelct = true;
 					break;
-				} else if (input.equals("3")) { // ÁÂ¼®ÇÏ³ªÃë¼Ò
-					// °¡Àå ÃÖ±Ù¿¡ Ãß°¡ÇÑ ³»¿ë »èÁ¦
+				} else if (input.equals("3")) { // ì¢Œì„í•˜ë‚˜ì·¨ì†Œ
+					// ê°€ì¥ ìµœê·¼ì— ì¶”ê°€í•œ ë‚´ìš© ì‚­ì œ
 					selectSeatNum.remove(terminalDtos.size() - 1);
-				} else if (input.equals("4")) { // ¿¹¾àÃë¼Ò
-					// ´Ù½Ã ÅÍ¹Ì³Î °í¸£´Â È­¸éÀ¸·Î ÀÌµ¿
+				} else if (input.equals("4")) { // ì˜ˆì•½ì·¨ì†Œ
+					// ë‹¤ì‹œ í„°ë¯¸ë„ ê³ ë¥´ëŠ” í™”ë©´ìœ¼ë¡œ ì´ë™
 					break;
 				} else {
-					System.out.println("Àß¸øµÈ ÀÔ·ÂÀÔ´Ï´Ù.");
+					System.out.println("ì˜ëª»ëœ ì…ë ¥ì…ë‹ˆë‹¤.");
 				}
 			}
-			// ÁÂ¼®¼±ÅÃ ¿Ï·áÀÎ°æ¿ì
+			// ì¢Œì„ì„ íƒ ì™„ë£Œì¸ê²½ìš°
 			if (completeSelct) {
-				// ##°áÁ¦·ÎÁ÷##
+				// ##ê²°ì œë¡œì§##
 
-				// ¸¶ÀÏ¸®Áö ÀÜ¾× º¸¿©ÁÖ°í ¸¶ÀÏ¸®Áö »ç¿ëÇÒÁö ¹°¾îº¸°í
-				// °áÁ¦ÁøÇà -> °áÁ¦¿Ï·á (ÁÂ¼®¿¹¾àÅ×ÀÌºí¿¡ ÇØ´ç ³»¿ë ÀúÀåÇØ¾ß ÇÔ!)
-				// °í°´ ½ÃÀÛÈ­¸éÀ¸·Î µ¹¾Æ°¡±â
+				// ë§ˆì¼ë¦¬ì§€ ì”ì•¡ ë³´ì—¬ì£¼ê³  ë§ˆì¼ë¦¬ì§€ ì‚¬ìš©í• ì§€ ë¬¼ì–´ë³´ê³ 
+				// ê²°ì œì§„í–‰ -> ê²°ì œì™„ë£Œ (ì¢Œì„ì˜ˆì•½í…Œì´ë¸”ì— í•´ë‹¹ ë‚´ìš© ì €ì¥í•´ì•¼ í•¨!)
+				// ê³ ê° ì‹œì‘í™”ë©´ìœ¼ë¡œ ëŒì•„ê°€ê¸°
 
-				// ½ÂÂ÷±Ç Çü½ÄÀ¸·Î Ãâ¹ß¿ª, µµÂø¿ª, ÁÂ¼®, °¡°İ µîÀÇ Á¤º¸ Ãâ·Â
+				// ìŠ¹ì°¨ê¶Œ í˜•ì‹ìœ¼ë¡œ ì¶œë°œì—­, ë„ì°©ì—­, ì¢Œì„, ê°€ê²© ë“±ì˜ ì •ë³´ ì¶œë ¥
 				int price = driveInfoDtos.stream().filter(d -> d.getDriveNum().equals(driveNum)).findAny().get()
 						.getPrice();
-				// Ãâ¹ß½Ã°£, µµÂø½Ã°£ Ãß°¡
-				String payInfo = department + " ==> " + arrive + ", ÁÂ¼®: " + selectSeatNum.toString()
-						+ ", ÃÑ°áÁ¦±İ¾×: " + (price * selectSeatNum.size());
+				// ì¶œë°œì‹œê°„, ë„ì°©ì‹œê°„ ì¶”ê°€
+				String payInfo = department + " ==> " + arrive + ", ì¢Œì„: " + selectSeatNum.toString()
+						+ ", ì´ê²°ì œê¸ˆì•¡: " + (price * selectSeatNum.size());
 				while (true) {
 					System.out.println(payInfo);
-					// °áÁ¦ÇÏ±â ´©¸£°í
-					System.out.println("1.°áÁ¦ÇÏ±â 2.°áÁ¦Ãë¼Ò");
-					System.out.print("ÀÔ·Â: ");
+					// ê²°ì œí•˜ê¸° ëˆ„ë¥´ê³ 
+					System.out.println("1.ê²°ì œí•˜ê¸° 2.ê²°ì œì·¨ì†Œ");
+					System.out.print("ì…ë ¥: ");
 					String input = sc.nextLine();
-					// °áÁ¦
+					// ê²°ì œ
 					if (input.equals("1")) {
-						// ¸¶ÀÏ¸®Áö ·ÎÁ÷ Ãß°¡
+						// ë§ˆì¼ë¦¬ì§€ ë¡œì§ ì¶”ê°€
 
-						// ÁÂ¼®Å×ÀÌºíµµ Ãß°¡
+						// ì¢Œì„í…Œì´ë¸”ë„ ì¶”ê°€
 						List<SeatDTO> seatDtos = new ArrayList<>();
 						for (String seatNum : selectSeatNum) {
 							SeatDTO dto = new SeatDTO();
@@ -185,11 +186,11 @@ public class ReservationService {
 						TablePrinter<SeatDTO> seatTable = new TablePrinter<>(seatDtos);
 						seatTable.printTable();
 						if (seatDao.insertAll(seatDtos) < 0) {
-							System.out.println("ÁÂ¼®¿¹¾à»ı¼º ½ÇÆĞÇÏ¿´½À´Ï´Ù °Ë»öÈ­¸éÀ¸·Î ÀÌµ¿ÇÕ´Ï´Ù.");
+							System.out.println("ì¢Œì„ì˜ˆì•½ìƒì„± ì‹¤íŒ¨í•˜ì˜€ìŠµë‹ˆë‹¤ ê²€ìƒ‰í™”ë©´ìœ¼ë¡œ ì´ë™í•©ë‹ˆë‹¤.");
 							break;
 						}
 
-						// ¿¹¾àÅ×ÀÌºí¿¡ ÀúÀå
+						// ì˜ˆì•½í…Œì´ë¸”ì— ì €ì¥
 						List<ReservationDTO> reservationDtos = new ArrayList<>();
 						for (String seatNum : selectSeatNum) {
 							ReservationDTO reservationDto = new ReservationDTO();
@@ -203,16 +204,16 @@ public class ReservationService {
 							reservationDtos.add(reservationDto);
 						}
 						if (reservationDao.insertAll(reservationDtos) < 0) {
-							System.out.println("¿¹¸Å»ı¼º ½ÇÆĞÇÏ¿´½À´Ï´Ù °Ë»öÈ­¸éÀ¸·Î ÀÌµ¿ÇÕ´Ï´Ù.");
+							System.out.println("ì˜ˆë§¤ìƒì„± ì‹¤íŒ¨í•˜ì˜€ìŠµë‹ˆë‹¤ ê²€ìƒ‰í™”ë©´ìœ¼ë¡œ ì´ë™í•©ë‹ˆë‹¤.");
 							break;
 						}
 
-						System.out.println("°áÁ¦°¡ Á¤»óÀûÀ¸·Î ¿Ï·áµÇ¾ú½À´Ï´Ù. ¸ŞÀÎÈ­¸éÀ¸·Î ÀÌµ¿ÇÕ´Ï´Ù.");
+						System.out.println("ê²°ì œê°€ ì •ìƒì ìœ¼ë¡œ ì™„ë£Œë˜ì—ˆìŠµë‹ˆë‹¤. ë©”ì¸í™”ë©´ìœ¼ë¡œ ì´ë™í•©ë‹ˆë‹¤.");
 						isPayment = true;
 					} else if (input.equals("2")) {
-						System.out.println("°áÁ¦°¡ Ãë¼ÒµÇ¾ú½À´Ï´Ù. °Ë»öÈ­¸éÀ¸·Î ÀÌµ¿ÇÕ´Ï´Ù.");
+						System.out.println("ê²°ì œê°€ ì·¨ì†Œë˜ì—ˆìŠµë‹ˆë‹¤. ê²€ìƒ‰í™”ë©´ìœ¼ë¡œ ì´ë™í•©ë‹ˆë‹¤.");
 					} else {
-						System.out.println("Àß¸ø ÀÔ·ÂÇÏ¼Ì½À´Ï´Ù.");
+						System.out.println("ì˜ëª» ì…ë ¥í•˜ì…¨ìŠµë‹ˆë‹¤.");
 						continue;
 					}
 					break;
@@ -226,26 +227,35 @@ public class ReservationService {
 		while (true) {
 			List<MemberReservationDTO> reservationDtos = reservationDao.findByMemberId(id);
 			if (reservationDtos == null) {
-				System.out.println("¿¹¸Å³»¿ªÀÌ ¾ø½À´Ï´Ù.");
+				System.out.println("ì˜ˆë§¤ë‚´ì—­ì´ ì—†ìŠµë‹ˆë‹¤.");
 				return;
 			}
-			TablePrinter<MemberReservationDTO> tablePrinter = new TablePrinter<>(reservationDtos);
-			tablePrinter.printTable();
-			System.out.println("1.¿¹¸Å Ãë¼ÒÇÏ±â, 2.¸ŞÀÎ¸Ş´º·Î µ¹¾Æ°¡±â");
+			
+			
+//			memberView.ticket(reservationDtos);
+			
+			for (MemberReservationDTO dto : reservationDtos) {
+				memberView.ticket(dto);
+			}
+//			TablePrinter<MemberReservationDTO> tablePrinter = new TablePrinter<>(reservationDtos);
+//			tablePrinter.printTable();
+			
+			
+			System.out.println("1.ì˜ˆë§¤ ì·¨ì†Œí•˜ê¸°, 2.ë©”ì¸ë©”ë‰´ë¡œ ëŒì•„ê°€ê¸°");
 			String select = sc.nextLine();
-			// Ãë¼ÒÇÏ±â
+			// ì·¨ì†Œí•˜ê¸°
 			if (select.equals("1")) {
-				// ¿¹¸ÅÇ¥ Ãë¼ÒÇÏ±â
-				System.out.print("¿¹¸Å¹øÈ£ ÀÔ·Â: ");
+				// ì˜ˆë§¤í‘œ ì·¨ì†Œí•˜ê¸°
+				System.out.print("ì˜ˆë§¤ë²ˆí˜¸ ì…ë ¥: ");
 				String number = sc.nextLine();
 				if (reservationDao.deleteById(number) > 0) {
-					System.out.println("¿¹¸ÅÃë¼ÒµÇ¾ú½À´Ï´Ù.");
+					System.out.println("ì˜ˆë§¤ì·¨ì†Œë˜ì—ˆìŠµë‹ˆë‹¤.");
 				}
-			} else if (select.equals("2")) { // ¸ŞÀÎ¸Ş´º·Î µ¹¾Æ°¡±â
-				System.out.println("¸ŞÀÎ¸Ş´º·Î µ¹¾Æ°©´Ï´Ù.");
+			} else if (select.equals("2")) { // ë©”ì¸ë©”ë‰´ë¡œ ëŒì•„ê°€ê¸°
+				System.out.println("ë©”ì¸ë©”ë‰´ë¡œ ëŒì•„ê°‘ë‹ˆë‹¤.");
 				break;
 			} else {
-				System.out.println("Àß¸øµÈ ÀÔ·ÂÀÔ´Ï´Ù.");
+				System.out.println("ì˜ëª»ëœ ì…ë ¥ì…ë‹ˆë‹¤.");
 			}
 		}
 	}
@@ -258,21 +268,21 @@ public class ReservationService {
 //			}
 			TablePrinter<ReservationDTO> tablePrinter = new TablePrinter<>(reservationDtos);
 			tablePrinter.printTable();
-			System.out.println("1.¿¹¸Å »èÁ¦ÇÏ±â, 2.¸ŞÀÎ¸Ş´º·Î µ¹¾Æ°¡±â");
+			System.out.println("1.ì˜ˆë§¤ ì‚­ì œí•˜ê¸°, 2.ë©”ì¸ë©”ë‰´ë¡œ ëŒì•„ê°€ê¸°");
 			String select = sc.nextLine();
-			// Ãë¼ÒÇÏ±â
+			// ì·¨ì†Œí•˜ê¸°
 			if (select.equals("1")) {
-				// ¿¹¸ÅÇ¥ »èÁ¦
-				System.out.print("¿¹¸Å¹øÈ£ ÀÔ·Â: ");
+				// ì˜ˆë§¤í‘œ ì‚­ì œ
+				System.out.print("ì˜ˆë§¤ë²ˆí˜¸ ì…ë ¥: ");
 				String number = sc.nextLine();
 				if (reservationDao.deleteById(number) > 0) {
-					System.out.println("¿¹¸ÅÃë¼ÒµÇ¾ú½À´Ï´Ù.");
+					System.out.println("ì˜ˆë§¤ì·¨ì†Œë˜ì—ˆìŠµë‹ˆë‹¤.");
 				}
-			} else if (select.equals("2")) { // ¸ŞÀÎ¸Ş´º·Î µ¹¾Æ°¡±â
-				System.out.println("¸ŞÀÎ¸Ş´º·Î µ¹¾Æ°©´Ï´Ù.");
+			} else if (select.equals("2")) { // ë©”ì¸ë©”ë‰´ë¡œ ëŒì•„ê°€ê¸°
+				System.out.println("ë©”ì¸ë©”ë‰´ë¡œ ëŒì•„ê°‘ë‹ˆë‹¤.");
 				break;
 			} else {
-				System.out.println("Àß¸øµÈ ÀÔ·ÂÀÔ´Ï´Ù.");
+				System.out.println("ì˜ëª»ëœ ì…ë ¥ì…ë‹ˆë‹¤.");
 			}
 		}
 	}

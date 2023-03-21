@@ -1,8 +1,10 @@
 package view;
 
+import java.util.List;
 import java.util.Scanner;
 
 import dto.DriveInfoDTO;
+import dto.MemberReservationDTO;
 import dto.ReservationDTO;
 import service.ReservationService;
 import util.JDBCTemplate;
@@ -113,35 +115,39 @@ public class MemberView {
 	}
 
 	// 탈수있는 버스 정보 전부 출력메서드
-	public void printBusInfo(DriveInfoDTO dto) {
+	public void printBusInfo(List<DriveInfoDTO> dtos) {
 
 		System.out.println();
 		System.out.println("  🚍 배차조회              ");
 		System.out.println(" ――――――――――――――――――――――――――――――――――――――――――――――――――――――");
-		System.out.println("  " + dto.getDriveDate());
+		System.out.println("  " + dtos.get(0).getDriveDate());
 		System.out.println(" ――――――――――――――――――――――――――――――――――――――――――――――――――――――");
 		System.out.println("  " + "운행번호" + "  " + " 📍출발" + "     📍도착" + "    💰등급" + "    🪑잔여석" + "    💳가격");
 		System.out.println(" ──────────────────────────────────────────────────────");
-		System.out.println("    " + dto.getDriveNum() + "     " + dto.getDepartTime() + "    " + dto.getArriveTime()
-				+ "    " + dto.getBusGrade() + "       " + dto.getNumOfRemainSeats() + "     " + dto.getPrice());
-		System.out.println(" ──────────────────────────────────────────────────────");
+		for (DriveInfoDTO dto : dtos) {
+			
+			System.out.println("    " + dto.getDriveNum() + "     " + dto.getDepartTime() + "    " + dto.getArriveTime()
+					+ "    " + dto.getBusGrade() + "       " + dto.getNumOfRemainSeats() + "     " + dto.getPrice());
+			System.out.println(" ──────────────────────────────────────────────────────");
+		}
+		
 		System.out.println(" ――――――――――――――――――――――――――――――――――――――――――――――――――――――");
 	}
 
 	// 예약확인 출력메서드
-	public void printrecheck() {
+	public void printrecheck(MemberReservationDTO dto) {
 		System.out.println();
 		System.out.println("  🚍 가는 편 승차권 정보              ");
 		System.out.println(" ―――――――――――――――――――――――――――――――――――――――――――");
-		System.out.println("  2023.3.20 (월) 13:00 ");
+		System.out.println("  2023.3.20 (월) 13:00 " + dto.getReservationDate() + dto.getDateTime());
 		System.out.println(" ―――――――――――――――――――――――――――――――――――――――――――");
-		System.out.println("  📍 출발지 : " + rservice.depart);
+		System.out.println("  📍 출발지 : " + dto.getDepartment());
 		System.out.println(" ───────────────────────────────────────────");
-		System.out.println("  📍 도착지 : " + rservice.arrive);
+		System.out.println("  📍 도착지 : " + dto.getArrive());
 		System.out.println(" ───────────────────────────────────────────");
-		System.out.println("  💰 등급 : ");
+		System.out.println("  💰 등급 : " + dto.getBusGrade());
 		System.out.println(" ───────────────────────────────────────────");
-		System.out.println("  🪑 좌석 : " + rservice.row + "행" + rservice.column + "열");
+		System.out.println("  🪑 좌석 : " + dto.getSeatCode());
 		System.out.println(" ───────────────────────────────────────────");
 		System.out.println("  💳 총 결제금액 : ");
 		System.out.println(" ―――――――――――――――――――――――――――――――――――――――――――");
@@ -180,29 +186,29 @@ public class MemberView {
 	}
 
 	// 예약티켓 화면
-	public void ticket() {
+	public void ticket(MemberReservationDTO dto) {
 		System.out.println();
 		System.out.println("┌───────────────────────────────────────────┐");
 		System.out.println();
 		System.out.println("  🚍 LoopyBus Ticket 🚍              🎫 ₁/₁");
 		System.out.println();
 		System.out.println(" ───────────────────────────────────────────");
-		System.out.println("  출발일시 📆 │ 2023.03.20(월) 15:00 ");
+		System.out.println("  출발일시 📆 │" + dto.getReservationDate() + dto.getDateTime());
 		System.out.println(" ───────────────────────────────────────────");
 		System.out.println(" ―――――――――――――――――――――――――――――――――――――――――――");
 		System.out.println();
-		System.out.println("            ▣⣶⡶⣶⣴⡶⣶⣶▣\r\n" + "                   ⣿⣿⣿⣿⣷⣾⣷⣿⣿\r\n"
-				+ "             ⣷⣿⣿⡏⣷⣿⣿⣷⣷\r\n" + "             ⣿⣿⣷⢾⣿⣿⡏⣿⣿\r\n" + "           ▣⠟⠿⠷⠿⠷⠿⠿▣");
+		System.out.println("              ▣⣶⡶⣶⣴⡶⣶⣶▣\r\n" + "              ⣿⣿⣿⣿⣷⣾⣷⣿⣿\r\n"
+				+ "              ⣷⣿⣿⡏⣷⣿⣿⣷⣷\r\n" + "              ⣿⣿⣷⢾⣿⣿⡏⣿⣿\r\n" + "              ▣⠟⠿⠷⠿⠷⠿⠿▣");
 		System.out.println();
-		System.out.println("                2023032000016");
+		System.out.println("            " + dto.getReservationNum());
 		System.out.println();
 		System.out.println(" ―――――――――――――――――――――――――――――――――――――――――――");
 		System.out.println(" ───────────────────────────────────────────");
-		System.out.println("     [출발지 : 대전]    →    [도착지 : 서울]");
+		System.out.println("     출발지 : " + dto.getDepartment()+ "   → " + "  도착지 :" + dto.getArrive());
 		System.out.println(" ───────────────────────────────────────────");
 		;
 		System.out.println("         💰 등급           " + "    📍 좌석 ");
-		System.out.print("         ");
+		System.out.print("           " + dto.getBusGrade() + "                 "+dto.getSeatCode());
 		// mb.grade();
 		System.out.print("                ");
 		// mb.seat();

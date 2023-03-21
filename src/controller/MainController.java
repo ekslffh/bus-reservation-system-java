@@ -22,6 +22,8 @@ public class MainController {
       ReservationController reservationController = new ReservationController();
       // service
       MemberService memberService = new MemberService();
+      
+      commonView.Default();
 
       // [1] 사용자 | [2] 관리자 | [3] 종료
       String select = commonView.startMenu();
@@ -75,7 +77,7 @@ public class MainController {
       } else if (select.equals("2")) {
          System.out.print("관리자비밀번호: ");
          String pw = sc.nextLine();
-         if (!pw.equals("javajavajava")) {
+         if (!pw.equals("java")) {
             System.out.println("관리자 권한이 없습니다.");
             System.exit(0);
          }
